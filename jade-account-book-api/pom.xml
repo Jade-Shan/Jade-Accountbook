@@ -1,0 +1,129 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+	http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>net.jade-dungeon</groupId>
+		<artifactId>jadelibs-scala</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<groupId>net.jade-dungeon</groupId>
+	<artifactId>account-book</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.5-SNAPSHOT</version>
+	<name>jade-account-book</name>
+	<url>https://github.com/Jade-Shan/Jade-Accountbook</url>
+
+	<properties>
+		<jadeutils.version>0.1.13</jadeutils.version>
+		<jadescalautils.version>1.0.1</jadescalautils.version>
+	</properties>
+
+	<dependencies>
+		<!--
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.13</version>
+		</dependency>
+				 -->
+		<dependency>
+			<groupId>net.jade-dungeon</groupId>
+			<artifactId>jadeutils-base</artifactId>
+			<version>${jadeutils.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.jade-dungeon</groupId>
+			<artifactId>jadeutils-mongo</artifactId>
+			<version>${jadeutils.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.jade-dungeon</groupId>
+			<artifactId>jadeutils-web</artifactId>
+			<version>${jadeutils.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.jade-dungeon</groupId>
+			<artifactId>jade-scala-utils</artifactId>
+			<version>${jadescalautils.version}</version>
+		</dependency>
+		<!-- 3rd -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<!-- 
+			<version>1.4.1</version>
+					 -->
+		</dependency>
+		<dependency>
+			<groupId>org.json4s</groupId>
+			<artifactId>json4s-jackson_${scala.version.floor}</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-spec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-impl</artifactId>
+		</dependency>
+		<!-- for test scope -->
+		<dependency>
+			<groupId>org.scalatest</groupId>
+			<artifactId>scalatest_${scala.version.floor}</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.icegreen</groupId>
+			<artifactId>greenmail</artifactId>
+			<!-- -->
+			<version>1.3</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<configuration>
+					<httpConnector><port>8080</port></httpConnector>
+					<!-- <jettyXml>jetty.xml,jetty-http.xml,jetty-ssl.xml,jetty-https.xml</jettyXml> -->
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<webAppConfig>
+						<contextPath>/accountbook</contextPath>
+					</webAppConfig>
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<!-- filter with: mvn resources:resources -Dparam=value -->
+				<filtering>true</filtering>
+				<includes>
+					<include>accountbook.properties</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+
+</project>

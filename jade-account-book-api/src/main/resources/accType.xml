@@ -1,0 +1,191 @@
+<acctypes>
+	<specs>
+		<spec id="1" name="银行专用" />
+		<spec id="2" name="金融共用" />
+		<spec id="4" name="保险专用" />
+		<spec id="5" name="银行和保险共用" />
+		<spec id="8" name="证券专用" />
+		<spec id="9" name="证券和银行共用" />
+		<spec id="16" name="金融专用" />
+		<spec id="32" name="租赁专用" />
+		<spec id="64" name="建造承包商专用" />
+		<spec id="128" name="农业专用" />
+		<spec id="256" name="石油天然气开采专用" />
+	</specs>
+	<groups>
+		<group id="1" name="资产类">
+			<acctype id="1"   code="1001" name="库存现金"                 spec="0" />
+			<acctype id="2"   code="1002" name="银行存款"                 spec="0" />
+			<acctype id="3"   code="1003" name="存放中央银行款项"         spec="1" />
+			<acctype id="4"   code="1011" name="存放同业"                 spec="1" />
+			<acctype id="5"   code="1015" name="其它货币基金"             spec="0" />
+			<acctype id="6"   code="1021" name="结算备付金"               spec="8" />
+			<acctype id="7"   code="1031" name="存出保证金"               spec="2" />
+			<acctype id="8"   code="1051" name="拆出资金"                 spec="2" />
+			<acctype id="9"   code="1101" name="交易性金融资产"           spec="0" />
+			<acctype id="10"  code="1111" name="买入返售金融资产"         spec="2" />
+			<acctype id="11"  code="1121" name="应收票据"                 spec="0" />
+			<acctype id="12"  code="1122" name="应收帐款"                 spec="0" />
+			<acctype id="13"  code="1123" name="预付帐款"                 spec="0" />
+			<acctype id="14"  code="1131" name="应收股利"                 spec="0" />
+			<acctype id="15"  code="1132" name="应收利息"                 spec="0" />
+			<acctype id="16"  code="1211" name="应收保护储金"             spec="4" />
+			<acctype id="17"  code="1221" name="应收代位追偿款"           spec="4" />
+			<acctype id="18"  code="1222" name="应收分保帐款"             spec="4" />
+			<acctype id="19"  code="1223" name="应收分保未到期责任准备金" spec="4" />
+			<acctype id="20"  code="1224" name="应收分保保险责任准备金"   spec="4" />
+			<acctype id="21"  code="1231" name="其它应收款"               spec="0" />
+			<acctype id="22"  code="1241" name="坏帐准备"                 spec="0" />
+			<acctype id="23"  code="1251" name="贴现资产"                 spec="1" />
+			<acctype id="24"  code="1301" name="贷款"                     spec="5" />
+			<acctype id="25"  code="1302" name="贷款损失准备"             spec="5" />
+			<acctype id="26"  code="1311" name="代理兑付证券"             spec="5" />
+			<acctype id="27"  code="1321" name="代理业务资产"             spec="0" />
+			<acctype id="28"  code="1401" name="材料采购"                 spec="0" />
+			<acctype id="29"  code="1402" name="在途物资"                 spec="0" />
+			<acctype id="30"  code="1403" name="原材料"                   spec="0" />
+			<acctype id="31"  code="1404" name="材料成本差异"             spec="0" />
+			<acctype id="32"  code="1406" name="库存商品"                 spec="0" />
+			<acctype id="33"  code="1407" name="发出商品"                 spec="0" />
+			<acctype id="34"  code="1410" name="商品进销差价"             spec="0" />
+			<acctype id="35"  code="1411" name="委托加工物资"             spec="0" />
+			<acctype id="36"  code="1412" name="包装物及低值易耗品"       spec="0" />
+			<acctype id="37"  code="1421" name="消耗性物物资产"           spec="128" />
+			<acctype id="38"  code="1431" name="周转材料"                 spec="32" />
+			<acctype id="39"  code="1441" name="贵金属"                   spec="1" />
+			<acctype id="40"  code="1442" name="抵债资产"                 spec="2" />
+			<acctype id="41"  code="1451" name="损余物资"                 spec="4" />
+			<acctype id="42"  code="1461" name="存货跌价准备"             spec="0" />
+			<acctype id="43"  code="1501" name="待摊费用"                 spec="0" />
+			<acctype id="44"  code="1511" name="独立帐户资产"             spec="4" />
+			<acctype id="45"  code="1521" name="持有至到期投资"           spec="0" />
+			<acctype id="46"  code="1522" name="持有至到期投资减值准备"   spec="0" />
+			<acctype id="47"  code="1523" name="可供出售金融资产"         spec="0" />
+			<acctype id="48"  code="1524" name="长期股权投资"             spec="0" />
+			<acctype id="49"  code="1525" name="长期股权投资减值准备"     spec="0" />
+			<acctype id="50"  code="1526" name="投资性房地产"             spec="0" />
+			<acctype id="51"  code="1531" name="长期应收款"               spec="0" />
+			<acctype id="52"  code="1541" name="未实现融资收益"           spec="0" />
+			<acctype id="53"  code="1551" name="存出资本保证金"           spec="4" />
+			<acctype id="54"  code="1601" name="固定资产"                 spec="0" />
+			<acctype id="55"  code="1602" name="累计折旧"                 spec="0" />
+			<acctype id="56"  code="1603" name="固定资产减值准备"         spec="0" />
+			<acctype id="57"  code="1604" name="在建工程"                 spec="0" />
+			<acctype id="58"  code="1605" name="工程物资"                 spec="0" />
+			<acctype id="59"  code="1606" name="固定资产清理"             spec="0" />
+			<acctype id="60"  code="1611" name="融资租赁资产"             spec="32" />
+			<acctype id="61"  code="1612" name="未担保余值"               spec="32" />
+			<acctype id="62"  code="1621" name="生产性生物资产"           spec="128" />
+			<acctype id="63"  code="1622" name="生产性生物资产累计折旧"   spec="128" />
+			<acctype id="64"  code="1623" name="公益性生物资产"           spec="128" />
+			<acctype id="65"  code="1631" name="油气资产"                 spec="256" />
+			<acctype id="66"  code="1632" name="累计折耗"                 spec="256" />
+			<acctype id="67"  code="1701" name="无形资产"                 spec="0" />
+			<acctype id="68"  code="1702" name="累计摊销"                 spec="0" />
+			<acctype id="69"  code="1703" name="无形资产减值准备"         spec="0" />
+			<acctype id="70"  code="1711" name="商誉"                     spec="0" />
+			<acctype id="71"  code="1801" name="长期待摊费用"             spec="0" />
+			<acctype id="72"  code="1811" name="递延所得资产"             spec="0" />
+			<acctype id="73"  code="1901" name="待处理财产损益"           spec="0" />
+		</group>
+		<group id="2" name="负债类">
+			<acctype id="74"  code="2001" name="短期借款"                 spec="0" />
+			<acctype id="75"  code="2002" name="存入保证金"               spec="2" />
+			<acctype id="76"  code="2003" name="拆入资金"                 spec="2" />
+			<acctype id="77"  code="2004" name="向中央银行借款"           spec="1" />
+			<acctype id="78"  code="2011" name="同业存放"                 spec="1" />
+			<acctype id="79"  code="2012" name="吸收存款"                 spec="1" />
+			<acctype id="80"  code="2021" name="贴现负债"                 spec="1" />
+			<acctype id="81"  code="2101" name="交易性金融负债"           spec="0" />
+			<acctype id="82"  code="2111" name="专出回购金融资产款"       spec="2" />
+			<acctype id="83"  code="2201" name="应付票据"                 spec="0" />
+			<acctype id="84"  code="2202" name="应付帐款"                 spec="0" />
+			<acctype id="85"  code="2205" name="预收帐款"                 spec="0" />
+			<acctype id="86"  code="2211" name="应付职工薪酬"             spec="0" />
+			<acctype id="87"  code="2221" name="应交税费"                 spec="0" />
+			<acctype id="88"  code="2231" name="应付股利"                 spec="0" />
+			<acctype id="89"  code="2232" name="应付利息"                 spec="0" />
+			<acctype id="90"  code="2241" name="其他应付款"               spec="0" />
+			<acctype id="91"  code="2251" name="应付保户红利"             spec="4" />
+			<acctype id="92"  code="2261" name="应付分保帐款"             spec="4" />
+			<acctype id="93"  code="2311" name="代理买卖证券款"           spec="8" />
+			<acctype id="94"  code="2312" name="代理承销证券款"           spec="9" />
+			<acctype id="95"  code="2313" name="代理兑付证券款"           spec="9" />
+			<acctype id="96"  code="2314" name="代理业务负债"             spec="0" />
+			<acctype id="97"  code="2401" name="预提费用"                 spec="0" />
+			<acctype id="98"  code="2411" name="预计负债"                 spec="0" />
+			<acctype id="99"  code="2501" name="递延收益"                 spec="0" />
+			<acctype id="100" code="2601" name="长期借款"                 spec="0" />
+			<acctype id="101" code="2602" name="长期债券"                 spec="0" />
+			<acctype id="102" code="2701" name="未到期责任准备金"         spec="4" />
+			<acctype id="103" code="2702" name="保险责任准备金"           spec="4" />
+			<acctype id="104" code="2711" name="保户储金"                 spec="4" />
+			<acctype id="105" code="2721" name="独立帐户负债"             spec="4" />
+			<acctype id="106" code="2801" name="长期应付款"               spec="0" />
+			<acctype id="107" code="2802" name="未确认融资费用"           spec="0" />
+			<acctype id="108" code="2811" name="专项应付款"               spec="0" />
+			<acctype id="109" code="2901" name="递延所得税负债"           spec="0" />
+		</group>
+		<group id="3" name="共同类">
+			<acctype id="110" code="3001" name="清算资金往来"             spec="1" />
+			<acctype id="111" code="3002" name="外汇买卖"                 spec="2" />
+			<acctype id="112" code="3101" name="衍生工具"                 spec="0" />
+			<acctype id="113" code="3201" name="套期工具"                 spec="0" />
+			<acctype id="114" code="3202" name="被套期项目"               spec="0" />
+		</group>
+		<group id="4" name="所有者权益">
+			<acctype id="115" code="4001" name="实收资本"                 spec="0" />
+			<acctype id="116" code="4002" name="资本公积"                 spec="0" />
+			<acctype id="117" code="4101" name="盈余公积"                 spec="0" />
+			<acctype id="118" code="4102" name="一般风险准备"             spec="2" />
+			<acctype id="119" code="4103" name="本年利润"                 spec="0" />
+			<acctype id="120" code="4104" name="利润分配"                 spec="0" />
+			<acctype id="121" code="4201" name="库存股"                   spec="0" />
+		</group>
+		<group id="5" name="成本类">
+			<acctype id="122" code="500" name="生产成本"                  spec="0" />
+			<acctype id="123" code="5101" name="制造费用"                 spec="0" />
+			<acctype id="124" code="5201" name="劳务成本"                 spec="0" />
+			<acctype id="125" code="5301" name="研发支出"                 spec="0" />
+			<acctype id="126" code="5401" name="工程施工"                 spec="32" />
+			<acctype id="127" code="5402" name="工程结算"                 spec="32" />
+			<acctype id="128" code="5403" name="机械作业"                 spec="32" />
+		</group>
+		<group id="6" name="损益类">
+			<acctype id="129" code="6001" name="主营业务收入"             spec="0" />
+			<acctype id="130" code="6011" name="利息收入"                 spec="2" />
+			<acctype id="131" code="6021" name="手续费收入"               spec="2" />
+			<acctype id="132" code="6031" name="保费收入"                 spec="4" />
+			<acctype id="133" code="6032" name="分保费收入"               spec="4" />
+			<acctype id="135" code="6041" name="租赁收入"                 spec="32" />
+			<acctype id="135" code="6051" name="其他业务收入"             spec="0" />
+			<acctype id="136" code="6061" name="汇兑损益"                 spec="16" />
+			<acctype id="137" code="6101" name="公允价值变动损益"         spec="0" />
+			<acctype id="138" code="6111" name="投资收益"                 spec="0" />
+			<acctype id="139" code="6201" name="摊回保险责任准备金"       spec="4" />
+			<acctype id="140" code="6202" name="摊回赔付支出"             spec="4" />
+			<acctype id="141" code="6203" name="摊回分保费用"             spec="4" />
+			<acctype id="142" code="6301" name="营业外收入"               spec="0" />
+			<acctype id="143" code="6401" name="主营业务成本"             spec="0" />
+			<acctype id="144" code="6402" name="其它业务支出"             spec="0" />
+			<acctype id="145" code="6405" name="营业税金及附加"           spec="0" />
+			<acctype id="146" code="6411" name="利息支出"                 spec="2" />
+			<acctype id="147" code="6421" name="手续费支出"               spec="2" />
+			<acctype id="148" code="6501" name="提取未到期责任准备金"     spec="4" />
+			<acctype id="149" code="6502" name="撮保险责任准备金"         spec="4" />
+			<acctype id="150" code="6511" name="赔付支出"                 spec="4" />
+			<acctype id="151" code="6521" name="保户红利支出"             spec="4" />
+			<acctype id="152" code="6531" name="退保金"                   spec="4" />
+			<acctype id="153" code="6541" name="分出保费"                 spec="4" />
+			<acctype id="154" code="6542" name="分保费用"                 spec="0" />
+			<acctype id="155" code="6601" name="销售费用"                 spec="0" />
+			<acctype id="156" code="6602" name="管理费用"                 spec="0" />
+			<acctype id="157" code="6603" name="财务费用"                 spec="0" />
+			<acctype id="158" code="6604" name="勘探费用"                 spec="0" />
+			<acctype id="159" code="6701" name="资产减值损失"             spec="0" />
+			<acctype id="160" code="6711" name="营业外支出"               spec="0" />
+			<acctype id="161" code="6801" name="所得税"                   spec="0" />
+			<acctype id="162" code="6901" name="以前年度损益调整"         spec="0" />
+		</group>
+	</groups>
+</acctypes>

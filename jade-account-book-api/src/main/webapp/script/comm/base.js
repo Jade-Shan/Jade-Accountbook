@@ -1,0 +1,2 @@
+var accountBook = {};
+accountBook.report = {};

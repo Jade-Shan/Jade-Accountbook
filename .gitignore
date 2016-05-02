@@ -1,10 +1,18 @@
+# scala specific
 *.class
+*.jar
+*.war
+*.ear
 *.log
 
+# vim specific
+*.swp
+tags
+
+# maven specific
+target/
+
 # sbt specific
-.cache
-.history
-.lib/
 dist/*
 target/
 lib_managed/
@@ -14,4 +22,14 @@ project/plugins/project/
 
 # Scala-IDE specific
 .scala_dependencies
-.worksheet
+
+# eclipse specific
+.metadata/
+.settings/
+.classpath
+.project
+bin/
+
+# config for this proj
+params-dev.properties
+params-prd.properties
