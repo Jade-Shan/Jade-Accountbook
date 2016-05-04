@@ -18,8 +18,8 @@
 	<url>https://github.com/Jade-Shan/Jade-Accountbook</url>
 
 	<properties>
-		<jadeutils.version>0.1.13</jadeutils.version>
-		<jadescalautils.version>1.0.1</jadescalautils.version>
+		<javautils.version>0.1.14</javautils.version>
+		<scalautils.version>1.0.2</scalautils.version>
 	</properties>
 
 	<dependencies>
@@ -32,31 +32,28 @@
 				 -->
 		<dependency>
 			<groupId>net.jade-dungeon</groupId>
-			<artifactId>jadeutils-base</artifactId>
-			<version>${jadeutils.version}</version>
+			<artifactId>javautils-base</artifactId>
+			<version>${javautils.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.jade-dungeon</groupId>
-			<artifactId>jadeutils-mongo</artifactId>
-			<version>${jadeutils.version}</version>
+			<artifactId>javautils-mongo</artifactId>
+			<version>${javautils.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.jade-dungeon</groupId>
-			<artifactId>jadeutils-web</artifactId>
-			<version>${jadeutils.version}</version>
+			<artifactId>javautils-web</artifactId>
+			<version>${javautils.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.jade-dungeon</groupId>
-			<artifactId>jade-scala-utils</artifactId>
-			<version>${jadescalautils.version}</version>
+			<artifactId>scalautils</artifactId>
+			<version>${scalautils.version}</version>
 		</dependency>
 		<!-- 3rd -->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
-			<!-- 
-			<version>1.4.1</version>
-					 -->
 		</dependency>
 		<dependency>
 			<groupId>org.json4s</groupId>
@@ -90,7 +87,6 @@
 		<dependency>
 			<groupId>com.icegreen</groupId>
 			<artifactId>greenmail</artifactId>
-			<!-- -->
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
