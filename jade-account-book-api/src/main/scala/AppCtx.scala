@@ -33,9 +33,16 @@ trait MailComponent extends Logging {
 
 }
 
+trait AccountTypeComponent extends AccTypeCfg with AccountTypeService with Logging {
+
+
+	val accountTypes = new net.jadedungeon.accountbook.dto.AccountGroup("aaa", "bbb", Nil)
+
+}
+
 
 trait AccountBookAppCtx extends EnvPropsComponent with MailComponent 
-with AuthComponent with Logging 
+with AuthComponent with AccountTypeComponent with Logging 
 {
 
 	val cfgFile = "accountbook.properties"
@@ -49,6 +56,17 @@ with AuthComponent with Logging
 	val cdnjadeutils = getProperty("cdn.jadeutils")
 	val cdnaccountbook = getProperty("cdn.accountbook")
 	val appbasepath = getProperty("app.basepath")
+
+
+	val reader =  new java.io.BufferedReader(new java.io.InputStreamReader(
+		Thread.currentThread().getContextClassLoader(
+		).getResourceAsStream("accType.xml"), "UTF-8"))
+
+	val sb = new StringBuffer()
+	var str = reader.readLine()
+	while(null != str) {sb.append(str); str = reader.readLine();}
+
+	val xmlData = scala.xml.XML.loadString(sb.toString)
 
 }
 

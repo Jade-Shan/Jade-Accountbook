@@ -115,6 +115,8 @@
 				<filtering>true</filtering>
 				<includes>
 					<include>accountbook.properties</include>
+					<include>logback.xml</include>
+					<include>accType.xml</include>
 				</includes>
 			</resource>
 		</resources>
