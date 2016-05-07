@@ -15,7 +15,7 @@ trait AccTypeCfg extends Logging {
 				AccountType((node \ "@id").toString, (node \ "@code").toString, 
 					(node \ "@name").toString, null) :: types
 			}
-		}
+		}.reverse
 
 		val grpData = scala.xml.XML.loadString(str) \ "groups" \ "group"
 
@@ -23,7 +23,7 @@ trait AccTypeCfg extends Logging {
 			(grps, node) => 
 			new AccountGroup((node \ "@id").toString, 
 				(node \ "@name").toString, parseType(node \ "acctype")) :: grps
-		}
+		}.reverse
 	}
 
 }
