@@ -35,9 +35,6 @@ trait MailComponent extends Logging {
 
 trait AccountTypeComponent extends AccTypeCfg with AccountTypeService with Logging {
 
-
-	val accountTypes = new net.jadedungeon.accountbook.dto.AccountGroup("aaa", "bbb", Nil)
-
 }
 
 
@@ -58,15 +55,9 @@ with AuthComponent with AccountTypeComponent with Logging
 	val appbasepath = getProperty("app.basepath")
 
 
-	val reader =  new java.io.BufferedReader(new java.io.InputStreamReader(
-		Thread.currentThread().getContextClassLoader(
-		).getResourceAsStream("accType.xml"), "UTF-8"))
 
-	val sb = new StringBuffer()
-	var str = reader.readLine()
-	while(null != str) {sb.append(str); str = reader.readLine();}
-
-	val xmlData = scala.xml.XML.loadString(sb.toString)
+	val accountTypes = loadAccTypeFromXML(
+		TextFileLoader.loadInCurrentClassPath("accType.xml", "UTF-8"))
 
 }
 
