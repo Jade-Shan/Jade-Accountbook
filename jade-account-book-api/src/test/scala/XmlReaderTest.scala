@@ -17,13 +17,13 @@ import net.jadedungeon.accountbook._
 class MailTest extends FunSuite with Logging {
 
 	object TestAppCtx extends AccountTypeComponent {
-		val accountTypes = loadAccTypeFromXML(
+		val accountGroups = loadAccTypeFromXML(
 			TextFileLoader.loadInCurrentClassPath("accType.xml", "UTF-8"))
 	}
 
 
 	test("load-acc-xml") {
-		logDebug("{}", TestAppCtx.accountTypes.toString)
+		logDebug("{}", TestAppCtx.accountGroups.toString)
 	}
 
 }

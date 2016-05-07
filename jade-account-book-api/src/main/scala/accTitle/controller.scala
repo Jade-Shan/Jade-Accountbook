@@ -15,6 +15,8 @@ import jadeutils.web.DispatherServlet.Foward
 import jadeutils.web.DispatherServlet.Redirect
 import jadeutils.web.Method._
 
+import net.jadedungeon.accountbook.dto._
+
 trait BaseAccountController extends BasicController with AccountBookAppCtx {
 
 	/**
@@ -45,18 +47,31 @@ object AccountController extends BaseAccountController with Logging {
 
 	service("/api/accountbook/allAccountType") {(info) => {
 		info.response.setHeader("Access-Control-Allow-Origin", "*")
-		// val auth = java.net.URLDecoder.decode(info.params("auth")(0), "UTF-8")
-		// val page = info.params("page")(0).toInt
-		try {
-			("status" -> "success") : JValue
-		} catch {
-			case e: Exception => {
-				e.printStackTrace()
-				logError(e.toString)
-				("status" -> "error") ~ ("err" -> e.toString): JValue
+		info.response.setHeader("Access-Control-Allow-Headers", "authorization")
+		if(jadeutils.web.Method.OPTIONS == info.method) {
+			("status" -> "success"): JValue
+		} else {
+			try {
+				("status" -> "success") ~ 
+				("accTypes" -> this.parseAccGroups2Json(accountGroups)): JValue
+			} catch {
+				case e: Exception => {
+					e.printStackTrace()
+					logError(e.toString)
+					("status" -> "error") ~ ("err" -> e.toString): JValue
+				}
 			}
 		}
 	}}
+
+	private[this] def parseAccTypes2Json(acc: List[AccountType]) = 
+	(for (i <- 0 until acc.size) yield acc(i)).map(
+		r => ("id" -> r.id) ~ ("code" -> r.code) ~ ("name" -> r.name): JValue)
+
+	private[this] def parseAccGroups2Json(acc: List[AccountGroup]) = 
+	(for (i <- 0 until acc.size) yield acc(i)).map(
+		r => ("id" -> r.id) ~ ("name" -> r.name) ~ 
+		("types" -> this.parseAccTypes2Json(r.types)): JValue)
 
 	service("/api/accountbook/testAuth") {(info) => {
 		info.response.setHeader("Access-Control-Allow-Origin", "*")

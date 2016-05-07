@@ -56,7 +56,7 @@ with AuthComponent with AccountTypeComponent with Logging
 
 
 
-	val accountTypes = loadAccTypeFromXML(
+	val accountGroups = loadAccTypeFromXML(
 		TextFileLoader.loadInCurrentClassPath("accType.xml", "UTF-8"))
 
 }

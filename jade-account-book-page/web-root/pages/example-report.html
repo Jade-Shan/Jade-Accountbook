@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="Content-Language" content="zh-CN">
 <meta name="robots" content="index, follow">
-<title>Account Code Example</title>
+<title>Report Example</title>
 <!-- 
 <link rel="shortcut icon" type="image/x-icon" href="/web-root/image/comm/site-icon.ico">
 <link type="text/css" rel="stylesheet" href="/web-root/styles/app.min.css">
@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<table id="accTypeTree" class="balance-sheet">
+<table id="mainReport" class="balance-sheet">
 </table>
 
 <br/>
@@ -33,8 +33,8 @@
 <script type="text/javascript" src="/scripts/app.js"></script>
 <script>
 
-var page = new accApp.testAccount(appCfg);
-page.render("accTypeTree");
+var page = new accApp.reportTest(appCfg);
+page.render("mainReport");
 
 </script>
 </body>

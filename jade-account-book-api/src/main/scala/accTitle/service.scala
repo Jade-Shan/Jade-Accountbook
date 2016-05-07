@@ -6,7 +6,7 @@ import net.jadedungeon.accountbook.dto._
 
 trait AccTypeCfg extends Logging {
 
-	val accountTypes: List[AccountGroup]
+	val accountGroups: List[AccountGroup]
 
 	def loadAccTypeFromXML(str: String) = {
 		def parseType(nodes: scala.xml.NodeSeq) = {

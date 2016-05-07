@@ -68,6 +68,7 @@ gulp.task('check-js', function() {
 gulp.task('min-scripts', function() {
 	gulp.src([pathSrcScripts + 'i18n.js', pathSrcScripts + 'base.js',
 		pathSrcScripts + 'test-report.js',
+		pathSrcScripts + 'test-account.js'
 	])
 		.pipe(concat('app.js'))
 		.pipe(gulp.dest(pathOutputScripts))
