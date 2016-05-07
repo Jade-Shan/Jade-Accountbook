@@ -53,7 +53,7 @@ object AccountController extends BaseAccountController with Logging {
 		} else {
 			try {
 				("status" -> "success") ~ 
-				("accTypes" -> this.parseAccGroups2Json(accountGroups)): JValue
+				("types" -> this.parseAccGroups2Json(accountGroups)): JValue
 			} catch {
 				case e: Exception => {
 					e.printStackTrace()
@@ -64,14 +64,15 @@ object AccountController extends BaseAccountController with Logging {
 		}
 	}}
 
-	private[this] def parseAccTypes2Json(acc: List[AccountType]) = 
+	private[this] def parseAccTypes2Json(acc: List[AccountType], pId: String) = 
 	(for (i <- 0 until acc.size) yield acc(i)).map(
-		r => ("id" -> r.id) ~ ("code" -> r.code) ~ ("name" -> r.name): JValue)
+		r => ("id" -> r.id) ~ ("code" -> r.code) ~ ("type" -> "accType") ~ 
+		("name" -> r.name): JValue)
 
 	private[this] def parseAccGroups2Json(acc: List[AccountGroup]) = 
 	(for (i <- 0 until acc.size) yield acc(i)).map(
-		r => ("id" -> r.id) ~ ("name" -> r.name) ~ 
-		("types" -> this.parseAccTypes2Json(r.types)): JValue)
+		r => ("id" -> r.id) ~ ("name" -> r.name) ~ ("type" -> "accGrp") ~
+		("open" -> true) ~ ("children" -> this.parseAccTypes2Json(r.types, r.id)): JValue)
 
 	service("/api/accountbook/testAuth") {(info) => {
 		info.response.setHeader("Access-Control-Allow-Origin", "*")

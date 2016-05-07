@@ -29,6 +29,7 @@
 		self.super.render();
 	};
 
+
 	self.testType = function () {
 		var auth = jadeUtils.web.webAuthBasic(self.ui.username.val(), self.ui.password.val());
 		$.ajax({
@@ -39,6 +40,9 @@
 			success: function(data, status, xhr) {
 				if ('success' == data.status) {
 					console.debug(data);
+					var zTreeObj;
+					var setting = { callback: { onClick: self.clickAccType }	};
+					zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, data.types);
 				} else {
 					console.error("加载测试数据失败");
 				}
@@ -51,6 +55,12 @@
 			},
 			complete: function(xhr, status) { }
 		});
+	};
+
+	self.clickAccType = function (event, treeId, treeNode) {
+		if ("accType" == treeNode.type) {
+			console.log(treeNode.code + ", " + treeNode.name);
+		}
 	};
 
 })(jQuery);
