@@ -13,11 +13,58 @@ import jadeutils.web.BasicController
 import jadeutils.web.DispatherInfo
 import jadeutils.web.DispatherServlet.Foward
 import jadeutils.web.DispatherServlet.Redirect
-import jadeutils.web.Method._
+import jadeutils.web.Method
 
 import net.jadedungeon.accountbook.dto._
 
-trait BaseAccountController extends BasicController with AccountBookAppCtx {
+
+trait AuthController extends BasicController {
+
+	/**
+		* (isAuth, isSuccess)
+		*/
+	def auth(info: DispatherInfo): (Boolean, Boolean, String)
+
+	override def service(method: Method.Method, pattern: String)(logic: (DispatherInfo) => Any) 
+	{
+		def newLogic(info: DispatherInfo): Any = auth(info) match {
+			case (true, true, _) => logic(info)
+			case _ => ("status" -> "success") ~ ("auth" -> "fail"): JValue
+		}
+		super.service(Method.ANY, pattern)(newLogic)
+	}
+
+	override def service(pattern: String)(logic: (DispatherInfo) => Any) 
+	{
+		this.service(Method.ANY, pattern)(logic)
+	}
+
+}
+
+trait XssController extends BasicController {
+
+	override def service(method: Method.Method, pattern: String)(logic: (DispatherInfo) => Any) 
+	{
+		def newLogic(info: DispatherInfo): Any = {
+			info.response.setHeader("Access-Control-Allow-Origin", "*")
+			info.response.setHeader("Access-Control-Allow-Headers", "authorization")
+			if(Method.OPTIONS == info.method) {
+				("status" -> "success"): JValue
+			} else {
+				logic(info)
+			}
+		}
+		super.service(Method.ANY, pattern)(newLogic)
+	}
+
+	override def service(pattern: String)(logic: (DispatherInfo) => Any) 
+	{
+		this.service(Method.ANY, pattern)(logic)
+	}
+
+}
+
+trait BaseAccountController extends XssController with AuthController with AccountBookAppCtx {
 
 	/**
 		* (isAuth, isSuccess)
@@ -40,27 +87,23 @@ trait BaseAccountController extends BasicController with AccountBookAppCtx {
 			}
 		} else (false, false, username)
 	}
-
 }
 
 object AccountController extends BaseAccountController with Logging {
 
-	service("/api/accountbook/allAccountType") {(info) => {
-		info.response.setHeader("Access-Control-Allow-Origin", "*")
-		info.response.setHeader("Access-Control-Allow-Headers", "authorization")
-		if(jadeutils.web.Method.OPTIONS == info.method) {
-			("status" -> "success"): JValue
-		} else {
-			try {
-				("status" -> "success") ~ 
-				("types" -> this.parseAccGroups2Json(accountGroups)): JValue
-			} catch {
-				case e: Exception => {
-					e.printStackTrace()
-					logError(e.toString)
-					("status" -> "error") ~ ("err" -> e.toString): JValue
-				}
-			}
+	service("/api/accountbook/testAuth") {(info) => auth(info) match {
+		case (true, true, _) => ("status" -> "success") ~ ("auth" -> "success"): JValue
+		case _ => ("status" -> "success") ~ ("auth" -> "fail"): JValue
+	}}
+
+	service("/api/accountbook/allAccountType") {(info) => try {
+		("status" -> "success") ~ 
+		("types" -> this.parseAccGroups2Json(accountGroups)): JValue
+	} catch {
+		case e: Exception => {
+			e.printStackTrace()
+			logError(e.toString)
+			("status" -> "error") ~ ("err" -> e.toString): JValue
 		}
 	}}
 
@@ -73,22 +116,6 @@ object AccountController extends BaseAccountController with Logging {
 	(for (i <- 0 until acc.size) yield acc(i)).map(
 		r => ("id" -> r.id) ~ ("name" -> r.name) ~ ("type" -> "accGrp") ~
 		("open" -> true) ~ ("children" -> this.parseAccTypes2Json(r.types, r.id)): JValue)
-
-	service("/api/accountbook/testAuth") {(info) => {
-		info.response.setHeader("Access-Control-Allow-Origin", "*")
-		info.response.setHeader("Access-Control-Allow-Headers", "authorization")
-		if(jadeutils.web.Method.OPTIONS == info.method) {
-			("status" -> "success") ~ ("auth" -> "success"): JValue
-		} else auth(info) match {
-			case (true, true, _) => {
-				("status" -> "success") ~ ("auth" -> "success"): JValue
-			}
-			case _ => {
-				("status" -> "success") ~ ("auth" -> "fail") ~ 
-				("reason" -> "not match"): JValue
-			}
-		}
-	}}
 
 }
 
