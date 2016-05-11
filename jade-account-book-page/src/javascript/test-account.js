@@ -5,36 +5,49 @@
 
 	proto.init = function (cfg) {
 		this.super = new accApp(cfg);
+
 		this.cfg = this.super.cfg || {};
 		this.ui = this.super.ui || {};
 		this.data = this.super.data || {};
-		this.initUI(cfg);
-		this.initData(cfg);
+		this.initCfg();
+		this.initUI();
+		this.initData();
 
 		console.log(this.data.i18n.get("test"));
 	};
 
+	proto.initCfg = function () {
+		var self = this;
+		this.cfg.accTypeUrl = this.cfg.apiRoot + "/api/accountbook/allAccountType";
+		this.cfg.accTypeTreeSetting = {
+			callback: {
+				onClick: function (event, treeId, treeNode) { 
+					self.clickAccType(event, treeId, treeNode); 
+				}
+			}
+		};
+	};
+
 	proto.initUI = function () {
 		var self = this;
-		this.super.initUI();
-		this.ui = this.super.ui || {};
 		this.ui.username = $("#username");
 		this.ui.password = $("#password");
 
 		this.ui.submit = $("#submit");
-		this.ui.submit.unbind("clikd").bind("click", function () {
-			self.testType();
-		});
+		// 要套一层函数，不然`this`指向是触发的按钮而不是这个对象
+		this.ui.submit.unbind("clikd").bind("click", 
+				function () { self.loadAccTypeTree(); });
+
+		this.ui.accTypeTree = $("#accTypeTree");
+		this.ui.accTypeTreeObj = {};
 	};
 
 	proto.initData = function () {
 		var self = this;
-		this.super.initData();
-		this.data = this.super.data || {};
 		this.data.getUsername = function () { return self.ui.username.val(); };
 		this.data.getPassword = function () { return self.ui.password.val(); };
-		this.data.setUsername = function (value) { this.ui.username.val(value); };
-		this.data.setPassword = function (value) { this.ui.password.val(value); };
+		this.data.setUsername = function (value) { self.ui.username.val(value); };
+		this.data.setPassword = function (value) { self.ui.password.val(value); };
 	};
 
 	proto.render = function () {
@@ -42,22 +55,22 @@
 	};
 
 
-	proto.testType = function () {
+	proto.loadAccTypeTree = function () {
 		var self = this;
-		console.log(self.data.getUsername());
-		console.log(self.data.getPassword());
-		var auth = jadeUtils.web.webAuthBasic(self.data.getUsername(), self.data.getPassword());
+		var auth = jadeUtils.web.webAuthBasic(
+				self.data.getUsername(), self.data.getPassword());
 		$.ajax({
-			url: encodeURI(this.cfg.apiRoot + "/api/accountbook/allAccountType"), 
+			url: encodeURI(
+						 self.cfg.accTypeUrl
+						 ), 
 			type: 'POST', dataType: 'json', headers: { Authorization: auth },
 			data: { },
 			timeout: net.jadedungeon.ajaxTimeout,
 			success: function(data, status, xhr) {
 				if ('success' == data.status) {
 					console.debug(data);
-					var zTreeObj;
-					var setting = { callback: { onClick: this.clickAccType }	};
-					zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, data.types);
+					self.ui.accTypeTreeObj = $.fn.zTree.init(
+						self.ui.accTypeTree, self.cfg.accTypeTreeSetting, data.types);
 				} else {
 					console.error("加载测试数据失败");
 				}

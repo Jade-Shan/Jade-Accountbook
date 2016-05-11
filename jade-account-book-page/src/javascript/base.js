@@ -14,10 +14,16 @@ var accApp = accApp || {};
 		this.cfg = cfg || {};
 		this.ui = {};
 		this.data = {};
-
-		this.cfg.ajaxTimeout = cfg.ajaxTimeout || 5000;
-		this.data.i18n = new net.jadedungeon.utils.i18n(cfg.i18n || {});
+		this.initCfg();
+		this.initUI();
+		this.initData();
 	};
+
+	proto.initCfg = function () {
+		this.cfg.ajaxTimeout = this.cfg.ajaxTimeout || 5000;
+		this.data.i18n = new net.jadedungeon.utils.i18n(this.cfg.i18n || {});
+	};
+
 
 	proto.initUI = function () { };
 
