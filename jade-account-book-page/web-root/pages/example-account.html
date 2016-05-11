@@ -4,13 +4,8 @@
 <meta http-equiv="Content-Language" content="zh-CN">
 <meta name="robots" content="index, follow">
 <title>Account Code Example</title>
-<!-- 
-<link rel="shortcut icon" type="image/x-icon" href="/web-root/image/comm/site-icon.ico">
-<link type="text/css" rel="stylesheet" href="/web-root/styles/app.min.css">
--->
 <link type="image/x-icon" rel="shortcut icon" href="/image/comm/site-icon.ico">
-<link type="text/css" rel="stylesheet" href="//7xldv2.com1.z0.glb.clouddn.com/3rd/zTree/css/demo.css">
-<link type="text/css" rel="stylesheet" href="//7xldv2.com1.z0.glb.clouddn.com/3rd/zTree/css/zTreeStyle/zTreeStyle.css">
+<link type="text/css" rel="stylesheet" href="//cdn.bootcss.com/zTree.v3/3.5.23/css/zTreeStyle/zTreeStyle.css">
 <link type="text/css" rel="stylesheet" href="/styles/app.min.css">
 <style>
 .ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
@@ -22,26 +17,51 @@
 <input type="text" id="password" value=""/><br/>
 <input type="button" id="submit" value="sumbit"/><br/>
 
+
+<script id="testRecTpl" type="text/x-jsrender">
+<div>
+	 <em>Name:</em> {{:name}}
+	 {{if showNickname && nickname}}
+			(Goes by <em>{{:nickname}}</em>)
+	 {{/if}}
+</div>
+</script>
+<div id="testRec"></div>
+
+
+<div id="result"></div>
+
+<script id="theTmpl" type="text/x-jsrender">
+<div>
+  Edit: <input type="checkbox" data-link="editable"/>
+  <em>Name:</em> {^{:name}}
+  {^{if showNickname && nickname}}
+    (Goes by <em data-link="nickname"></em>)
+  {{/if}}
+  {^{if editable}}
+    <div>
+      <input data-link="name trigger=true"/>
+      <input data-link="nickname trigger=true"/>
+      Show nickname: <input type="checkbox" data-link="showNickname"/>
+    </div>
+  {{/if}}
+</div>
+</script>
+
 <ul id="accTypeTree" class="ztree"></ul>
 
-
+</body>
 <script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="//7xldv2.com1.z0.glb.clouddn.com/3rd/zTree/js/jquery.ztree.core-3.2.js"></script>
-<script type="text/javascript" src="//7xldv2.com1.z0.glb.clouddn.com/3rd/zTree/js/jquery.ztree.excheck-3.2.js"></script>
-<script type="text/javascript" src="//7xldv2.com1.z0.glb.clouddn.com/3rd/zTree/js/jquery.ztree.exedit-3.2.js"></script>
-<!-- 
-<script type="text/javascript" src="/src/javascript/i18n.js"></script>
-<script type="text/javascript" src="/src/javascript/00base.js"></script>
-<script type="text/javascript" src="/src/javascript/report.js"></script>
--->
+<script type="text/javascript" src="//cdn.bootcss.com/jsrender/0.9.75/jsrender.min.js"></script>
+<script src="http://www.jsviews.com/download/jsviews.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/zTree.v3/3.5.23/js/jquery.ztree.core.min.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/zTree.v3/3.5.23/js/jquery.ztree.excheck.min.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/zTree.v3/3.5.23/js/jquery.ztree.exedit.min.js"></script>
 
 <script type="text/javascript" src="//7xldv2.com1.z0.glb.clouddn.com/jadeutilsv2/scripts/jadeutils.v2.min.js"></script>
 <script type="text/javascript" src="/scripts/app.js"></script>
 <script>
-
 var page = new accApp.testAccount(appCfg);
 page.render("accTypeTree");
-
 </script>
-</body>
 </html>

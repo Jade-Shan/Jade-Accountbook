@@ -30,9 +30,9 @@
 
 	proto.initUI = function () {
 		var self = this;
+
 		this.ui.username = $("#username");
 		this.ui.password = $("#password");
-
 		this.ui.submit = $("#submit");
 		// 要套一层函数，不然`this`指向是触发的按钮而不是这个对象
 		this.ui.submit.unbind("clikd").bind("click", 
@@ -40,6 +40,9 @@
 
 		this.ui.accTypeTree = $("#accTypeTree");
 		this.ui.accTypeTreeObj = {};
+
+		this.ui.testRecTpl = $.templates("#testRecTpl");
+		this.ui.testRec = $("#testRec");
 	};
 
 	proto.initData = function () {
@@ -48,12 +51,20 @@
 		this.data.getPassword = function () { return self.ui.password.val(); };
 		this.data.setUsername = function (value) { self.ui.username.val(value); };
 		this.data.setPassword = function (value) { self.ui.password.val(value); };
+
+		this.data.testRec = [{ "name": "Robert", "nickname": "Bob", "showNickname": true },
+			{ "name": "Susan", "nickname": "Sue", "showNickname": false }];
+
 	};
 
 	proto.render = function () {
 		this.super.render();
+		this.renderRec();
 	};
 
+	proto.renderRec = function () {
+		this.ui.testRec.html(this.ui.testRecTpl.render(this.data.testRec));
+	};
 
 	proto.loadAccTypeTree = function () {
 		var self = this;
