@@ -48,37 +48,57 @@ var accApp = accApp || {};
 
 	proto.init = function (cfg) {
 		this.super = new accApp(cfg);
+
 		this.cfg = this.super.cfg || {};
 		this.ui = this.super.ui || {};
 		this.data = this.super.data || {};
-		this.initUI(cfg);
-		this.initData(cfg);
+		this.initCfg();
+		this.initUI();
+		this.initData();
 
 		console.log(this.data.i18n.get("test"));
 	};
 
+	proto.initCfg = function () {
+		var self = this;
+		this.cfg.testAuthUrl = this.cfg.apiRoot + "/api/accountbook/testAuth";
+		this.cfg.testReporthUrl = this.cfg.webRoot + "/data/test-report.json";
+	};
+
 	proto.initUI = function (cfg) {
-		this.super.initUI();
-		this.ui = this.super.ui || {};
+		var self = this;
+
 		this.ui.username = $("#username");
 		this.ui.password = $("#password");
+
+		this.ui.mainReport= $("#mainReport");
+
 		this.ui.submit = $("#submit");
-		this.ui.submit.bind("click", this.testAuth);
+		this.ui.submit.unbind("clikd").bind("click", 
+				function () { self.testAuth(); });
+
 	};
 
 	proto.initData = function (cfg) {
-		this.super.initData();
+		var self = this;
+
 		this.data = this.super.data || {};
-		this.data.username = $("#username").val();
-		this.data.password = $("#password").val();
+
+		this.data.getUsername = function () { return self.ui.username.val(); };
+		this.data.getPassword = function () { return self.ui.password.val(); };
+		this.data.setUsername = function (value) { self.ui.username.val(value); };
+		this.data.setPassword = function (value) { self.ui.password.val(value); };
 	};
 
-	proto.render = function (tableId) {
+	proto.render = function () {
+		var self = this;
 		this.super.render();
-		this.loadTestData(function (data) { this.loadBalanceSheet(tableId, data); });
+		this.loadTestData(function (data) { 
+			self.loadBalanceSheet(self.ui.mainReport, data); 
+		});
 	};
 
-	proto.loadBalanceSheet = function (tableId, reportData) {
+	proto.loadBalanceSheet = function (report, reportData) {
 		var text = '\n<tr><th colspan="2">' + 
 			this.data.i18n.get("balanceSheet.table.head.group") + '</th><th colspan="2">' + 
 			this.data.i18n.get("balanceSheet.table.head.account") + '</th><th colspan="2">' + 
@@ -90,7 +110,7 @@ var accApp = accApp || {};
 				text = text + this.showRec(reportData[i], "subs");
 			}
 		}
-		$("#" + tableId).html(text);
+		report.html(text);
 	};
 
 
@@ -123,8 +143,9 @@ var accApp = accApp || {};
 	};
 
 	proto.loadTestData = function (callback) {
+		var self = this;
 		$.ajax({ 
-			url: encodeURI(this.cfg.webRoot+ "/data/test-report.json"), 
+			url: encodeURI(self.cfg.testReporthUrl), 
 			type: 'GET', dataType: 'json', data: { },
 			timeout: net.jadedungeon.ajaxTimeout,
 			success: function(data, status, xhr) {
@@ -145,9 +166,11 @@ var accApp = accApp || {};
 	};
 
 	proto.testAuth = function () {
-		var auth = jadeUtils.web.webAuthBasic(this.ui.username.val(), this.ui.password.val());
+		var self = this;
+		var auth = jadeUtils.web.webAuthBasic(
+				self.data.getUsername(), self.data.getPassword());
 		$.ajax({
-			url: encodeURI(this.cfg.apiRoot + "/api/accountbook/testAuth"), 
+			url: encodeURI(self.cfg.testAuthUrl), 
 			type: 'POST', dataType: 'json', headers: { Authorization: auth },
 			data: { },
 			timeout: net.jadedungeon.ajaxTimeout,
