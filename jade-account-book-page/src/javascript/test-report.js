@@ -1,55 +1,60 @@
 (function ($) {
-	accApp.reportTest = function (cfg) { init(cfg); return this; };
-	var self = accApp.reportTest.prototype;
+	accApp.reportTest = function (cfg) { this.init(cfg); return this; };
+	var proto = accApp.reportTest.prototype;
+	proto.super = accApp.prototype;
 
-	var init = function (cfg) {
-		self.super = new accApp(cfg);
-		self.cfg = self.super.cfg || {};
-		initUI(cfg);
-		initData(cfg);
+	proto.init = function (cfg) {
+		this.super = new accApp(cfg);
+		this.cfg = this.super.cfg || {};
+		this.ui = this.super.ui || {};
+		this.data = this.super.data || {};
+		this.initUI(cfg);
+		this.initData(cfg);
 
-		console.log(self.data.i18n.get("test"));
+		console.log(this.data.i18n.get("test"));
 	};
 
-	var initUI = function (cfg) {
-		self.ui = self.super.ui || {};
-		self.ui.username = $("#username");
-		self.ui.password = $("#password");
-		self.ui.submit = $("#submit");
-		self.ui.submit.bind("click", self.testAuth);
+	proto.initUI = function (cfg) {
+		this.super.initUI();
+		this.ui = this.super.ui || {};
+		this.ui.username = $("#username");
+		this.ui.password = $("#password");
+		this.ui.submit = $("#submit");
+		this.ui.submit.bind("click", this.testAuth);
 	};
 
-	var initData = function (cfg) {
-		self.data = self.super.data || {};
-		self.data.username = $("#username").val();
-		self.data.password = $("#password").val();
+	proto.initData = function (cfg) {
+		this.super.initData();
+		this.data = this.super.data || {};
+		this.data.username = $("#username").val();
+		this.data.password = $("#password").val();
 	};
 
-	self.render = function (tableId) {
-		self.super.render();
-		self.loadTestData(function (data) { self.loadBalanceSheet(tableId, data); });
+	proto.render = function (tableId) {
+		this.super.render();
+		this.loadTestData(function (data) { this.loadBalanceSheet(tableId, data); });
 	};
 
-	self.loadBalanceSheet = function (tableId, reportData) {
+	proto.loadBalanceSheet = function (tableId, reportData) {
 		var text = '\n<tr><th colspan="2">' + 
-			self.data.i18n.get("balanceSheet.table.head.group") + '</th><th colspan="2">' + 
-			self.data.i18n.get("balanceSheet.table.head.account") + '</th><th colspan="2">' + 
-			self.data.i18n.get("balanceSheet.table.head.item") + '</th></tr>\n';
+			this.data.i18n.get("balanceSheet.table.head.group") + '</th><th colspan="2">' + 
+			this.data.i18n.get("balanceSheet.table.head.account") + '</th><th colspan="2">' + 
+			this.data.i18n.get("balanceSheet.table.head.item") + '</th></tr>\n';
 
 		if (reportData.length > 0) {
 			text = text + '<tr>';
 			for (var i = 0; i < reportData.length; i++) {
-				text = text + self.showRec(reportData[i], "subs");
+				text = text + this.showRec(reportData[i], "subs");
 			}
 		}
 		$("#" + tableId).html(text);
 	};
 
 
-	self.countLeafNode = function (node, subsName, count) {
+	proto.countLeafNode = function (node, subsName, count) {
 		if (node && node[subsName] && 0 < node[subsName].length) {
 			for (var i=0; i < node[subsName].length; i++) {
-				count = self.countLeafNode(node[subsName][i], subsName, count);
+				count = this.countLeafNode(node[subsName][i], subsName, count);
 			}
 			return count;
 		} else {
@@ -57,15 +62,15 @@
 		}
 	};
 
-	self.showRec = function (node, subsName) {
-		var size = self.countLeafNode(node, "subs", 0);
+	proto.showRec = function (node, subsName) {
+		var size = this.countLeafNode(node, "subs", 0);
 		var amount = parseFloat(node.amount);
 		var text = '<td rowspan="' + size + '">' + node.code + ' - ' + node.name +
 			'</td><td rowspan="' + size + '">￥ ' + 
 			jadeUtils.string.formatNumber(amount, 2) + '</td>';
 		if (node && node[subsName] && 0 < node[subsName].length) {
 			for (var i = 0; i < node[subsName].length; i++) {
-				text = text + self.showRec(node[subsName][i], subsName);
+				text = text + this.showRec(node[subsName][i], subsName);
 			}
 		} else {
 			text = text + "</tr>\n";
@@ -74,9 +79,9 @@
 		return text;
 	};
 
-	self.loadTestData = function (callback) {
+	proto.loadTestData = function (callback) {
 		$.ajax({ 
-			url: encodeURI(self.cfg.webRoot+ "/data/test-report.json"), 
+			url: encodeURI(this.cfg.webRoot+ "/data/test-report.json"), 
 			type: 'GET', dataType: 'json', data: { },
 			timeout: net.jadedungeon.ajaxTimeout,
 			success: function(data, status, xhr) {
@@ -96,10 +101,10 @@
 		});
 	};
 
-	self.testAuth = function () {
-		var auth = jadeUtils.web.webAuthBasic(self.ui.username.val(), self.ui.password.val());
+	proto.testAuth = function () {
+		var auth = jadeUtils.web.webAuthBasic(this.ui.username.val(), this.ui.password.val());
 		$.ajax({
-			url: encodeURI(self.cfg.apiRoot + "/api/accountbook/testAuth"), 
+			url: encodeURI(this.cfg.apiRoot + "/api/accountbook/testAuth"), 
 			type: 'POST', dataType: 'json', headers: { Authorization: auth },
 			data: { },
 			timeout: net.jadedungeon.ajaxTimeout,

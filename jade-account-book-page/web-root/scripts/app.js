@@ -7,7 +7,6 @@ var i18nData = {
 
 var appCfg = {
 	ajaxTimeout: 8000, i18n: i18nData, 
-//	appRoot: "http://localhost:8181/webapp"
 	webRoot: "http://localhost:8181",
 	apiRoot: "http://localhost:8080/accountbook"
 };
@@ -15,77 +14,84 @@ var appCfg = {
 var accApp = accApp || {};
 
 (function ($) {
-	accApp = function (cfg) { init(cfg); return this; };
-	var self = accApp.prototype;
+	accApp = function (cfg) { this.init(cfg); return this; };
+	var proto = accApp.prototype;
 
-	var init = function (cfg) {
-		self.cfg = cfg || {};
-		self.cfg.ajaxTimeout = cfg.ajaxTimeout || 5000;
-		self.cfg.i18n = cfg.i18n || {};
+	proto.init = function (cfg) {
+		this.cfg = cfg || {};
+		this.ui = {};
+		this.data = {};
 
-		self.ui = {};
-		self.data = {};
-		self.data.i18n = new net.jadedungeon.utils.i18n(self.cfg.i18n);
+		this.cfg.ajaxTimeout = cfg.ajaxTimeout || 5000;
+		this.data.i18n = new net.jadedungeon.utils.i18n(cfg.i18n || {});
 	};
 
-	self.render = function () {
-	};
+	proto.initUI = function () { };
+
+	proto.initData = function () { };
+
+	proto.render = function () { };
 
 })(jQuery);
 
 
 (function ($) {
-	accApp.reportTest = function (cfg) { init(cfg); return this; };
-	var self = accApp.reportTest.prototype;
+	accApp.reportTest = function (cfg) { this.init(cfg); return this; };
+	var proto = accApp.reportTest.prototype;
+	proto.super = accApp.prototype;
 
-	var init = function (cfg) {
-		self.super = new accApp(cfg);
-		self.cfg = self.super.cfg || {};
-		initUI(cfg);
-		initData(cfg);
+	proto.init = function (cfg) {
+		this.super = new accApp(cfg);
+		this.cfg = this.super.cfg || {};
+		this.ui = this.super.ui || {};
+		this.data = this.super.data || {};
+		this.initUI(cfg);
+		this.initData(cfg);
 
-		console.log(self.data.i18n.get("test"));
+		console.log(this.data.i18n.get("test"));
 	};
 
-	var initUI = function (cfg) {
-		self.ui = self.super.ui || {};
-		self.ui.username = $("#username");
-		self.ui.password = $("#password");
-		self.ui.submit = $("#submit");
-		self.ui.submit.bind("click", self.testAuth);
+	proto.initUI = function (cfg) {
+		this.super.initUI();
+		this.ui = this.super.ui || {};
+		this.ui.username = $("#username");
+		this.ui.password = $("#password");
+		this.ui.submit = $("#submit");
+		this.ui.submit.bind("click", this.testAuth);
 	};
 
-	var initData = function (cfg) {
-		self.data = self.super.data || {};
-		self.data.username = $("#username").val();
-		self.data.password = $("#password").val();
+	proto.initData = function (cfg) {
+		this.super.initData();
+		this.data = this.super.data || {};
+		this.data.username = $("#username").val();
+		this.data.password = $("#password").val();
 	};
 
-	self.render = function (tableId) {
-		self.super.render();
-		self.loadTestData(function (data) { self.loadBalanceSheet(tableId, data); });
+	proto.render = function (tableId) {
+		this.super.render();
+		this.loadTestData(function (data) { this.loadBalanceSheet(tableId, data); });
 	};
 
-	self.loadBalanceSheet = function (tableId, reportData) {
+	proto.loadBalanceSheet = function (tableId, reportData) {
 		var text = '\n<tr><th colspan="2">' + 
-			self.data.i18n.get("balanceSheet.table.head.group") + '</th><th colspan="2">' + 
-			self.data.i18n.get("balanceSheet.table.head.account") + '</th><th colspan="2">' + 
-			self.data.i18n.get("balanceSheet.table.head.item") + '</th></tr>\n';
+			this.data.i18n.get("balanceSheet.table.head.group") + '</th><th colspan="2">' + 
+			this.data.i18n.get("balanceSheet.table.head.account") + '</th><th colspan="2">' + 
+			this.data.i18n.get("balanceSheet.table.head.item") + '</th></tr>\n';
 
 		if (reportData.length > 0) {
 			text = text + '<tr>';
 			for (var i = 0; i < reportData.length; i++) {
-				text = text + self.showRec(reportData[i], "subs");
+				text = text + this.showRec(reportData[i], "subs");
 			}
 		}
 		$("#" + tableId).html(text);
 	};
 
 
-	self.countLeafNode = function (node, subsName, count) {
+	proto.countLeafNode = function (node, subsName, count) {
 		if (node && node[subsName] && 0 < node[subsName].length) {
 			for (var i=0; i < node[subsName].length; i++) {
-				count = self.countLeafNode(node[subsName][i], subsName, count);
+				count = this.countLeafNode(node[subsName][i], subsName, count);
 			}
 			return count;
 		} else {
@@ -93,15 +99,15 @@ var accApp = accApp || {};
 		}
 	};
 
-	self.showRec = function (node, subsName) {
-		var size = self.countLeafNode(node, "subs", 0);
+	proto.showRec = function (node, subsName) {
+		var size = this.countLeafNode(node, "subs", 0);
 		var amount = parseFloat(node.amount);
 		var text = '<td rowspan="' + size + '">' + node.code + ' - ' + node.name +
 			'</td><td rowspan="' + size + '">￥ ' + 
 			jadeUtils.string.formatNumber(amount, 2) + '</td>';
 		if (node && node[subsName] && 0 < node[subsName].length) {
 			for (var i = 0; i < node[subsName].length; i++) {
-				text = text + self.showRec(node[subsName][i], subsName);
+				text = text + this.showRec(node[subsName][i], subsName);
 			}
 		} else {
 			text = text + "</tr>\n";
@@ -110,9 +116,9 @@ var accApp = accApp || {};
 		return text;
 	};
 
-	self.loadTestData = function (callback) {
+	proto.loadTestData = function (callback) {
 		$.ajax({ 
-			url: encodeURI(self.cfg.webRoot+ "/data/test-report.json"), 
+			url: encodeURI(this.cfg.webRoot+ "/data/test-report.json"), 
 			type: 'GET', dataType: 'json', data: { },
 			timeout: net.jadedungeon.ajaxTimeout,
 			success: function(data, status, xhr) {
@@ -132,10 +138,10 @@ var accApp = accApp || {};
 		});
 	};
 
-	self.testAuth = function () {
-		var auth = jadeUtils.web.webAuthBasic(self.ui.username.val(), self.ui.password.val());
+	proto.testAuth = function () {
+		var auth = jadeUtils.web.webAuthBasic(this.ui.username.val(), this.ui.password.val());
 		$.ajax({
-			url: encodeURI(self.cfg.apiRoot + "/api/accountbook/testAuth"), 
+			url: encodeURI(this.cfg.apiRoot + "/api/accountbook/testAuth"), 
 			type: 'POST', dataType: 'json', headers: { Authorization: auth },
 			data: { },
 			timeout: net.jadedungeon.ajaxTimeout,
@@ -161,41 +167,62 @@ var accApp = accApp || {};
 
 
 (function ($) {
-	accApp.testAccount = function (cfg) { init(cfg); return this; };
-	var self = accApp.testAccount.prototype;
+	accApp.testAccount = function (cfg) { this.init(cfg); return this; };
+	var proto = accApp.testAccount.prototype;
+	proto.super = accApp.prototype;
 
-	var init = function (cfg) {
-		self.super = new accApp(cfg);
-		self.cfg = self.super.cfg || {};
-		initUI(cfg);
-		initData(cfg);
+	proto.init = function (cfg) {
+		this.super = new accApp(cfg);
+		this.cfg = this.super.cfg || {};
+		this.ui = this.super.ui || {};
+		this.data = this.super.data || {};
+		this.initUI(cfg);
+		this.initData(cfg);
 
-		console.log(self.data.i18n.get("test"));
+		console.log(this.data.i18n.get("test"));
 	};
 
-	var initUI = function (cfg) {
-		self.ui = self.super.ui || {};
-		self.ui.username = $("#username");
-		self.ui.password = $("#password");
-		self.ui.submit = $("#submit");
-		self.ui.submit.bind("click", self.testType);
+	proto.initUI = function () {
+		var self = this;
+		this.super.initUI();
+		this.ui = this.super.ui || {};
+		this.ui.username = $("#username");
+		this.ui.password = $("#password");
+
+		this.ui.submit = $("#submit");
+		this.ui.submit.unbind("clikd").bind("click", function () {
+			self.testType();
+		});
 	};
 
-	var initData = function (cfg) {
-		self.data = self.super.data || {};
-		self.data.username = $("#username").val();
-		self.data.password = $("#password").val();
+	proto.initData = function () {
+		var self = this;
+		this.super.initData();
+		this.data = this.super.data || {};
+		this.data.getUsername = function () { 
+			console.log(self.ui.username.val());
+			return self.ui.username.val(); 
+		};
+		this.data.getPassword = function () { 
+			console.log(self.ui.password.val());
+			return self.ui.password.val(); 
+		};
+		this.data.setUsername = function (value) { this.ui.username.val(value); };
+		this.data.setPassword = function (value) { this.ui.password.val(value); };
 	};
 
-	self.render = function (tableId) {
-		self.super.render();
+	proto.render = function () {
+		this.super.render();
 	};
 
 
-	self.testType = function () {
-		var auth = jadeUtils.web.webAuthBasic(self.ui.username.val(), self.ui.password.val());
+	proto.testType = function () {
+		var self = this;
+		console.log(self.data.getUsername());
+		console.log(self.data.getPassword());
+		var auth = jadeUtils.web.webAuthBasic(self.data.getUsername(), self.data.getPassword());
 		$.ajax({
-			url: encodeURI(self.cfg.apiRoot + "/api/accountbook/allAccountType"), 
+			url: encodeURI(this.cfg.apiRoot + "/api/accountbook/allAccountType"), 
 			type: 'POST', dataType: 'json', headers: { Authorization: auth },
 			data: { },
 			timeout: net.jadedungeon.ajaxTimeout,
@@ -203,7 +230,7 @@ var accApp = accApp || {};
 				if ('success' == data.status) {
 					console.debug(data);
 					var zTreeObj;
-					var setting = { callback: { onClick: self.clickAccType }	};
+					var setting = { callback: { onClick: this.clickAccType }	};
 					zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, data.types);
 				} else {
 					console.error("加载测试数据失败");
@@ -219,7 +246,7 @@ var accApp = accApp || {};
 		});
 	};
 
-	self.clickAccType = function (event, treeId, treeNode) {
+	proto.clickAccType = function (event, treeId, treeNode) {
 		if ("accType" == treeNode.type) {
 			console.log(treeNode.code + ", " + treeNode.name);
 		}
