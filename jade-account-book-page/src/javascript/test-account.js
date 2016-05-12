@@ -43,6 +43,8 @@
 
 		this.ui.testRecTpl = $.templates("#testRecTpl");
 		this.ui.testRec = $("#testRec");
+
+		this.ui.testRec2Tpl = $.templates("#testRec2Tpl");
 	};
 
 	proto.initData = function () {
@@ -54,7 +56,8 @@
 
 		this.data.testRec = [{ "name": "Robert", "nickname": "Bob", "showNickname": true },
 			{ "name": "Susan", "nickname": "Sue", "showNickname": false }];
-
+		this.data.testRec2 = [{ "name": "Robert", "nickname": "Bob", "showNickname": true },
+			{ "name": "Susan", "nickname": "Sue", "showNickname": false }];
 	};
 
 	proto.render = function () {
@@ -64,6 +67,7 @@
 
 	proto.renderRec = function () {
 		this.ui.testRec.html(this.ui.testRecTpl.render(this.data.testRec));
+		this.ui.testRec2Tpl.link("#testRec2", this.data.testRec2);
 	};
 
 	proto.loadAccTypeTree = function () {

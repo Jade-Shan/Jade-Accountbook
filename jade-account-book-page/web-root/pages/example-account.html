@@ -29,31 +29,47 @@
 <div id="testRec"></div>
 
 
-<div id="result"></div>
+<ul id="accTypeTree" class="ztree"></ul>
 
-<script id="theTmpl" type="text/x-jsrender">
+
+
+
+
+
+
+
+<div id="testRec2"></div>
+
+<script id="testRec2Tpl" type="text/x-jsrender">
 <div>
-  Edit: <input type="checkbox" data-link="editable"/>
-  <em>Name:</em> {^{:name}}
-  {^{if showNickname && nickname}}
-    (Goes by <em data-link="nickname"></em>)
-  {{/if}}
-  {^{if editable}}
-    <div>
-      <input data-link="name trigger=true"/>
-      <input data-link="nickname trigger=true"/>
-      Show nickname: <input type="checkbox" data-link="showNickname"/>
-    </div>
-  {{/if}}
+	Edit: <input type="checkbox" data-link="editable"/>
+	<em>Name:</em> {^{:name}}
+	{^{if showNickname && nickname}}
+		(Goes by <em data-link="nickname"></em>)
+	{{/if}}
+	{^{if editable}}
+		<div>
+			<input data-link="name trigger=true"/>
+			<input data-link="nickname trigger=true"/>
+			Show nickname: <input type="checkbox" data-link="showNickname"/>
+		</div>
+	{{/if}}
 </div>
 </script>
 
-<ul id="accTypeTree" class="ztree"></ul>
+
+
+
+
 
 </body>
 <script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<!-- 
+<script src="//code.jquery.com/jquery-1.12.0.js"></script>
 <script type="text/javascript" src="//cdn.bootcss.com/jsrender/0.9.75/jsrender.min.js"></script>
 <script src="http://www.jsviews.com/download/jsviews.js"></script>
+-->
+<script type="text/javascript" src="//cdn.bootcss.com/jsviews/0.9.75/jsviews.min.js"></script>
 <script type="text/javascript" src="//cdn.bootcss.com/zTree.v3/3.5.23/js/jquery.ztree.core.min.js"></script>
 <script type="text/javascript" src="//cdn.bootcss.com/zTree.v3/3.5.23/js/jquery.ztree.excheck.min.js"></script>
 <script type="text/javascript" src="//cdn.bootcss.com/zTree.v3/3.5.23/js/jquery.ztree.exedit.min.js"></script>
@@ -63,5 +79,7 @@
 <script>
 var page = new accApp.testAccount(appCfg);
 page.render("accTypeTree");
+
+
 </script>
 </html>
