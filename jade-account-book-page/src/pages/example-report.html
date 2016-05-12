@@ -1,0 +1,27 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Language" content="zh-CN">
+<meta name="robots" content="index, follow">
+<title>Report Example</title>
+<link rel="shortcut icon" type="image/x-icon" href="/images/comm/site-icon.ico">
+@@include('./src/tpls/include-styles.html', {})
+</head>
+<body>
+
+<table id="mainReport" class="balance-sheet">
+</table>
+
+<br/>
+
+<input type="text" id="username" value=""/><br/>
+<input type="text" id="password" value=""/><br/>
+<input type="button" id="submit" value="sumbit"/><br/>
+
+</body>
+@@include('./src/tpls/include-scripts.html', {})
+<script>
+var page = new accApp.reportTest(appCfg);
+page.render();
+</script>
+</html>

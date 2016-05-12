@@ -28,6 +28,7 @@ do
 			gulp min-styles-base  ;
 #			gulp min-styles-hobbit  ;
 			gulp min-scripts ;
+			gulp fileinclude;
 			sleep 5 ;
 			# qrsync ~/.config/qiniu/workout.json ;
 			;;
