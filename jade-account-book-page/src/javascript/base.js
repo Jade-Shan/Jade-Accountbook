@@ -1,9 +1,3 @@
-var appCfg = {
-	ajaxTimeout: 8000, i18n: i18nData, 
-	webRoot: "http://localhost:8181",
-	apiRoot: "http://localhost:8080/accountbook"
-};
-
 var accApp = accApp || {};
 
 (function ($) {

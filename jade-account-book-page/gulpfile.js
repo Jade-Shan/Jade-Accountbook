@@ -18,13 +18,17 @@ var gulp = require('gulp'),
 var env = {
 	prd : {
 		buildversion: "0.0.1",
+		webRoot: "http://localhost:8181",
+		apiRoot: "http://localhost:8080/accountbook",
 		cdn01: "//cdn.bootcss.com",
 		cdn02: "//7xldv2.com1.z0.glb.clouddn.com"
 	},
 	dev : {
 		buildversion: "0.0.1",
-		cdn01: "//cdn.bootcss.com",
-		cdn02: "//7xldv2.com1.z0.glb.clouddn.com"
+		webRoot: "http://localhost:8181",
+		apiRoot: "http://localhost:8080/accountbook",
+		cdn01: "http://localhost:8000/3rd.v2",
+		cdn02: "http://localhost:8000/3rd.v2"
 	}
 };
 
@@ -40,7 +44,7 @@ var cfg = {
 			css : "./web-root/styles/",
 			scripts : "./web-root/scripts/",
 			html : "./web-root/pages/"}},
-	env : env.prd
+	env : env.dev
 };
 
 // 清空图片、样式、js
