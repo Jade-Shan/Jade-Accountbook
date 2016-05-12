@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Language" content="zh-CN">
 <meta name="robots" content="index, follow">
 <title>Account Code Example</title>
-<link type="image/x-icon" rel="shortcut icon" href="/image/comm/site-icon.ico">
+<link type="image/x-icon" rel="shortcut icon" href="/images/comm/site-icon.ico">
 <link type="text/css" rel="stylesheet" href="//cdn.bootcss.com/zTree.v3/3.5.23/css/zTreeStyle/zTreeStyle.css">
 <link type="text/css" rel="stylesheet" href="/styles/app.min.css">
 <style>
@@ -17,8 +17,13 @@
 <input type="text" id="password" value=""/><br/>
 <input type="button" id="submit" value="sumbit"/><br/>
 
+<ul id="accTypeTree" class="ztree"></ul>
 
-<script id="testRecTpl" type="text/x-jsrender">
+<div id="testRec"></div>
+
+<div id="testRec2"></div>
+
+<script type="text/x-jsrender" id="testRecTpl">
 <div>
 	 <em>Name:</em> {{:name}}
 	 {{if showNickname && nickname}}
@@ -26,19 +31,6 @@
 	 {{/if}}
 </div>
 </script>
-<div id="testRec"></div>
-
-
-<ul id="accTypeTree" class="ztree"></ul>
-
-
-
-
-
-
-
-
-<div id="testRec2"></div>
 
 <script id="testRec2Tpl" type="text/x-jsrender">
 <div>
@@ -57,11 +49,6 @@
 </div>
 </script>
 
-
-
-
-
-
 </body>
 <script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
 <!-- 
@@ -79,7 +66,5 @@
 <script>
 var page = new accApp.testAccount(appCfg);
 page.render("accTypeTree");
-
-
 </script>
 </html>
