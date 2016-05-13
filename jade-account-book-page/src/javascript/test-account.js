@@ -35,7 +35,7 @@
 		this.ui.password = $("#password");
 		this.ui.submit = $("#submit");
 		// 要套一层函数，不然`this`指向是触发的按钮而不是这个对象
-		this.ui.submit.unbind("clikd").bind("click", 
+		this.ui.submit.unbind("click").bind("click", 
 				function () { self.loadAccTypeTree(); });
 
 		this.ui.accTypeTree = $("#accTypeTree");

@@ -16,21 +16,106 @@ var accApp = accApp || {};
 		this.ui = {};
 		this.data = {};
 		this.initCfg();
+
 		this.initUI();
 		this.initData();
+
+		this.barinit();
 	};
 
 	proto.initCfg = function () {
 		this.cfg.ajaxTimeout = this.cfg.ajaxTimeout || 5000;
+		this.cfg.testAuthUrl = this.cfg.apiRoot + "/api/accountbook/testAuth";
 		this.data.i18n = new net.jadedungeon.utils.i18n(this.cfg.i18n || {});
 	};
 
 
-	proto.initUI = function () { };
+	proto.initUI = function () {
+	};
 
-	proto.initData = function () { };
+	proto.initData = function () {
+		var self = this;
+	};
 
 	proto.render = function () { };
+
+	proto.checkLogin = function (username, password, successCallback, 
+			failCallback, errorCallback) 
+	{
+		var self = this;
+		if ('' !== username && '' !== password) {
+			var auth = jadeUtils.web.webAuthBasic(username, password);
+			$.ajax({ type: 'POST', dataType: 'json', timeout: self.cfg.ajaxTimeout,
+				url: encodeURI(self.cfg.testAuthUrl), headers: {Authorization: auth},
+				data: { },
+				success: function(data, status, xhr) {
+					console.debug(status);
+					if ('success' == data.status && 'success' == data.auth) {
+						successCallback(data);
+					} else {
+						failCallback(data);
+					}
+				},
+				error: function(xhr, errorType, error) { errorCallback(error); },
+				complete: function(xhr, status) {}
+			});
+		} else {
+			console.debug("no username or password");
+		}
+	};
+
+	proto.login = function (username, password) {
+		var self = this;
+		self.checkLogin(username, password, 
+				function(data) { /* 登录成功的操作 */
+					jadeUtils.web.cookieOperator('username', username);
+					jadeUtils.web.cookieOperator('password', password);
+					self.ui.divUserLogin.removeClass("has-error");
+					self.ui.divUserLogin.hide();
+					self.ui.lbUsername.html(username);
+					self.ui.userinfo.show();
+					self.ui.accOverview.show();
+				}, function (data) { /* 登录失败时的操作 */
+					console.debug(data.reason);
+					self.ui.divUserLogin.addClass("has-error");
+				}, function (data) { /* 网络错误时的操作 */
+					alert("Ajax Error");
+				});
+	};
+
+	proto.barinit = function () {
+		var self = this;
+
+		self.ui.username = $("#username");
+		self.ui.password = $("#password");
+		self.ui.userinfo = $('#div-userinfo');
+		self.ui.lbUsername = $('#lb-username');
+		self.ui.accOverview = $('#mu-accOverview');
+		self.ui.divUserLogin = $('#div-userlogin');
+
+		self.ui.btnLogin = $('#btn-login');
+		self.ui.btnLogin.unbind("click").bind("click", function(event) {
+			self.login(self.data.getUsername(), self.data.getPassword());
+		});
+		self.ui.btnLogout = $('#btn-logout')
+		self.ui.btnLogout.unbind("click").bind("click", function(event) {
+			self.ui.accOverview.hide();
+			self.ui.userinfo.hide();
+			self.ui.divUserLogin.show();
+		});
+
+		self.data.getUsername = function () { return self.ui.username.val(); };
+		self.data.getPassword = function () { return self.ui.password.val(); };
+		self.data.setUsername = function (value) { self.ui.username.val(value); };
+		self.data.setPassword = function (value) { self.ui.password.val(value); };
+
+		self.ui.userinfo.hide();
+		self.ui.accOverview.hide();
+
+		self.data.setUsername(jadeUtils.web.cookieOperator('username'));
+		self.data.setPassword(jadeUtils.web.cookieOperator('password'));
+		self.login(self.data.getUsername(), self.data.getPassword());
+	};
 
 })(jQuery);
 
@@ -55,7 +140,6 @@ var accApp = accApp || {};
 
 	proto.initCfg = function () {
 		var self = this;
-		this.cfg.testAuthUrl = this.cfg.apiRoot + "/api/accountbook/testAuth";
 		this.cfg.testReporthUrl = this.cfg.webRoot + "/data/test-report.json";
 	};
 
@@ -75,13 +159,6 @@ var accApp = accApp || {};
 
 	proto.initData = function (cfg) {
 		var self = this;
-
-		this.data = this.super.data || {};
-
-		this.data.getUsername = function () { return self.ui.username.val(); };
-		this.data.getPassword = function () { return self.ui.password.val(); };
-		this.data.setUsername = function (value) { self.ui.username.val(value); };
-		this.data.setPassword = function (value) { self.ui.password.val(value); };
 	};
 
 	proto.render = function () {
@@ -226,7 +303,7 @@ var accApp = accApp || {};
 		this.ui.password = $("#password");
 		this.ui.submit = $("#submit");
 		// 要套一层函数，不然`this`指向是触发的按钮而不是这个对象
-		this.ui.submit.unbind("clikd").bind("click", 
+		this.ui.submit.unbind("click").bind("click", 
 				function () { self.loadAccTypeTree(); });
 
 		this.ui.accTypeTree = $("#accTypeTree");

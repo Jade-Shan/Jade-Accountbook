@@ -18,7 +18,6 @@
 
 	proto.initCfg = function () {
 		var self = this;
-		this.cfg.testAuthUrl = this.cfg.apiRoot + "/api/accountbook/testAuth";
 		this.cfg.testReporthUrl = this.cfg.webRoot + "/data/test-report.json";
 	};
 
@@ -38,13 +37,6 @@
 
 	proto.initData = function (cfg) {
 		var self = this;
-
-		this.data = this.super.data || {};
-
-		this.data.getUsername = function () { return self.ui.username.val(); };
-		this.data.getPassword = function () { return self.ui.password.val(); };
-		this.data.setUsername = function (value) { self.ui.username.val(value); };
-		this.data.setPassword = function (value) { self.ui.password.val(value); };
 	};
 
 	proto.render = function () {
