@@ -1,9 +1,20 @@
-var i18nData = {
-	"test":"i18n信息初始化成功",
-	"balanceSheet.table.head.group":"组",
-	"balanceSheet.table.head.account":"科目",
-	"balanceSheet.table.head.item":"项目"
-};
+var i18n =  new net.jadedungeon.utils.i18n({
+	/* =============================================
+	 * nav bar
+	 * =============================================
+	 */
+	"navbar.appname":"小玉记账本",
+		"navbar.usernameprefix":"当前用户：",
+		"navbar.login":"请登录",
+		/* =============================================
+		 * 统计表表头
+		 * =============================================
+		 */
+		"balanceSheet.table.head.group":"组",
+		"balanceSheet.table.head.account":"科目",
+		"balanceSheet.table.head.item":"项目",
+		"test":"i18n信息初始化成功"
+});
 
 var accApp = accApp || {};
 
@@ -26,7 +37,6 @@ var accApp = accApp || {};
 	proto.initCfg = function () {
 		this.cfg.ajaxTimeout = this.cfg.ajaxTimeout || 5000;
 		this.cfg.testAuthUrl = this.cfg.apiRoot + "/api/accountbook/testAuth";
-		this.data.i18n = new net.jadedungeon.utils.i18n(this.cfg.i18n || {});
 	};
 
 
@@ -86,6 +96,10 @@ var accApp = accApp || {};
 	proto.barinit = function () {
 		var self = this;
 
+		self.ui.topnav = $("#topnav");
+		self.ui.topnavTpl = $.templates("#topnavTpl");
+		self.ui.topnav.html(self.ui.topnavTpl.render(self.cfg.topnavCfg));
+
 		self.ui.username = $("#username");
 		self.ui.password = $("#password");
 		self.ui.userinfo = $('#div-userinfo');
@@ -97,7 +111,7 @@ var accApp = accApp || {};
 		self.ui.btnLogin.unbind("click").bind("click", function(event) {
 			self.login(self.data.getUsername(), self.data.getPassword());
 		});
-		self.ui.btnLogout = $('#btn-logout')
+		self.ui.btnLogout = $('#btn-logout');
 		self.ui.btnLogout.unbind("click").bind("click", function(event) {
 			self.ui.accOverview.hide();
 			self.ui.userinfo.hide();
@@ -135,7 +149,7 @@ var accApp = accApp || {};
 		this.initUI();
 		this.initData();
 
-		console.log(this.data.i18n.get("test"));
+		console.log(i18n.get("test"));
 	};
 
 	proto.initCfg = function () {
@@ -171,9 +185,9 @@ var accApp = accApp || {};
 
 	proto.loadBalanceSheet = function (report, reportData) {
 		var text = '\n<tr><th colspan="2">' + 
-			this.data.i18n.get("balanceSheet.table.head.group") + '</th><th colspan="2">' + 
-			this.data.i18n.get("balanceSheet.table.head.account") + '</th><th colspan="2">' + 
-			this.data.i18n.get("balanceSheet.table.head.item") + '</th></tr>\n';
+			i18n.get("balanceSheet.table.head.group") + '</th><th colspan="2">' + 
+			i18n.get("balanceSheet.table.head.account") + '</th><th colspan="2">' + 
+			i18n.get("balanceSheet.table.head.item") + '</th></tr>\n';
 
 		if (reportData.length > 0) {
 			text = text + '<tr>';
@@ -281,7 +295,7 @@ var accApp = accApp || {};
 		this.initUI();
 		this.initData();
 
-		console.log(this.data.i18n.get("test"));
+		console.log(i18n.get("test"));
 	};
 
 	proto.initCfg = function () {

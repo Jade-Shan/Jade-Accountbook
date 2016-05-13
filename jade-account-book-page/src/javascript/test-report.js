@@ -13,7 +13,7 @@
 		this.initUI();
 		this.initData();
 
-		console.log(this.data.i18n.get("test"));
+		console.log(i18n.get("test"));
 	};
 
 	proto.initCfg = function () {
@@ -49,9 +49,9 @@
 
 	proto.loadBalanceSheet = function (report, reportData) {
 		var text = '\n<tr><th colspan="2">' + 
-			this.data.i18n.get("balanceSheet.table.head.group") + '</th><th colspan="2">' + 
-			this.data.i18n.get("balanceSheet.table.head.account") + '</th><th colspan="2">' + 
-			this.data.i18n.get("balanceSheet.table.head.item") + '</th></tr>\n';
+			i18n.get("balanceSheet.table.head.group") + '</th><th colspan="2">' + 
+			i18n.get("balanceSheet.table.head.account") + '</th><th colspan="2">' + 
+			i18n.get("balanceSheet.table.head.item") + '</th></tr>\n';
 
 		if (reportData.length > 0) {
 			text = text + '<tr>';

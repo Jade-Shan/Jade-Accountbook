@@ -14,35 +14,65 @@
 </head>
 <body>
 
-<nav id="topnav" class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+<nav id="topnav" class="navbar navbar-inverse  navbar-fixed-top" role="navigation"></nav>
+
+<script type="text/x-jsrender" id="topnavTpl">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">Jade Workout</a>
+		<a class="navbar-brand" href="index.html">{{:appname}}</a>
 	</div>
 	<div>
 		<ul id="mu-accOverview" class="nav navbar-nav navbar-left">
+		{{for menu}}
+			{{if title && title.length > 0 && subs && subs.length > 0}}
 			<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-				Record Workout<b class="caret"></b>
-			</a>
-			<ul class="dropdown-menu">
-				<li><a href="index.html">Strength Workout</a></li>
-				<li class="divider"></li>
-				<li><a href="index.html">Aerobic Workout</a></li>
-			</ul>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{:title}}<b class="caret"></b></a>
+				<ul class="dropdown-menu">
+				{{for subs}}
+					{{if title && title.length > 0 && isNewWin}}
+						<li><a target="_blank" href="{{>link}}">{{:title}}</a></li>
+					{{else title && title.length > 0}}
+						<li><a href="{{>link}}">{{:title}}</a></li>
+					{{else}}
+						<li class="divider"></li>
+					{{/if}}
+				{{/for}}
+				</ul>
 			</li>
+			{{else title && title.length > 0 && isNewWin}}
+				<li><a target="_blank" href="{{>link}}">{{:title}}</a></li>
+			{{else title && title.length > 0}}
+				<li><a href="{{>link}}">{{:title}}</a></li>
+			{{else}}
+				<li class="divider"></li>
+			{{/if}}
+		{{/for}}
+			<!-- 
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					Record Workout<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="index.html">Strength Workout</a></li>
+					<li class="divider"></li>
+					<li><a href="index.html">Aerobic Workout</a></li>
+				</ul>
+			</li>
+			-->
 		</ul>
 		<!-- 用户相关信息 -->
 		<ul id="div-userinfo" class="nav navbar-nav navbar-right">
 			<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-				Signed in as <b id="lb-username"></b> <b class="caret"></b>
+				{{:usernameprefix}}<b id="lb-username"></b> <b class="caret"></b>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a href="#">testing</a></li>
-				<li><a href="#">testing</a></li>
-				<li><a href="#">testing</a></li>
-				<li class="divider"></li>
-				<li><a href="#">testing</a></li>
+			{{for userMenu}}
+				{{if title && title.length > 0}}
+					<li><a href="{{>link}}">{{:title}}</a></li>
+				{{else}}
+					<li class="divider"></li>
+				{{/if}}
+			{{/for}}
 				<li class="divider"></li>
 				<li><button type="button" id="btn-logout" class="btn btn-default center-block">Logout</button></li>
 			</ul>
@@ -51,24 +81,20 @@
 		<form id="div-userlogin" class="navbar-form navbar-right form-inline" role="search">
 			<input type="text" id="username" name="username" class="form-control ipt-username" placeholder="username" value="">
 			<input type="password" id="password" name="password" class="form-control ipt-password" placeholder="password" value="">
-			<button type="button" id="btn-login" class="btn btn-default">Login</button>
+			<button type="button" id="btn-login" class="btn btn-default">{{:login}}</button>
 		</form> 
 	</div>
-</nav>
+</script>
 
 
 
 <div class="container ctx-main"> 
 
-	<input type="text" id="username_aaa" value=""/><br/>
-	<input type="text" id="password_aaa" value=""/><br/>
-	<input type="button" id="submit" value="sumbit"/><br/>
-
-	<ul id="accTypeTree" class="ztree"></ul>
-
 	<div id="testRec"></div>
 
 	<div id="testRec2"></div>
+
+	<ul id="accTypeTree" class="ztree"></ul>
 
 	<div class="footer">
 		<div class="left">
@@ -125,7 +151,28 @@
 <script type="text/javascript" src="/scripts/app.min.js?v=0.0.1"></script>
 
 <script>
-var appCfg = { ajaxTimeout: 8000, i18n: i18nData, 
+var topnavCfg = {
+	"usernameprefix": i18n.get("navbar.usernameprefix"),
+	"login": i18n.get("navbar.login"),
+	"menu": [
+	{title: "账户概览", link: "#"},
+	{title: "记账", subs: [
+		{title: "录入活动", link: "#"},
+		{title: "", link: ""},
+		{title: "录入分录", link: "#"}]},
+	{title: "Github", link: "https://github.com/Jade-Shan/", isNewWin: true}],
+	"userMenu": [
+		{title: "testing", link: "#"},
+		{title: "testing", link: "#"},
+		{title: "testing", link: "#"},
+		{title: "", link: ""},
+		{title: "testing", link: "#"},
+		{title: "testing", link: "#"}],
+	"appname": i18n.get("navbar.appname")
+};
+
+var appCfg = { ajaxTimeout: 8000,
+	topnavCfg: topnavCfg,
 	webRoot: "http://localhost:8181", 
 	apiRoot: "http://localhost:8080/accountbook"
 };

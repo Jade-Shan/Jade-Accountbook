@@ -13,7 +13,7 @@
 		this.initUI();
 		this.initData();
 
-		console.log(this.data.i18n.get("test"));
+		console.log(i18n.get("test"));
 	};
 
 	proto.initCfg = function () {

@@ -19,7 +19,6 @@ var accApp = accApp || {};
 	proto.initCfg = function () {
 		this.cfg.ajaxTimeout = this.cfg.ajaxTimeout || 5000;
 		this.cfg.testAuthUrl = this.cfg.apiRoot + "/api/accountbook/testAuth";
-		this.data.i18n = new net.jadedungeon.utils.i18n(this.cfg.i18n || {});
 	};
 
 
@@ -79,6 +78,10 @@ var accApp = accApp || {};
 	proto.barinit = function () {
 		var self = this;
 
+		self.ui.topnav = $("#topnav");
+		self.ui.topnavTpl = $.templates("#topnavTpl");
+		self.ui.topnav.html(self.ui.topnavTpl.render(self.cfg.topnavCfg));
+
 		self.ui.username = $("#username");
 		self.ui.password = $("#password");
 		self.ui.userinfo = $('#div-userinfo');
@@ -90,7 +93,7 @@ var accApp = accApp || {};
 		self.ui.btnLogin.unbind("click").bind("click", function(event) {
 			self.login(self.data.getUsername(), self.data.getPassword());
 		});
-		self.ui.btnLogout = $('#btn-logout')
+		self.ui.btnLogout = $('#btn-logout');
 		self.ui.btnLogout.unbind("click").bind("click", function(event) {
 			self.ui.accOverview.hide();
 			self.ui.userinfo.hide();
