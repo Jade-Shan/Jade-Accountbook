@@ -23,12 +23,19 @@ var env = {
 		cdn01: "//cdn.bootcss.com",
 		cdn02: "//7xldv2.com1.z0.glb.clouddn.com"
 	},
-	dev : {
+	devCdn : {
 		buildversion: "0.0.1",
 		webRoot: "http://localhost:8181",
 		apiRoot: "http://localhost:8080/accountbook",
 		cdn01: "http://localhost:8000/3rd.v2",
 		cdn02: "http://localhost:8000/3rd.v2"
+	},
+	dev : {
+		buildversion: "0.0.1",
+		webRoot: "http://localhost:8181",
+		apiRoot: "http://localhost:8181/test",
+		cdn01: "//cdn.bootcss.com",
+		cdn02: "//7xldv2.com1.z0.glb.clouddn.com"
 	}
 };
 

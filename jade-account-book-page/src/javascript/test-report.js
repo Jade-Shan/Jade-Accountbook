@@ -18,7 +18,7 @@
 
 	proto.initCfg = function () {
 		var self = this;
-		this.cfg.testReporthUrl = this.cfg.webRoot + "/data/test-report.json";
+		this.cfg.testReporthUrl = this.cfg.apiRoot + "/api/accountbook/balanceSheet";
 	};
 
 	proto.initUI = function (cfg) {
