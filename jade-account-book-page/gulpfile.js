@@ -6,14 +6,15 @@
 // gulp min-styles：会在css目录下输出all.css和all.min.css文件。
 // gulp develop：会监听所有less文件，当有less文件改变时，会执行build-less和min-styles
 var gulp = require('gulp'),
-		less = require('gulp-less'),              //less编译
-		minifycss = require('gulp-minify-css'),   //css压缩
-		jshint = require('gulp-jshint'),          //js检查
-		uglify  = require('gulp-uglify'),         //js压缩
-		rename = require('gulp-rename'),          //重命名
-		concat  = require('gulp-concat'),         //合并文件
-		fileinclude = require('gulp-file-include'),   //html模板
-		clean = require('gulp-clean');            //清空文件夹
+		less = require('gulp-less'),                //less编译
+		minifycss = require('gulp-minify-css'),     //css压缩
+		jshint = require('gulp-jshint'),            //js检查
+		uglify  = require('gulp-uglify'),           //js压缩
+		rename = require('gulp-rename'),            //重命名
+		concat  = require('gulp-concat'),           //合并文件
+		fileinclude = require('gulp-file-include'), //html模板
+		processhtml = require('gulp-processhtml'),  // html引用替换
+		clean = require('gulp-clean');              //清空文件夹
 
 var env = {
 	prd : {
@@ -32,8 +33,8 @@ var env = {
 	},
 	dev : {
 		buildversion: "0.0.1",
-		webRoot: "http://localhost:8181",
-		apiRoot: "http://localhost:8181/test",
+		webRoot: "http://localhost:8181/web-root",
+		apiRoot: "http://localhost:8181/web-root/test",
 		cdn01: "//cdn.bootcss.com",
 		cdn02: "//7xldv2.com1.z0.glb.clouddn.com"
 	}
@@ -45,6 +46,7 @@ var cfg = {
 			theme : "./themes/hobbit/less/",
 			less : "./src/less/",
 			scripts : "./src/javascript/",
+			tpls: "./src/tpls/",
 			html : "./src/pages/"},
 		dst: {
 			theme : "./web-root/themes/hobbit/css/",
@@ -108,11 +110,18 @@ gulp.task('min-scripts', function() {
 		.pipe(gulp.dest(cfg.path.dst.scripts));
 	});
 
-	gulp.task('fileinclude', function() {
-		gulp.src([cfg.path.src.html + "*.html"])
-			.pipe(fileinclude({prefix: '@@', basepath: '@root', context: cfg.env}))
-			.pipe(gulp.dest(cfg.path.dst.html));
-	});
+gulp.task('fileinclude', function() {
+	gulp.src([cfg.path.src.html + "**/*.html"])
+		.pipe(fileinclude({prefix: '@@', basepath: '@root', context: cfg.env}))
+		.pipe(gulp.dest(cfg.path.dst.html));
+});
+
+gulp.task('fileinclude-process', function() {
+	gulp.src([cfg.path.src.html + "**/*.html", cfg.path.src.tpls + "**/*.html"])
+    .pipe(processhtml())
+		.pipe(fileinclude({prefix: '@@', basepath: '@root', context: cfg.env}))
+		.pipe(gulp.dest(cfg.path.dst.html));
+});
 
 // // 默认任务 清空图片、样式、js并重建 运行语句 gulp
 // gulp.task('default', ['build-less'], function(){
@@ -122,8 +131,9 @@ gulp.task('min-scripts', function() {
 // 监控变化
 gulp.task('develop', function() {
 	gulp.watch(
-		[cfg.path.src.theme + '**/*.less', cfg.path.src.scripts + '**/*.js'], 
-		['clean', 'build-less-base', 'build-less-hobbit', 
+		[cfg.path.src.theme + '**/*.less', cfg.path.src.scripts + '**/*.js',
+			cfg.path.src.scripts + '**/*.html', cfg.path.src.tpls + '**/*.html'], 
+		['clean', 'build-less-base', 'build-less-hobbit', 'fileinclude-process',
 			'min-styles-base', 'min-styles-hobbit']);
 		});
 

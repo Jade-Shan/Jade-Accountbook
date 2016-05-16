@@ -1,22 +1,16 @@
 #!/bin/bash
 
 echo "Tips:"
-echo "-c compile"
+echo "-h html inclue"
 echo "-a all"
 
 while getopts "b:ctrae" arg #选项后面的冒号表示该选项需要参数
 do
 	case $arg in
-		c)
+		h)
 			gulp clean       ;
-			sleep 5 ;
-			gulp check-js    ;
-			gulp build-less-base  ;
-#			gulp build-less-hobbit  ;
-			sleep 5 ;
-			gulp min-styles-base  ;
-			gulp min-styles-hobbit  ;
-			gulp min-scripts ;
+			sleep 5          ;
+			gulp fileinclude ;
 			;;
 		a)
 			gulp clean       ;
@@ -28,7 +22,7 @@ do
 			gulp min-styles-base  ;
 #			gulp min-styles-hobbit  ;
 			gulp min-scripts ;
-			gulp fileinclude;
+			gulp fileinclude-process;
 			sleep 5 ;
 			# qrsync ~/.config/qiniu/workout.json ;
 			;;
