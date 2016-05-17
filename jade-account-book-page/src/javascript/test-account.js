@@ -6,6 +6,8 @@
 	proto.init = function (cfg) {
 		this.super = new accApp(cfg);
 
+		this.accTypeUtil = new accApp.accTypeUtil(cfg);
+
 		this.cfg = this.super.cfg || {};
 		this.ui = this.super.ui || {};
 		this.data = this.super.data || {};
@@ -18,7 +20,6 @@
 
 	proto.initCfg = function () {
 		var self = this;
-		this.cfg.accTypeUrl = this.cfg.apiRoot + "/api/accountbook/allAccountType";
 		this.cfg.accTypeTreeSetting = {
 			callback: {
 				onClick: function (event, treeId, treeNode) { 
@@ -74,30 +75,22 @@
 		var self = this;
 		var auth = jadeUtils.web.webAuthBasic(
 				self.data.getUsername(), self.data.getPassword());
-		$.ajax({
-			url: encodeURI(
-						 self.cfg.accTypeUrl
-						 ), 
-			type: 'POST', dataType: 'json', headers: { Authorization: auth },
-			data: { },
-			timeout: net.jadedungeon.ajaxTimeout,
-			success: function(data, status, xhr) {
-				if ('success' == data.status) {
-					console.debug(data);
-					self.ui.accTypeTreeObj = $.fn.zTree.init(
-						self.ui.accTypeTree, self.cfg.accTypeTreeSetting, data.types);
-				} else {
-					console.error("加载测试数据失败");
-				}
-			},
-			error: function(xhr, errorType, error) {
+		self.accTypeUtil.loadAllAccType(auth, function(data, status, xhr) {
+			if ('success' == data.status) {
+				console.debug(data);
+				self.ui.accTypeTreeObj = $.fn.zTree.init(
+					self.ui.accTypeTree, self.cfg.accTypeTreeSetting, data.types);
+			} else {
 				console.error("加载测试数据失败");
-				console.debug(xhr);
-				console.debug(errorType);
-				console.debug(error);
-			},
-			complete: function(xhr, status) { }
-		});
+			}
+		},
+		function(xhr, errorType, error) {
+			console.error("加载测试数据失败");
+			console.debug(xhr);
+			console.debug(errorType);
+			console.debug(error);
+		},
+		function(xhr, status) { });
 	};
 
 	proto.clickAccType = function (event, treeId, treeNode) {

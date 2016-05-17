@@ -108,6 +108,8 @@ gulp.task('min-scripts', function() {
 	return gulp.src([cfg.path.src.scripts + 'i18n.js', 
 			cfg.path.src.scripts + 'cfg.js',
 			cfg.path.src.scripts + 'base.js',
+			cfg.path.src.scripts + 'util-accountType',
+			cfg.path.src.scripts + 'util-accountRec',
 			cfg.path.src.scripts + 'test-report.js',
 			cfg.path.src.scripts + 'test-account.js'])
 		.pipe(concat('app.js'))
