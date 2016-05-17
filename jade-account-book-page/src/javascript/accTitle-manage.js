@@ -1,6 +1,6 @@
 (function ($) {
-	accApp.accTitleManage = function (cfg) { this.init(cfg); return this; };
-	var proto = accApp.accTitleManage.prototype;
+	accApp.testAccount = function (cfg) { this.init(cfg); return this; };
+	var proto = accApp.testAccount.prototype;
 	proto.super = accApp.prototype;
 
 	proto.init = function (cfg) {
@@ -32,14 +32,20 @@
 	proto.initUI = function () {
 		var self = this;
 
-		$("title").html(i18n.get("acctype.manage.title"));
-
 		this.ui.username = $("#username");
 		this.ui.password = $("#password");
+		this.ui.submit = $("#submit");
+		// 要套一层函数，不然`this`指向是触发的按钮而不是这个对象
+		this.ui.submit.unbind("click").bind("click", 
+				function () { self.loadAccTypeTree(); });
 
 		this.ui.accTypeTree = $("#accTypeTree");
 		this.ui.accTypeTreeObj = {};
 
+		this.ui.testRecTpl = $.templates("#testRecTpl");
+		this.ui.testRec = $("#testRec");
+
+		this.ui.testRec2Tpl = $.templates("#testRec2Tpl");
 	};
 
 	proto.initData = function () {
@@ -48,14 +54,22 @@
 		this.data.getPassword = function () { return self.ui.password.val(); };
 		this.data.setUsername = function (value) { self.ui.username.val(value); };
 		this.data.setPassword = function (value) { self.ui.password.val(value); };
+
+		this.data.testRec = [{ "name": "Robert", "nickname": "Bob", "showNickname": true },
+			{ "name": "Susan", "nickname": "Sue", "showNickname": false }];
+		this.data.testRec2 = [{ "name": "Robert", "nickname": "Bob", "showNickname": true },
+			{ "name": "Susan", "nickname": "Sue", "showNickname": false }];
 	};
 
 	proto.render = function () {
 		this.super.render();
-
-		this.loadAccTypeTree();
+		this.renderRec();
 	};
 
+	proto.renderRec = function () {
+		this.ui.testRec.html(this.ui.testRecTpl.render(this.data.testRec));
+		this.ui.testRec2Tpl.link("#testRec2", this.data.testRec2);
+	};
 
 	proto.loadAccTypeTree = function () {
 		var self = this;
@@ -86,6 +100,7 @@
 	};
 
 })(jQuery);
+
 
 
 

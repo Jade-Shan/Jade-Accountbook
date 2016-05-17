@@ -6,21 +6,25 @@
 <script type="text/javascript" src="@@cdn01/zTree.v3/3.5.23/js/jquery.ztree.excheck.min.js"></script>
 <script type="text/javascript" src="@@cdn01/zTree.v3/3.5.23/js/jquery.ztree.exedit.min.js"></script>
 <script type="text/javascript" src="@@cdn02/jadeutilsv2/scripts/jadeutils.v2.min.js"></script>
+
+<script>
+var appCfg = { ajaxTimeout: 8000,
+	webRoot: "@@webRoot", 
+	apiRoot: "@@apiRoot"
+};
+
+</script>
 <!--build:js @@webRoot/scripts/app.min.js?v=@@buildversion-->
 <script src="@@webRoot/../src/javascript/i18n.js"></script>
 <script src="@@webRoot/../src/javascript/cfg.js"></script>
 <script src="@@webRoot/../src/javascript/base.js"></script>
 <script src="@@webRoot/../src/javascript/util-accountType.js"></script>
 <script src="@@webRoot/../src/javascript/util-accountRec.js"></script>
+<script src="@@webRoot/../src/javascript/accTitle-manage.js"></script>
 <script src="@@webRoot/../src/javascript/test-account.js"></script>
 <script src="@@webRoot/../src/javascript/test-report.js"></script>
 <!--/build -->
 
-
 <script>
-var appCfg = { ajaxTimeout: 8000,
-	topnavCfg: topnavCfg,
-	webRoot: "@@webRoot", 
-	apiRoot: "@@apiRoot"
-};
+appCfg.topnavCfg = topnavCfg;
 </script>
