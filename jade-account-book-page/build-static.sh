@@ -4,13 +4,18 @@ echo "Tips:"
 echo "-h html inclue"
 echo "-a all"
 
-while getopts "b:ap" arg #选项后面的冒号表示该选项需要参数
+while getopts "b:aps" arg #选项后面的冒号表示该选项需要参数
 do
 	case $arg in
 		p)
 			gulp clean-html;
 			sleep 3;
 			gulp include-html;
+			;;
+		s)
+			gulp clean-css;
+			sleep 3;
+			gulp build-less-base;
 			;;
 		a)
 			gulp clean-css;
