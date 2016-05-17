@@ -6,40 +6,19 @@
 <script type="text/javascript" src="@@cdn01/zTree.v3/3.5.23/js/jquery.ztree.excheck.min.js"></script>
 <script type="text/javascript" src="@@cdn01/zTree.v3/3.5.23/js/jquery.ztree.exedit.min.js"></script>
 <script type="text/javascript" src="@@cdn02/jadeutilsv2/scripts/jadeutils.v2.min.js"></script>
-<!--build:js /scripts/app.min.js?v=@@buildversion-->
+<!--build:js @@webRoot/scripts/app.min.js?v=@@buildversion-->
 <script src="@@webRoot/../src/javascript/i18n.js"></script>
+<script src="@@webRoot/../src/javascript/cfg.js"></script>
 <script src="@@webRoot/../src/javascript/base.js"></script>
 <script src="@@webRoot/../src/javascript/test-account.js"></script>
+<script src="@@webRoot/../src/javascript/test-report.js"></script>
 <!--/build -->
-<!-- 
-<script type="text/javascript" src="/scripts/app.min.js?v=@@buildversion"></script>
--->
+
 
 <script>
-var topnavCfg = {
-	"usernameprefix": i18n.get("navbar.usernameprefix"),
-	"login": i18n.get("navbar.login"),
-	"menu": [
-	{title: "账户概览", link: "#"},
-	{title: "记账", subs: [
-		{title: "录入活动", link: "#"},
-		{title: "", link: ""},
-		{title: "录入分录", link: "#"}]},
-	{title: "Github", link: "https://github.com/Jade-Shan/", isNewWin: true}],
-	"userMenu": [
-		{title: "testing", link: "#"},
-		{title: "testing", link: "#"},
-		{title: "testing", link: "#"},
-		{title: "", link: ""},
-		{title: "testing", link: "#"},
-		{title: "testing", link: "#"}],
-	"appname": i18n.get("navbar.appname")
-};
-
 var appCfg = { ajaxTimeout: 8000,
 	topnavCfg: topnavCfg,
 	webRoot: "@@webRoot", 
 	apiRoot: "@@apiRoot"
 };
 </script>
-
