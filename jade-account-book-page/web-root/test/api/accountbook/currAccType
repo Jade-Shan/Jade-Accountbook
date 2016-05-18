@@ -1,0 +1,65 @@
+{
+    "status": "success",
+    "types": [{
+        "id": "1", "name": "资产类", "type": "accGrp", "open": true, "children": [{
+            "id": "1", "code": "1001", "type": "accType", "name": "库存现金"
+        }, { "id": "2", "code": "1002", "type": "accType", "name": "银行存款"
+        }, { "id": "9", "code": "1101", "type": "accType", "name": "交易性金融资产"
+        }, { "id": "12", "code": "1122", "type": "accType", "name": "应收帐款"
+        }, { "id": "13", "code": "1123", "type": "accType", "name": "预付帐款"
+        }, { "id": "21", "code": "1231", "type": "accType", "name": "其它应收款"
+        }, { "id": "22", "code": "1241", "type": "accType", "name": "坏帐准备"
+        }, { "id": "24", "code": "1301", "type": "accType", "name": "贷款"
+        }, { "id": "54", "code": "1601", "type": "accType", "name": "固定资产"
+        }, { "id": "55", "code": "1602", "type": "accType", "name": "累计折旧"
+        }, { "id": "56", "code": "1603", "type": "accType", "name": "固定资产减值准备"
+        }]
+    }, {
+        "id": "2", "name": "负债类", "type": "accGrp", "open": true, "children": [{
+            "id": "74", "code": "2001", "type": "accType", "name": "短期借款"
+        }, { "id": "84", "code": "2202", "type": "accType", "name": "应付帐款"
+        }, { "id": "85", "code": "2205", "type": "accType", "name": "预收帐款"
+        }, { "id": "87", "code": "2221", "type": "accType", "name": "应交税费"
+        }, { "id": "89", "code": "2232", "type": "accType", "name": "应付利息"
+        }, { "id": "90", "code": "2241", "type": "accType", "name": "其他应付款"
+        }, { "id": "97", "code": "2401", "type": "accType", "name": "预提费用"
+        }, { "id": "99", "code": "2501", "type": "accType", "name": "递延收益"
+        }, { "id": "100", "code": "2601", "type": "accType", "name": "长期借款"
+        }, { "id": "106", "code": "2801", "type": "accType", "name": "长期应付款"
+        }]
+    }, {
+        "id": "4", "name": "所有者权益", "type": "accGrp", "open": true, "children": [{ 
+					"id": "115", "code": "4001", "type": "accType", "name": "实收资本"
+        }, { "id": "119", "code": "4103", "type": "accType", "name": "本年利润"
+        }, { "id": "120", "code": "4104", "type": "accType", "name": "利润分配"
+        }]
+    }, {
+        "id": "5", "name": "成本类", "type": "accGrp", "open": true, "children": [{
+            "id": "122", "code": "500", "type": "accType", "name": "生产成本"
+        }, { "id": "123", "code": "5101", "type": "accType", "name": "制造费用"
+        }, { "id": "125", "code": "5301", "type": "accType", "name": "研发支出"
+        }]
+    }, {
+        "id": "6", "name": "损益类", "type": "accGrp", "open": true, "children": [{
+            "id": "129", "code": "6001", "type": "accType", "name": "主营业务收入"
+        }, { "id": "130", "code": "6011", "type": "accType", "name": "利息收入"
+        }, { "id": "135", "code": "6051", "type": "accType", "name": "其他业务收入"
+        }, { "id": "136", "code": "6061", "type": "accType", "name": "汇兑损益"
+        }, { "id": "138", "code": "6111", "type": "accType", "name": "投资收益"
+        }, { "id": "142", "code": "6301", "type": "accType", "name": "营业外收入"
+        }, { "id": "143", "code": "6401", "type": "accType", "name": "主营业务成本"
+        }, { "id": "144", "code": "6402", "type": "accType", "name": "其它业务支出"
+        }, { "id": "145", "code": "6405", "type": "accType", "name": "营业税金及附加"
+        }, { "id": "146", "code": "6411", "type": "accType", "name": "利息支出"
+        }, { "id": "147", "code": "6421", "type": "accType", "name": "手续费支出"
+        }, { "id": "150", "code": "6511", "type": "accType", "name": "赔付支出"
+        }, { "id": "155", "code": "6601", "type": "accType", "name": "销售费用"
+        }, { "id": "156", "code": "6602", "type": "accType", "name": "管理费用"
+        }, { "id": "157", "code": "6603", "type": "accType", "name": "财务费用"
+        }, { "id": "159", "code": "6701", "type": "accType", "name": "资产减值损失"
+        }, { "id": "160", "code": "6711", "type": "accType", "name": "营业外支出"
+        }, { "id": "161", "code": "6801", "type": "accType", "name": "所得税"
+        }, { "id": "162", "code": "6901", "type": "accType", "name": "以前年度损益调整"
+        }]
+    }]
+}
