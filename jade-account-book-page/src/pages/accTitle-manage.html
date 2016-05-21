@@ -1,11 +1,7 @@
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="Content-Language" content="zh-CN">
-<meta name="robots" content="index, follow">
-<title>Account Code Example</title>
-<link type="image/x-icon" rel="shortcut icon" href="/images/comm/site-icon.ico">
-@@include('./src/tpls/include-styles.html', {})
+@@include('./src/tpls/include-styles.html', {"page-title": "Account Title Test", 
+	"page-keywords": "jade-dungeon, accountbook"})
 </head>
 <body>
 
@@ -13,11 +9,14 @@
 
 <div class="container ctx-main"> 
 
-	<div id="testRec"></div>
+	<div class="row">
+		<div id="testRec" class="col-md-4">
+			<ul id="accTypeTree" class="ztree"></ul>
+		</div>
+		<div id="testRec2" class="col-md-8">
+		</div>
+	</div>
 
-	<div id="testRec2"></div>
-
-	<ul id="accTypeTree" class="ztree"></ul>
 
 	<div class="footer">
 		<div class="left">

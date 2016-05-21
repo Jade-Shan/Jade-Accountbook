@@ -1,11 +1,7 @@
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="Content-Language" content="zh-CN">
-<meta name="robots" content="index, follow">
-<title>Account Code Example</title>
-<link type="image/x-icon" rel="shortcut icon" href="/images/comm/site-icon.ico">
-@@include('./src/tpls/include-styles.html', {})
+@@include('./src/tpls/include-styles.html', {"page-title": "Account Code Example",
+	"page-keywords": "jade-dungeon, accountbook"})
 </head>
 <body>
 
@@ -19,7 +15,7 @@
 
 	<input id="submit" value="sumbit" type="button"> <br/>
 
-	<ul id="accTypeTree" class="ztree"></ul>
+	<ul id="accTypeTree" class="accTypeTree"></ul>
 
 	<div class="footer">
 		<div class="left">

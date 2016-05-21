@@ -1,7 +1,8 @@
 #!/bin/bash
 
 echo "Tips:"
-echo "-h html inclue"
+echo "-p html inclue"
+echo "-s less build"
 echo "-a all"
 
 while getopts "b:aps" arg #选项后面的冒号表示该选项需要参数

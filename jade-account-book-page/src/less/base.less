@@ -1,22 +1,20 @@
-.left{float:left}.right{float:right}.center{width:auto;display:table;margin-left:auto;margin-right:auto}#photo-frame>.modal-dialog{width:95%}
+.left{float: left;}
+.right{float: right;}
+.center{width: auto; display: table; margin-left: auto; margin-right: auto;}
+
+/*
+img-responsive class 为图像赋予了 max-width: 100%; 和 height: auto; 属性，
+可以让图像按比例缩放，不超过其父元素的尺寸。
+这表明相关的图像呈现为 inline-block。当您把元素的 display 属性设置为 inline-block，
+元素相对于它周围的内容以内联形式呈现，但与内联不同的是，这种情况下我们可以设置宽度和高度。
+设置 height:auto，相关元素的高度取决于浏览器。
+设置 max-width 为 100% 会重写任何通过 width 属性指定的宽度。这让图片对响应式布局的支持更友好。
+*/
+.img-responsive {display: inline-block; height: auto; max-width: 100%;}
+
+.img-modal-dialog{width:95%}
+
 /* z-tree */
-div.content_wrap {width: 600px;height:380px;}
-div.content_wrap div.left{float: left;width: 250px;}
-div.content_wrap div.right{float: right;width: 340px;}
-div.zTreeDemoBackground {width:250px;height:362px;text-align:left;}
-
-ul.ztree {margin-top: 10px;border: 1px solid #617775;background: #f0f6e4;width:220px;height:360px;overflow-y:scroll;overflow-x:auto;}
-.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
-ul.log {border: 1px solid #617775;background: #f0f6e4;width:300px;height:170px;overflow: hidden;}
-ul.log.small {height:45px;}
-ul.log li {color: #666666;list-style: none;padding-left: 10px;}
-ul.log li.dark {background-color: #E3E3E3;}
-
-/* ruler */
-div.ruler {height:20px; width:220px; background-color:#f0f6e4;border: 1px solid #333; margin-bottom: 5px; cursor: pointer}
-div.ruler div.cursor {height:20px; width:30px; background-color:#3C6E31; color:white; text-align: right; padding-right: 5px; cursor: pointer}
-
-/* app */
-.ctx-main{border:solid transparent;box-shadow:0 0 8px 8px #000;border-image:url(../images/bg-border.png) 0 15 0 15 round;background:url(../images/bg-m.png) center top;background-size:100%;border-width:0 15px;padding:50px 0 0}
-table.balance-sheet th, table.balance-sheet td { border: 1px solid #FFFFFF; pandding: 2px 5px 2px 5px; background-color: #AFEEEE; }
+ul.ztree { margin-top: 10px; border: 1px solid #617775; background: #f0f6e4; 
+	overflow-y:scroll;overflow-x:auto; 	/* width:220px;height:360px; */ }
 
