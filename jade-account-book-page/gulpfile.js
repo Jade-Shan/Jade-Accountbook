@@ -17,31 +17,42 @@ var gulp = require('gulp'),
 		clean = require('gulp-clean');              //清空文件夹
 
 var env = {
-	prd : {
-		buildversion: "0.0.1",
-		webRoot: "http://localhost:8181",
-		apiRoot: "http://localhost:8080/accountbook",
-		cdn01: "//cdn.bootcss.com",
-		cdn02: "//7xldv2.com1.z0.glb.clouddn.com" },
-	fat : {
-		buildversion: "0.0.1",
-		webRoot: "http://localhost:8181/",
-		apiRoot: "http://localhost:8080/accountbook",
-		cdn01: "//cdn.bootcss.com",
-		cdn02: "//7xldv2.com1.z0.glb.clouddn.com" },
-	dev_be : {
-		buildversion: "0.0.1",
-		webRoot: "http://localhost:8181/web-root",
-		apiRoot: "http://localhost:8080/accountbook",
-		cdn01: "//cdn.bootcss.com",
-		cdn02: "//7xldv2.com1.z0.glb.clouddn.com" },
-	dev_fe : {
-		buildversion: "0.0.1",
-		webRoot: "http://localhost:8181/web-root",
-		apiRoot: "http://localhost:8181/web-root/test",
-		cdn01: "//cdn.bootcss.com",
-		cdn02: "//7xldv2.com1.z0.glb.clouddn.com" }
+	buildversion: {
+		dev: "0.0.1-dev",
+		fat: "0.0.1-fat",
+		prd: "0.0.1"
+	},
+	webRoot: {
+		dev: "http://localhost:8181/web-root",
+		fat: "http://localhost:8181/web-root",
+		prd: "http://acc.jade-dungeon.net/"
+	},
+	apiRoot: {
+		dev: "http://localhost:8181/src/mock-backend",
+		fat: "http://localhost:8080/accountbook",
+		prd: "http://api.jade-dungeon.net/accountbook"
+	},
+	cdn3rd: {
+		dev: "http://localhost:8000/3rd.v2",
+		fat: "//cdn.bootcss.com",
+		prd: "//cdn.bootcss.com"
+	},
+	cdnJadeUtils: {
+		dev: "http://localhost:8000/jadeutils.v2/web-root",
+		fat: "//7xldv2.com1.z0.glb.clouddn.com/jadeutils.v2",
+		prd: "//7xldv2.com1.z0.glb.clouddn.com/jadeutils.v2"
+	}
 };
+
+
+var currEnv = {
+	buildversion: env.buildversion.dev,
+	webRoot: env.webRoot.dev,
+	apiRoot: env.apiRoot.dev,
+	cdn3rd: env.cdn3rd.fat,
+	cdnJadeUtils: env.cdnJadeUtils.fat
+}
+
 
 var cfg = {
 	path: {
@@ -55,7 +66,7 @@ var cfg = {
 			scripts : "./web-root/scripts/",
 			html : "./web-root/pages/"}
 	},
-	env : env.dev_fe            // use dev config
+	env : currEnv          // use dev config
 };
 
 /* =====================================================
