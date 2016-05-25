@@ -49,8 +49,8 @@ var currEnv = {
 	buildversion: env.buildversion.dev,
 	webRoot: env.webRoot.dev,
 	apiRoot: env.apiRoot.dev,
-	cdn3rd: env.cdn3rd.fat,
-	cdnJadeUtils: env.cdnJadeUtils.fat
+	cdn3rd: env.cdn3rd.dev,
+	cdnJadeUtils: env.cdnJadeUtils.dev
 }
 
 
