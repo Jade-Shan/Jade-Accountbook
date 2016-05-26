@@ -11,9 +11,28 @@
 
 	proto.initCfg = function () {
 		var self = this;
-		this.cfg.allAccTypeUrl = this.cfg.apiRoot + "/api/accountbook/allAccountType";
+		this.cfg.allAccTypeUrl = this.cfg.apiRoot + "/api/accountbook/accType/all";
+		this.cfg.userAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/{0}/{1}";
 	};
 
+	/**
+	 * 读取指定用户在指定分类的下会计科目
+	 */
+	proto.loadUserAccTitle = function (username, accType, auth, 
+		succCallback, errCallback, compCallback) 
+	{
+		var self = this;
+		$.ajax({ url: encodeURI(self.cfg.userAccTitleUrl.format(username, accType)), 
+			type: 'POST', dataType: 'json', headers: { Authorization: auth },
+			data: { }, timeout: net.jadedungeon.ajaxTimeout,
+			success: succCallback, error: errCallback, complete: compCallback
+		});
+	};
+
+	/**
+	 * 读取所有的会计科目分类
+	 *
+	 */
 	proto.loadAllAccType = function (auth, succCallback, errCallback, compCallback) {
 		var self = this;
 		$.ajax({ url: encodeURI(self.cfg.allAccTypeUrl), 
@@ -24,6 +43,4 @@
 	};
 
 })(jQuery);
-
-
 

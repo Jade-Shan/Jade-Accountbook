@@ -1,6 +1,6 @@
 (function ($) {
-	accApp.testAccount = function (cfg) { this.init(cfg); return this; };
-	var proto = accApp.testAccount.prototype;
+	accApp.accTitleManage = function (cfg) { this.init(cfg); return this; };
+	var proto = accApp.accTitleManage.prototype;
 	proto.super = accApp.prototype;
 
 	proto.init = function (cfg) {
@@ -36,16 +36,17 @@
 		this.ui.password = $("#password");
 		this.ui.submit = $("#submit");
 		// 要套一层函数，不然`this`指向是触发的按钮而不是这个对象
-		this.ui.submit.unbind("click").bind("click", 
-				function () { self.loadAccTypeTree(); });
+		this.ui.submit.unbind("click").bind("click", function () {
+	//		self.updateAccTypeTree(); 
+		});
 
 		this.ui.accTypeTree = $("#accTypeTree");
 		this.ui.accTypeTreeObj = {};
 
-		this.ui.testRecTpl = $.templates("#testRecTpl");
-		this.ui.testRec = $("#testRec");
-
-		this.ui.testRec2Tpl = $.templates("#testRec2Tpl");
+		this.ui.accTitleList = $('#accTitleList').DataTable({ 
+			data: [],
+			columns: [{data: "code"},{data: "name"},{data: "desc"},{data: "assetId"}]
+		});
 	};
 
 	proto.initData = function () {
@@ -54,24 +55,30 @@
 		this.data.getPassword = function () { return self.ui.password.val(); };
 		this.data.setUsername = function (value) { self.ui.username.val(value); };
 		this.data.setPassword = function (value) { self.ui.password.val(value); };
-
-		this.data.testRec = [{ "name": "Robert", "nickname": "Bob", "showNickname": true },
-			{ "name": "Susan", "nickname": "Sue", "showNickname": false }];
-		this.data.testRec2 = [{ "name": "Robert", "nickname": "Bob", "showNickname": true },
-			{ "name": "Susan", "nickname": "Sue", "showNickname": false }];
 	};
 
 	proto.render = function () {
+		var self = this;
 		this.super.render();
-		this.renderRec();
+		self.updateAccTypeTree();
 	};
 
-	proto.renderRec = function () {
-		this.ui.testRec.html(this.ui.testRecTpl.render(this.data.testRec));
-		this.ui.testRec2Tpl.link("#testRec2", this.data.testRec2);
+	proto.updateUserAccTitle = function (accType) {
+		var self = this;
+		var auth = jadeUtils.web.webAuthBasic(
+				self.data.getUsername(), self.data.getPassword());
+		self.accTypeUtil.loadUserAccTitle(self.data.getUsername(), accType, auth, 
+				function(data, status, xhr) {
+					if ('success' == data.status) {
+						console.debug(data);
+						self.ui.accTitleList.clear().rows.add(data.recs).draw();
+					} else {
+						console.error("加载测试数据失败");
+					}
+				}, proto.defaultAjaxErr, proto.defaultAjaxComp);
 	};
 
-	proto.loadAccTypeTree = function () {
+	proto.updateAccTypeTree = function () {
 		var self = this;
 		var auth = jadeUtils.web.webAuthBasic(
 				self.data.getUsername(), self.data.getPassword());
@@ -80,22 +87,15 @@
 				console.debug(data);
 				self.ui.accTypeTreeObj = $.fn.zTree.init(
 					self.ui.accTypeTree, self.cfg.accTypeTreeSetting, data.types);
-			} else {
-				console.error("加载测试数据失败");
-			}
-		},
-		function(xhr, errorType, error) {
-			console.error("加载测试数据失败");
-			console.debug(xhr);
-			console.debug(errorType);
-			console.debug(error);
-		},
-		function(xhr, status) { });
+			} else { console.error("加载测试数据失败"); }
+		}, proto.defaultAjaxErr, proto.defaultAjaxComp);
 	};
 
 	proto.clickAccType = function (event, treeId, treeNode) {
+		var self = this;
 		if ("accType" == treeNode.type) {
 			console.log(treeNode.code + ", " + treeNode.name);
+			self.updateUserAccTitle("1002");
 		}
 	};
 

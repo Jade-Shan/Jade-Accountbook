@@ -1,6 +1,6 @@
 (function ($) {
-	accApp.accTitleManage = function (cfg) { this.init(cfg); return this; };
-	var proto = accApp.accTitleManage.prototype;
+	accApp.testAccount = function (cfg) { this.init(cfg); return this; };
+	var proto = accApp.testAccount.prototype;
 	proto.super = accApp.prototype;
 
 	proto.init = function (cfg) {

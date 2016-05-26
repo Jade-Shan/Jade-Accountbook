@@ -31,6 +31,26 @@ var accApp = accApp || {};
 
 	proto.render = function () { };
 
+	/* Ajax响应成功时的默认方法 */
+	proto.defaultAjaxSucc = function(data, status, xhr) {
+		if ('success' == data.status) {
+			console.debug(data);
+		} else {
+			console.error("加载测试数据失败");
+		}
+	};
+
+	/* Ajax响应出错时的默认方法 */
+	proto.defaultAjaxErr = function(xhr, errorType, error) {
+		console.error("加载测试数据失败");
+		console.debug(xhr);
+		console.debug(errorType);
+		console.debug(error);
+	};
+
+	/* Ajax响应完成时的默认方法 */
+	proto.defaultAjaxComp = function(xhr, status) { };
+
 	proto.checkLogin = function (username, password, successCallback, 
 			failCallback, errorCallback) 
 	{
