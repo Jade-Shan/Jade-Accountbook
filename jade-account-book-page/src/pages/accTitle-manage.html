@@ -10,12 +10,13 @@
 <div class="container ctx-main"> 
 
 	<div class="row ctx-body">
-		<div id="ctx-body-left" class="col-md-4">
-
-			<ul id="accTypeTree" class="ztree"></ul>
-
+		<div id="ctx-body-left" class="col-md-2">
+			<div class="typeTreeLeft">
+				<div id="opt-menu" class="btn-group"></div>
+				<ul id="accTypeTree" class="ztree"></ul>
+			</div>
 		</div>
-		<div id="ctx-body-right" class="col-md-8">
+		<div id="ctx-body-right" class="col-md-10">
 
 			<table id="accTitleList" class="display">
 				<thead>
@@ -37,14 +38,33 @@
 		<div class="clearer">&nbsp;</div>
 	</div>
 
-	<div id="photo-frame" class="modal fade photo-frame" tabindex="-1" 
-		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div id="rec-frame" class="modal fade photo-frame" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	</div>
 
 </div>
 
+<script type="text/x-jsrender" id="newRecTpl">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+		</div>
+		<div class="modal-body">在这里添加一些文本</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			<button type="button" class="btn btn-primary">提交更改</button>
+		</div>
+	</div>
+</div>
+</script>
 </body>
 @@include('./src/tpls/include-scripts.html', {})
+<script type="text/x-jsrender" id="optMenuTpl">
+	<button type="button" id="btn-create" class="btn btn-default">{{:create}}</button>
+	<button type="button" id="btn-edit" class="btn btn-default">{{:edit}}</button>
+	<button type="button" id="btn-delete" class="btn btn-default">{{:delete}}</button>
+</script>
 <script>
 $(document).ready(function () {
 		var page = new accApp.accTitleManage(appCfg);

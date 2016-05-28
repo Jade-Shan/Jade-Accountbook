@@ -15,6 +15,7 @@
 		this.initUI();
 		this.initData();
 
+
 		console.log(i18n.get("test"));
 	};
 
@@ -29,6 +30,19 @@
 		};
 	};
 
+	proto.initOptMenu = function () {
+		var self = this;
+		self.ui.optMenuTpl = $.templates('#optMenuTpl');
+		self.ui.optMenu = $('#opt-menu');
+		self.ui.optMenu.html(self.ui.optMenuTpl.render({
+			"create": i18n.get("comm.opt.create"),
+			"edit": i18n.get("comm.opt.edit"),
+			"delete": i18n.get("comm.opt.delete")}));
+		self.ui.btnCreate = $('#btn-create');
+		self.ui.btnEdit = $("#btn-edit");
+		self.ui.btnDelete = $("#btn-delete");
+	};
+
 	proto.initUI = function () {
 		var self = this;
 
@@ -37,7 +51,7 @@
 		this.ui.submit = $("#submit");
 		// 要套一层函数，不然`this`指向是触发的按钮而不是这个对象
 		this.ui.submit.unbind("click").bind("click", function () {
-	//		self.updateAccTypeTree(); 
+			//		self.updateAccTypeTree(); 
 		});
 
 		this.ui.accTypeTree = $("#accTypeTree");
@@ -47,6 +61,9 @@
 			data: [],
 			columns: [{data: "code"},{data: "name"},{data: "desc"},{data: "assetId"}]
 		});
+
+		// init option menu
+		this.initOptMenu();
 	};
 
 	proto.initData = function () {
@@ -95,8 +112,20 @@
 		var self = this;
 		if ("accType" == treeNode.type) {
 			console.log(treeNode.code + ", " + treeNode.name);
-			self.updateUserAccTitle("1002");
+			self.updateUserAccTitle(treeNode.code);
 		}
+	};
+
+	proto.resizeAccTypeTree = function () {
+		var self = this;
+		var height = document.documentElement.clientHeight;
+		var style = 'height: ' + height + 'px; transition: 1s;';
+		self.ui.accTypeTree.attr('style', style);
+	};
+
+	proto.windowSizeChange = function () {
+		var self = this;
+		self.resizeAccTypeTree();
 	};
 
 })(jQuery);
