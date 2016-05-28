@@ -21,12 +21,35 @@ var accApp = accApp || {};
 		this.cfg.testAuthUrl = this.cfg.apiRoot + "/api/accountbook/testAuth";
 	};
 
-
 	proto.initUI = function () {
+		this.ui.topNav = $("nav#topnav");
+		this.ui.footer = $("div#footer");
+		this.ui.ctxBodyLeft = $("div#ctx-body-left");
+		this.ui.ctxBodyRight = $("div#ctx-body-right");
 	};
 
 	proto.initData = function () {
 		var self = this;
+	};
+
+	proto.calcuBodyLeft = function () {
+		var self = this;
+		return self.ui.ctxBodyLeft.position().left;;
+	};
+
+	proto.calcuBodyHeight = function () {
+		var self = this;
+		var width = document.documentElement.clientWidth;
+		var height = document.documentElement.clientHeight;
+		console.debug("window size change {0} * {1}".format(width, height));
+
+		return height - self.ui.topNav.height() - self.ui.footer.height() - 55;
+	};
+
+	proto.onResize = function (self) {
+		var style = 'min-height: ' + self.calcuBodyHeight() + 'px; transition: 1s;';
+		self.ui.ctxBodyLeft.attr('style', style);
+		self.ui.ctxBodyRight.attr('style', style);
 	};
 
 	proto.render = function () { };

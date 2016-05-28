@@ -55,6 +55,7 @@
 		});
 
 		this.ui.accTypeTree = $("#accTypeTree");
+		this.ui.accTypeTreeLeft = $("#accTypeTreeLeft");
 		this.ui.accTypeTreeObj = {};
 
 		this.ui.accTitleList = $('#accTitleList').DataTable({ 
@@ -78,6 +79,10 @@
 		var self = this;
 		this.super.render();
 		self.updateAccTypeTree();
+		self.onResize(self);
+		document.body.onresize = function () {
+			self.onResize(self);
+		};
 	};
 
 	proto.updateUserAccTitle = function (accType) {
@@ -118,13 +123,17 @@
 
 	proto.resizeAccTypeTree = function () {
 		var self = this;
-		var height = document.documentElement.clientHeight;
+		var top = self.super.calcuBodyHeight() - self.ui.optMenu.height();
+		var height = top - 20;
+		var left = self.super.calcuBodyLeft();
 		var style = 'height: ' + height + 'px; transition: 1s;';
 		self.ui.accTypeTree.attr('style', style);
+		style = 'left: ' + left + 'px; top: ' + top + 'px; transition: 1s;';
+		self.ui.accTypeTreeLeft.attr('style', style);
 	};
 
-	proto.windowSizeChange = function () {
-		var self = this;
+	proto.onResize = function (self) {
+		self.super.onResize(self.super);
 		self.resizeAccTypeTree();
 	};
 
