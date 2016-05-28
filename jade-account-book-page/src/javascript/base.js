@@ -34,7 +34,7 @@ var accApp = accApp || {};
 
 	proto.calcuBodyLeft = function () {
 		var self = this;
-		return self.ui.ctxBodyLeft.position().left;;
+		return self.ui.ctxBodyLeft.position().left;
 	};
 
 	proto.calcuBodyHeight = function () {
@@ -43,7 +43,7 @@ var accApp = accApp || {};
 		var height = document.documentElement.clientHeight;
 		console.debug("window size change {0} * {1}".format(width, height));
 
-		return height - self.ui.topNav.height() - self.ui.footer.height() - 55;
+		return height - self.ui.topNav.height() - self.ui.footer.height() - 15;
 	};
 
 	proto.onResize = function (self) {
