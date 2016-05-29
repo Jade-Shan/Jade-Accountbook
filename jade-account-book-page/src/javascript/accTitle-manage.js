@@ -15,7 +15,6 @@
 		this.initUI();
 		this.initData();
 
-
 		console.log(i18n.get("test"));
 	};
 
@@ -46,21 +45,32 @@
 	proto.initUI = function () {
 		var self = this;
 
-		this.ui.username = $("#username");
-		this.ui.password = $("#password");
-		this.ui.submit = $("#submit");
+		self.ui.username = $("#username");
+		self.ui.password = $("#password");
+		self.ui.submit = $("#submit");
 		// 要套一层函数，不然`this`指向是触发的按钮而不是这个对象
-		this.ui.submit.unbind("click").bind("click", function () {
+		self.ui.submit.unbind("click").bind("click", function () {
 			//		self.updateAccTypeTree(); 
 		});
 
-		this.ui.accTypeTree = $("#accTypeTree");
-		this.ui.accTypeTreeLeft = $("#accTypeTreeLeft");
-		this.ui.accTypeTreeObj = {};
+		self.ui.accTypeTree = $("#accTypeTree");
+		self.ui.accTypeTreeLeft = $("#accTypeTreeLeft");
+		self.ui.accTypeTreeObj = {};
 
-		this.ui.accTitleList = $('#accTitleList').DataTable({ 
-			data: [],
-			columns: [{data: "code"},{data: "name"},{data: "desc"},{data: "assetId"}]
+		self.ui.accTitleTable = $('#accTitleTable').DataTable({ 
+			columns: [{data: "code"},{data: "name"},{data: "desc"},{data: "assetId"}],
+			data: []
+		});
+		self.ui.accTitleTableBody = $('#accTitleTable tbody');
+
+		// 表格只能选中一行
+		self.ui.accTitleTableBody.on('click', 'tr', function () {
+			if ($(this).hasClass('selected')) {
+				$(this).removeClass('selected');
+			} else {
+				self.ui.accTitleTable.$('tr.selected').removeClass('selected');
+				$(this).addClass('selected');
+			}
 		});
 
 		// init option menu
@@ -78,14 +88,17 @@
 	proto.render = function () {
 		var self = this;
 		this.super.render();
-		self.updateAccTypeTree();
+		self.refreshAccTypeTree();
 		self.onResize(self);
 		document.body.onresize = function () {
 			self.onResize(self);
 		};
 	};
 
-	proto.updateUserAccTitle = function (accType) {
+	/**
+	 * 更新会计科目表格
+	 */
+	proto.refreshAccTitleTable = function (accType) {
 		var self = this;
 		var auth = jadeUtils.web.webAuthBasic(
 				self.data.getUsername(), self.data.getPassword());
@@ -93,14 +106,22 @@
 				function(data, status, xhr) {
 					if ('success' == data.status) {
 						console.debug(data);
-						self.ui.accTitleList.clear().rows.add(data.recs).draw();
+						self.ui.accTitleTable.clear().rows.add(data.recs).draw();
 					} else {
 						console.error("加载测试数据失败");
 					}
 				}, proto.defaultAjaxErr, proto.defaultAjaxComp);
 	};
 
-	proto.updateAccTypeTree = function () {
+	proto.removeUserAccTitle = function () {
+		var self = this;
+		self.ui.accTitleTable.row('.selected').remove().draw(false);
+	};
+
+	/**
+	 * 刷新页面上的会计科目分类树
+	 */
+	proto.refreshAccTypeTree = function () {
 		var self = this;
 		var auth = jadeUtils.web.webAuthBasic(
 				self.data.getUsername(), self.data.getPassword());
@@ -113,14 +134,20 @@
 		}, proto.defaultAjaxErr, proto.defaultAjaxComp);
 	};
 
+	/**
+	 * 点击会计科目分类树上的分类
+	 */
 	proto.clickAccType = function (event, treeId, treeNode) {
 		var self = this;
 		if ("accType" == treeNode.type) {
 			console.log(treeNode.code + ", " + treeNode.name);
-			self.updateUserAccTitle(treeNode.code);
+			self.refreshAccTitleTable(treeNode.code);
 		}
 	};
 
+	/**
+	 * 调整会计科目分类树的大小与位置
+	 */
 	proto.resizeAccTypeTree = function () {
 		var self = this;
 		var top = self.super.calcuBodyHeight() - self.ui.optMenu.height();
@@ -132,13 +159,12 @@
 		self.ui.accTypeTreeLeft.attr('style', style);
 	};
 
+	/**
+	 * 当浏览器大小变化时调用的回调函数
+	 */
 	proto.onResize = function (self) {
 		self.super.onResize(self.super);
 		self.resizeAccTypeTree();
 	};
 
 })(jQuery);
-
-
-
-
