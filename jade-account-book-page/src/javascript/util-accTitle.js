@@ -12,7 +12,9 @@
 	proto.initCfg = function () {
 		var self = this;
 		this.cfg.allAccTypeUrl = this.cfg.apiRoot + "/api/accountbook/accType/all";
-		this.cfg.userAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/{0}/{1}";
+		this.cfg.loadUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/data/{0}/{1}";
+		this.cfg.updateUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/update/{0}/{1}";
+		this.cfg.deleteUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/delete/{0}/{1}";
 	};
 
 	/**
@@ -22,7 +24,7 @@
 		succCallback, errCallback, compCallback) 
 	{
 		var self = this;
-		$.ajax({ url: encodeURI(self.cfg.userAccTitleUrl.format(username, accType)), 
+		$.ajax({ url: encodeURI(self.cfg.loadUserAccTitleUrl.format(username, accType)), 
 			type: 'POST', dataType: 'json', headers: { Authorization: auth },
 			data: { }, timeout: net.jadedungeon.ajaxTimeout,
 			success: succCallback, error: errCallback, complete: compCallback

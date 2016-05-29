@@ -29,6 +29,9 @@
 		};
 	};
 
+	/*
+	 * 创建操作会计科目的按钮组
+	 */
 	proto.initOptMenu = function () {
 		var self = this;
 		self.ui.optMenuTpl = $.templates('#optMenuTpl');
@@ -39,24 +42,28 @@
 			"delete": i18n.get("comm.opt.delete")}));
 		self.ui.btnCreate = $('#btn-create');
 		self.ui.btnEdit = $("#btn-edit");
+
 		self.ui.btnDelete = $("#btn-delete");
+		// 要套一层函数，不然`this`指向是触发的按钮而不是这个对象
+		self.ui.btnDelete.unbind("click").bind("click", function () {
+			self.clickRmAccTitleBtn();
+		});
+
 	};
 
 	proto.initUI = function () {
 		var self = this;
 
-		self.ui.username = $("#username");
-		self.ui.password = $("#password");
-		self.ui.submit = $("#submit");
-		// 要套一层函数，不然`this`指向是触发的按钮而不是这个对象
-		self.ui.submit.unbind("click").bind("click", function () {
-			//		self.updateAccTypeTree(); 
-		});
-
+		/*
+		 * 创建会计科目分类树
+		 */
 		self.ui.accTypeTree = $("#accTypeTree");
 		self.ui.accTypeTreeLeft = $("#accTypeTreeLeft");
 		self.ui.accTypeTreeObj = {};
 
+		/*
+		 * 会计科目表格
+		 */
 		self.ui.accTitleTable = $('#accTitleTable').DataTable({ 
 			columns: [{data: "code"},{data: "name"},{data: "desc"},{data: "assetId"}],
 			data: []
@@ -113,7 +120,10 @@
 				}, proto.defaultAjaxErr, proto.defaultAjaxComp);
 	};
 
-	proto.removeUserAccTitle = function () {
+	/**
+	 * 点击删除会计科目
+	 */
+	proto.clickRmAccTitleBtn = function () {
 		var self = this;
 		self.ui.accTitleTable.row('.selected').remove().draw(false);
 	};
