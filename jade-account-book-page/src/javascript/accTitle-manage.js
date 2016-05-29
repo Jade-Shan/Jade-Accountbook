@@ -109,7 +109,7 @@
 		var self = this;
 		var auth = jadeUtils.web.webAuthBasic(
 				self.data.getUsername(), self.data.getPassword());
-		self.accTypeUtil.loadUserAccTitle(self.data.getUsername(), accType, auth, 
+		self.accTypeUtil.listUserAccTitle(auth, self.data.getUsername(), accType, 
 				function(data, status, xhr) {
 					if ('success' == data.status) {
 						console.debug(data);
@@ -125,7 +125,24 @@
 	 */
 	proto.clickRmAccTitleBtn = function () {
 		var self = this;
-		self.ui.accTitleTable.row('.selected').remove().draw(false);
+		var rec = self.ui.accTitleTable.row('.selected');
+		if (rec.length == 1) {
+			console.log(rec.data().id);
+			var auth = jadeUtils.web.webAuthBasic(
+					self.data.getUsername(), self.data.getPassword());
+			self.accTypeUtil.deleteUserAccTitle(
+					auth, self.data.getUsername(), rec.data().code,
+					function(data, status, xhr) {
+						if ('success' == data.status) {
+							console.debug(data);
+							rec.remove().draw(false);
+						} else {
+							console.error("加载测试数据失败");
+						}
+					}, proto.defaultAjaxErr, proto.defaultAjaxComp);
+		} else {
+			alert("No Record selected...");
+		}
 	};
 
 	/**
