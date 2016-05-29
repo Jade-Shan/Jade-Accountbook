@@ -15,6 +15,7 @@
 		this.cfg.listUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/list/{0}/{1}";
 		this.cfg.updateUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/update/{0}/{1}";
 		this.cfg.deleteUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/delete/{0}/{1}";
+		this.cfg.createUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/create/{0}/{1}";
 	};
 
 	/**

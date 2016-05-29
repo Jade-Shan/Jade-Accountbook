@@ -40,13 +40,19 @@
 			"create": i18n.get("comm.opt.create"),
 			"edit": i18n.get("comm.opt.edit"),
 			"delete": i18n.get("comm.opt.delete")}));
-		self.ui.btnCreate = $('#btn-create');
-		self.ui.btnEdit = $("#btn-edit");
 
+		self.ui.btnCreate = $('#btn-create');
+		self.ui.btnCreate.unbind("click").bind("click", function () {
+			self.clkCreateBtn();
+		});
+		self.ui.btnEdit = $("#btn-edit");
+		self.ui.btnEdit.unbind("click").bind("click", function () {
+			self.clkEditBtn();
+		});
 		self.ui.btnDelete = $("#btn-delete");
 		// 要套一层函数，不然`this`指向是触发的按钮而不是这个对象
 		self.ui.btnDelete.unbind("click").bind("click", function () {
-			self.clickRmAccTitleBtn();
+			self.clkRmAccTitleBtn();
 		});
 
 	};
@@ -82,6 +88,11 @@
 
 		// init option menu
 		this.initOptMenu();
+
+		// 模态框与模板
+		self.ui.recFrame = $("#rec-frame");
+		self.ui.createRecTpl = $.templates("#createRecTpl");
+		self.ui.editRecTpl = $.templates("#editRecTpl");
 	};
 
 	proto.initData = function () {
@@ -121,9 +132,35 @@
 	};
 
 	/**
+	 * 点击创建会计科目
+	 */
+	proto.clkCreateBtn = function () {
+		var self = this;
+		self.ui.recFrame.html(self.ui.createRecTpl.render({
+			"title": i18n.get("acctype.manage.createAccTitle"),
+			"confirm":i18n.get("comm.opt.confirm"),
+			"cancel":i18n.get("comm.opt.cancel")
+		}));
+		self.ui.recFrame.modal('show');
+	};
+
+	/**
+	 * 点击编辑会计科目
+	 */
+	proto.clkEditBtn = function () {
+		var self = this;
+		self.ui.recFrame.html(self.ui.editRecTpl.render({
+			"title": i18n.get("acctype.manage.editAccTitle"),
+			"confirm":i18n.get("comm.opt.confirm"),
+			"cancel":i18n.get("comm.opt.cancel")
+		}));
+		self.ui.recFrame.modal('show');
+	};
+
+	/**
 	 * 点击删除会计科目
 	 */
-	proto.clickRmAccTitleBtn = function () {
+	proto.clkRmAccTitleBtn = function () {
 		var self = this;
 		var rec = self.ui.accTitleTable.row('.selected');
 		if (rec.length == 1) {

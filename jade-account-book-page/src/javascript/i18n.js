@@ -17,6 +17,8 @@ var i18n =  new net.jadedungeon.utils.i18n({
 		 * 会计科目管理
 		 * ============================================= */
 		"acctype.manage.title":"会计科目管理",
+		"acctype.manage.createAccTitle":"新建会计科目",
+		"acctype.manage.editAccTitle":"编辑会计科目",
 		/* =============================================
 		 * 统计表表头
 		 * ============================================= */
