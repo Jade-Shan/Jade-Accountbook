@@ -13,9 +13,9 @@
 		var self = this;
 		this.cfg.allAccTypeUrl = this.cfg.apiRoot + "/api/accountbook/accType/all";
 		this.cfg.listUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/list/{0}/{1}";
-		this.cfg.updateUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/update/{0}/{1}";
-		this.cfg.deleteUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/delete/{0}/{1}";
-		this.cfg.createUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/create/{0}/{1}";
+		this.cfg.createUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/create/{0}/{1}/{2}";
+		this.cfg.updateUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/update/{0}/{1}/{2}";
+		this.cfg.deleteUserAccTitleUrl = this.cfg.apiRoot + "/api/accountbook/accTitle/delete/{0}/{1}/{2}";
 	};
 
 	/**
@@ -33,15 +33,48 @@
 	};
 
 	/**
-	 * 删除用户的会计科目
+	 * 新建用户的会计科目
 	 */
-	proto.deleteUserAccTitle = function (auth, username, accTitle, 
-		succCallback, errCallback, compCallback) 
+	proto.createUserAccTitle = function (auth, username, type, code, name, desc,
+			assetId, succCallback, errCallback, compCallback) 
 	{
 		var self = this;
-		$.ajax({ url: encodeURI(self.cfg.deleteUserAccTitleUrl.format(username, accTitle)), 
+		$.ajax({
+			url: encodeURI(self.cfg.createUserAccTitleUrl.format(username, type, code)), 
 			type: 'POST', dataType: 'json', headers: { Authorization: auth },
-			data: { }, timeout: net.jadedungeon.ajaxTimeout,
+			data: {type: type, code: code, name: name, desc: desc, assetId: assetId}, 
+			timeout: net.jadedungeon.ajaxTimeout,
+			success: succCallback, error: errCallback, complete: compCallback
+		});
+	};
+
+	/**
+	 * 编辑用户的会计科目
+	 */
+	proto.updateUserAccTitle = function (auth, username, type, id, code, name, desc,
+			assetId, succCallback, errCallback, compCallback) 
+	{
+		var self = this;
+		$.ajax({
+			url: encodeURI(self.cfg.updateUserAccTitleUrl.format(username, type, code)), 
+			type: 'POST', dataType: 'json', headers: {Authorization: auth},
+			data: {type: type, id: id, code: code, name: name, desc: desc, assetId: assetId}, 
+			timeout: net.jadedungeon.ajaxTimeout,
+			success: succCallback, error: errCallback, complete: compCallback
+		});
+	};
+
+	/**
+	 * 删除用户的会计科目
+	 */
+	proto.deleteUserAccTitle = function (auth, username, type, id, code,
+			succCallback, errCallback, compCallback) 
+	{
+		var self = this;
+		$.ajax({
+			url: encodeURI(self.cfg.deleteUserAccTitleUrl.format(username, type, code)), 
+			type: 'POST', dataType: 'json', headers: { Authorization: auth }, data: {id: id}, 
+			timeout: net.jadedungeon.ajaxTimeout,
 			success: succCallback, error: errCallback, complete: compCallback
 		});
 	};

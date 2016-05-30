@@ -97,6 +97,7 @@
 
 	proto.initData = function () {
 		var self = this;
+		this.data.currAccType = '';
 		this.data.getUsername = function () { return self.ui.username.val(); };
 		this.data.getPassword = function () { return self.ui.password.val(); };
 		this.data.setUsername = function (value) { self.ui.username.val(value); };
@@ -136,12 +137,19 @@
 	 */
 	proto.clkCreateBtn = function () {
 		var self = this;
-		self.ui.recFrame.html(self.ui.createRecTpl.render({
-			"title": i18n.get("acctype.manage.createAccTitle"),
-			"confirm":i18n.get("comm.opt.confirm"),
-			"cancel":i18n.get("comm.opt.cancel")
-		}));
-		self.ui.recFrame.modal('show');
+		var rec = self.ui.accTitleTable.row('.selected');
+		if (rec.length == 1) {
+			// render pop window
+			self.ui.recFrame.html(self.ui.createRecTpl.render({
+				"id":"392933",
+				"title": i18n.get("acctype.manage.createAccTitle"),
+				"confirm":i18n.get("comm.opt.confirm"),
+				"cancel":i18n.get("comm.opt.cancel")
+			}));
+			self.ui.recFrame.modal('show');
+		} else {
+			alert("No Record selected...");
+		}
 	};
 
 	/**
@@ -149,12 +157,18 @@
 	 */
 	proto.clkEditBtn = function () {
 		var self = this;
-		self.ui.recFrame.html(self.ui.editRecTpl.render({
-			"title": i18n.get("acctype.manage.editAccTitle"),
-			"confirm":i18n.get("comm.opt.confirm"),
-			"cancel":i18n.get("comm.opt.cancel")
-		}));
-		self.ui.recFrame.modal('show');
+		var rec = self.ui.accTitleTable.row('.selected');
+		if (rec.length == 1) {
+			// render pop window
+			self.ui.recFrame.html(self.ui.editRecTpl.render({
+				"title": i18n.get("acctype.manage.editAccTitle"),
+				"confirm":i18n.get("comm.opt.confirm"),
+				"cancel":i18n.get("comm.opt.cancel")
+			}));
+			self.ui.recFrame.modal('show');
+		} else {
+			alert("No Record selected...");
+		}
 	};
 
 	/**
@@ -167,8 +181,8 @@
 			console.log(rec.data().id);
 			var auth = jadeUtils.web.webAuthBasic(
 					self.data.getUsername(), self.data.getPassword());
-			self.accTypeUtil.deleteUserAccTitle(
-					auth, self.data.getUsername(), rec.data().code,
+			self.accTypeUtil.deleteUserAccTitle(auth, self.data.getUsername(), 
+					self.data.currAccType, rec.data().id, rec.data().code,
 					function(data, status, xhr) {
 						if ('success' == data.status) {
 							console.debug(data);
@@ -205,6 +219,7 @@
 		var self = this;
 		if ("accType" == treeNode.type) {
 			console.log(treeNode.code + ", " + treeNode.name);
+			self.data.currAccType = treeNode.code;
 			self.refreshAccTitleTable(treeNode.code);
 		}
 	};
