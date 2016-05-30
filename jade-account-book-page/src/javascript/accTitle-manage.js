@@ -91,13 +91,13 @@
 
 		// 模态框与模板
 		self.ui.recFrame = $("#rec-frame");
-		self.ui.createRecTpl = $.templates("#createRecTpl");
 		self.ui.editRecTpl = $.templates("#editRecTpl");
 	};
 
 	proto.initData = function () {
 		var self = this;
-		this.data.currAccType = '';
+		this.data.currAccTypeCode = '';
+		this.data.currAccTypeName = '';
 		this.data.getUsername = function () { return self.ui.username.val(); };
 		this.data.getPassword = function () { return self.ui.password.val(); };
 		this.data.setUsername = function (value) { self.ui.username.val(value); };
@@ -138,17 +138,29 @@
 	proto.clkCreateBtn = function () {
 		var self = this;
 		var rec = self.ui.accTitleTable.row('.selected');
-		if (rec.length == 1) {
-			// render pop window
-			self.ui.recFrame.html(self.ui.createRecTpl.render({
-				"id":"392933",
-				"title": i18n.get("acctype.manage.createAccTitle"),
+		if (!self.data.currAccTypeCode && self.data.currAccTypeCode.length < 1) {
+			alert("No Type selected...");
+		} else {
+			var data = rec.data();
+			console.log(data);
+			self.ui.recFrame.html(self.ui.editRecTpl.render({
+				"vTypeCode": self.data.currAccTypeCode, 
+				"vTypeName": self.data.currAccTypeName,
+				"lbTypeName":i18n.get("acctype.manage.lbTypeName"),
+				"lbAccCode":i18n.get("acctype.manage.lbAccCode"),
+				"lbAccName":i18n.get("acctype.manage.lbAccName"),
+				"lbAccAss" :i18n.get("acctype.manage.lbAccAss" ),
+				"lbAccDesc":i18n.get("acctype.manage.lbAccDesc"),
+				"htAccCode":i18n.get("acctype.manage.htAccCode"),
+				"htAccName":i18n.get("acctype.manage.htAccName"),
+				"htAccAss" :i18n.get("acctype.manage.htAccAss" ),
+				"htAccDesc":i18n.get("acctype.manage.htAccDesc"),
+				"title": i18n.get("acctype.manage.editAccTitle"),
 				"confirm":i18n.get("comm.opt.confirm"),
 				"cancel":i18n.get("comm.opt.cancel")
 			}));
+			// TODO: bind new rec
 			self.ui.recFrame.modal('show');
-		} else {
-			alert("No Record selected...");
 		}
 	};
 
@@ -158,13 +170,30 @@
 	proto.clkEditBtn = function () {
 		var self = this;
 		var rec = self.ui.accTitleTable.row('.selected');
-		if (rec.length == 1) {
+		if (!self.data.currAccTypeCode && self.data.currAccTypeCode.length < 1) {
+			alert("No Type selected...");
+		} else if (rec.length == 1) {
+			var data = rec.data();
+			console.log(data);
 			// render pop window
 			self.ui.recFrame.html(self.ui.editRecTpl.render({
+				"vTypeCode": self.data.currAccTypeCode, 
+				"vTypeName": self.data.currAccTypeName,
+				"vId": data.id, "vCode": data.code, "vName": data.name,
+				"vAssetId": data.assetId, "vDesc": data.desc,
+				"lbAccCode":i18n.get("acctype.manage.lbAccCode"),
+				"lbAccName":i18n.get("acctype.manage.lbAccName"),
+				"lbAccAss" :i18n.get("acctype.manage.lbAccAss" ),
+				"lbAccDesc":i18n.get("acctype.manage.lbAccDesc"),
+				"htAccCode":i18n.get("acctype.manage.htAccCode"),
+				"htAccName":i18n.get("acctype.manage.htAccName"),
+				"htAccAss" :i18n.get("acctype.manage.htAccAss" ),
+				"htAccDesc":i18n.get("acctype.manage.htAccDesc"),
 				"title": i18n.get("acctype.manage.editAccTitle"),
 				"confirm":i18n.get("comm.opt.confirm"),
 				"cancel":i18n.get("comm.opt.cancel")
 			}));
+			// TODO: bind update rec
 			self.ui.recFrame.modal('show');
 		} else {
 			alert("No Record selected...");
@@ -178,11 +207,12 @@
 		var self = this;
 		var rec = self.ui.accTitleTable.row('.selected');
 		if (rec.length == 1) {
-			console.log(rec.data().id);
+			var data = rec.data();
+			console.log(data);
 			var auth = jadeUtils.web.webAuthBasic(
 					self.data.getUsername(), self.data.getPassword());
 			self.accTypeUtil.deleteUserAccTitle(auth, self.data.getUsername(), 
-					self.data.currAccType, rec.data().id, rec.data().code,
+					self.data.currAccTypeCode, data.id, data.code,
 					function(data, status, xhr) {
 						if ('success' == data.status) {
 							console.debug(data);
@@ -219,7 +249,8 @@
 		var self = this;
 		if ("accType" == treeNode.type) {
 			console.log(treeNode.code + ", " + treeNode.name);
-			self.data.currAccType = treeNode.code;
+			self.data.currAccTypeCode = treeNode.code;
+			self.data.currAccTypeName = treeNode.name;
 			self.refreshAccTitleTable(treeNode.code);
 		}
 	};
