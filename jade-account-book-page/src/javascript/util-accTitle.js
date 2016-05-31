@@ -1,6 +1,6 @@
 (function ($) {
-	accApp.accTypeUtil= function (cfg) { this.init(cfg); return this; };
-	var proto = accApp.accTypeUtil.prototype;
+	accApp.accTitleUtil= function (cfg) { this.init(cfg); return this; };
+	var proto = accApp.accTitleUtil.prototype;
 	proto.super = accApp.prototype;
 
 	proto.init = function (cfg) {

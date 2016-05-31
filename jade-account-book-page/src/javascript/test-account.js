@@ -6,7 +6,7 @@
 	proto.init = function (cfg) {
 		this.super = new accApp(cfg);
 
-		this.accTypeUtil = new accApp.accTypeUtil(cfg);
+		this.accTitleUtil = new accApp.accTitleUtil(cfg);
 
 		this.cfg = this.super.cfg || {};
 		this.ui = this.super.ui || {};
@@ -61,7 +61,7 @@
 		var self = this;
 		var auth = jadeUtils.web.webAuthBasic(
 				self.data.getUsername(), self.data.getPassword());
-		self.accTypeUtil.loadAllAccType(auth, function(data, status, xhr) {
+		self.accTitleUtil.loadAllAccType(auth, function(data, status, xhr) {
 			if ('success' == data.status) {
 				console.debug(data);
 				self.ui.accTypeTreeObj = $.fn.zTree.init(

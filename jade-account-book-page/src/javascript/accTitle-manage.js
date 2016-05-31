@@ -6,7 +6,7 @@
 	proto.init = function (cfg) {
 		this.super = new accApp(cfg);
 
-		this.accTypeUtil = new accApp.accTypeUtil(cfg);
+		this.accTitleUtil = new accApp.accTitleUtil(cfg);
 
 		this.cfg = this.super.cfg || {};
 		this.ui = this.super.ui || {};
@@ -122,7 +122,7 @@
 		var username = self.data.getUsername();
 		var password = self.data.getPassword();
 		var auth = jadeUtils.web.webAuthBasic(username, password);
-		self.accTypeUtil.listUserAccTitle(auth, self.data.getUsername(), accType, 
+		self.accTitleUtil.listUserAccTitle(auth, self.data.getUsername(), accType, 
 				function(data, status, xhr) {
 					if ('success' == data.status) {
 						console.debug(data);
@@ -166,7 +166,7 @@
 				var username = self.data.getUsername();
 				var password = self.data.getPassword();
 				var auth = jadeUtils.web.webAuthBasic(username, password);
-				self.accTypeUtil.createUserAccTitle(auth, username, type, code, 
+				self.accTitleUtil.createUserAccTitle(auth, username, type, code, 
 					name, desc, assetId, function(data, status, xhr) {
 						if ('success' == data.status) {
 							console.debug(data);
@@ -222,7 +222,7 @@
 				var username = self.data.getUsername();
 				var password = self.data.getPassword();
 				var auth = jadeUtils.web.webAuthBasic(username, password);
-				self.accTypeUtil.updateUserAccTitle(auth, username, type, id, code, 
+				self.accTitleUtil.updateUserAccTitle(auth, username, type, id, code, 
 					name, desc, assetId, function(data, status, xhr) {
 						if ('success' == data.status) {
 							console.debug(data);
@@ -257,7 +257,7 @@
 			var username = self.data.getUsername();
 			var password = self.data.getPassword();
 			var auth = jadeUtils.web.webAuthBasic(username, password);
-			self.accTypeUtil.deleteUserAccTitle(auth, username, 
+			self.accTitleUtil.deleteUserAccTitle(auth, username, 
 					self.data.currAccTypeCode, recdata.id, recdata.code,
 					function(data, status, xhr) {
 						if ('success' == data.status) {
@@ -280,7 +280,7 @@
 		var username = self.data.getUsername();
 		var password = self.data.getPassword();
 		var auth = jadeUtils.web.webAuthBasic(username, password);
-		self.accTypeUtil.loadAllAccType(auth, function(data, status, xhr) {
+		self.accTitleUtil.loadAllAccType(auth, function(data, status, xhr) {
 			if ('success' == data.status) {
 				console.debug(data);
 				self.ui.accTypeTreeObj = $.fn.zTree.init(
