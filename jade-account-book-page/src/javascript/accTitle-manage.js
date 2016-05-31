@@ -119,8 +119,9 @@
 	 */
 	proto.refreshAccTitleTable = function (accType) {
 		var self = this;
-		var auth = jadeUtils.web.webAuthBasic(
-				self.data.getUsername(), self.data.getPassword());
+		var username = self.data.getUsername();
+		var password = self.data.getPassword();
+		var auth = jadeUtils.web.webAuthBasic(username, password);
 		self.accTypeUtil.listUserAccTitle(auth, self.data.getUsername(), accType, 
 				function(data, status, xhr) {
 					if ('success' == data.status) {
@@ -160,6 +161,9 @@
 				"cancel":i18n.get("comm.opt.cancel")
 			}));
 			// TODO: bind new rec
+			$("#btn-recConfirm").unbind("click").bind("click", function () {
+				self.accTypeUtil.createUserAccTitle();
+			});
 			self.ui.recFrame.modal('show');
 		}
 	};
@@ -173,14 +177,14 @@
 		if (!self.data.currAccTypeCode && self.data.currAccTypeCode.length < 1) {
 			alert("No Type selected...");
 		} else if (rec.length == 1) {
-			var data = rec.data();
-			console.log(data);
+			var recdata = rec.data();
+			console.log(recdata);
 			// render pop window
 			self.ui.recFrame.html(self.ui.editRecTpl.render({
 				"vTypeCode": self.data.currAccTypeCode, 
 				"vTypeName": self.data.currAccTypeName,
-				"vId": data.id, "vCode": data.code, "vName": data.name,
-				"vAssetId": data.assetId, "vDesc": data.desc,
+				"vId": recdata.id, "vCode": recdata.code, "vName": recdata.name,
+				"vAssetId": recdata.assetId, "vDesc": recdata.desc,
 				"lbAccCode":i18n.get("acctype.manage.lbAccCode"),
 				"lbAccName":i18n.get("acctype.manage.lbAccName"),
 				"lbAccAss" :i18n.get("acctype.manage.lbAccAss" ),
@@ -193,7 +197,33 @@
 				"confirm":i18n.get("comm.opt.confirm"),
 				"cancel":i18n.get("comm.opt.cancel")
 			}));
-			// TODO: bind update rec
+			$("#btn-recConfirm").unbind("click").bind("click", function () {
+				var type = $("#ipt-typeCode").val();
+				var id = $("#ipt-id").val();
+				var code = $("#ipt-code").val();
+				var name = $("#ipt-name").val();
+				var desc = $("#ipt-desc").val();
+				var assetId = $("#ipt-assetId").val();
+				var username = self.data.getUsername();
+				var password = self.data.getPassword();
+				var auth = jadeUtils.web.webAuthBasic(username, password);
+				self.accTypeUtil.updateUserAccTitle(auth, username, type, id, code, 
+					name, desc, assetId, function(data, status, xhr) {
+						if ('success' == data.status) {
+							console.debug(data);
+							recdata.type = type;
+							recdata.id = id;
+							recdata.code = code;
+							recdata.name = name;
+							recdata.desc = desc;
+							recdata.assetId = assetId;
+							rec.invalidate().draw();
+							self.ui.recFrame.modal('hide');
+						} else {
+							console.error("加载测试数据失败");
+						}
+					}, proto.defaultAjaxErr, proto.defaultAjaxComp);
+			});
 			self.ui.recFrame.modal('show');
 		} else {
 			alert("No Record selected...");
@@ -207,12 +237,13 @@
 		var self = this;
 		var rec = self.ui.accTitleTable.row('.selected');
 		if (rec.length == 1) {
-			var data = rec.data();
-			console.log(data);
-			var auth = jadeUtils.web.webAuthBasic(
-					self.data.getUsername(), self.data.getPassword());
-			self.accTypeUtil.deleteUserAccTitle(auth, self.data.getUsername(), 
-					self.data.currAccTypeCode, data.id, data.code,
+			var recdata = rec.data();
+			console.log(recdata);
+			var username = self.data.getUsername();
+			var password = self.data.getPassword();
+			var auth = jadeUtils.web.webAuthBasic(username, password);
+			self.accTypeUtil.deleteUserAccTitle(auth, username, 
+					self.data.currAccTypeCode, recdata.id, recdata.code,
 					function(data, status, xhr) {
 						if ('success' == data.status) {
 							console.debug(data);
@@ -231,8 +262,9 @@
 	 */
 	proto.refreshAccTypeTree = function () {
 		var self = this;
-		var auth = jadeUtils.web.webAuthBasic(
-				self.data.getUsername(), self.data.getPassword());
+		var username = self.data.getUsername();
+		var password = self.data.getPassword();
+		var auth = jadeUtils.web.webAuthBasic(username, password);
 		self.accTypeUtil.loadAllAccType(auth, function(data, status, xhr) {
 			if ('success' == data.status) {
 				console.debug(data);
