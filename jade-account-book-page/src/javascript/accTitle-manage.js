@@ -138,12 +138,9 @@
 	 */
 	proto.clkCreateBtn = function () {
 		var self = this;
-		var rec = self.ui.accTitleTable.row('.selected');
 		if (!self.data.currAccTypeCode && self.data.currAccTypeCode.length < 1) {
 			alert("No Type selected...");
 		} else {
-			var data = rec.data();
-			console.log(data);
 			self.ui.recFrame.html(self.ui.editRecTpl.render({
 				"vTypeCode": self.data.currAccTypeCode, 
 				"vTypeName": self.data.currAccTypeName,
@@ -160,9 +157,27 @@
 				"confirm":i18n.get("comm.opt.confirm"),
 				"cancel":i18n.get("comm.opt.cancel")
 			}));
-			// TODO: bind new rec
 			$("#btn-recConfirm").unbind("click").bind("click", function () {
-				self.accTypeUtil.createUserAccTitle();
+				var type = $("#ipt-typeCode").val();
+				var code = $("#ipt-code").val();
+				var name = $("#ipt-name").val();
+				var desc = $("#ipt-desc").val();
+				var assetId = $("#ipt-assetId").val();
+				var username = self.data.getUsername();
+				var password = self.data.getPassword();
+				var auth = jadeUtils.web.webAuthBasic(username, password);
+				self.accTypeUtil.createUserAccTitle(auth, username, type, code, 
+					name, desc, assetId, function(data, status, xhr) {
+						if ('success' == data.status) {
+							console.debug(data);
+							var recdata = [{"id": data.id, "code": code, "name": name, 
+								"desc": desc, "assetId": assetId}];
+							self.ui.accTitleTable.rows.add(recdata).draw();
+							self.ui.recFrame.modal('hide');
+						} else {
+							console.error("加载测试数据失败");
+						}
+					}, proto.defaultAjaxErr, proto.defaultAjaxComp);
 			});
 			self.ui.recFrame.modal('show');
 		}
