@@ -295,7 +295,7 @@
 	proto.clickAccType = function (event, treeId, treeNode) {
 		var self = this;
 		if ("accType" == treeNode.type) {
-			console.log(treeNode.code + ", " + treeNode.name);
+			console.log(treeNode.id + ", " + treeNode.code + ", " + treeNode.name);
 			self.data.currAccTypeCode = treeNode.code;
 			self.data.currAccTypeName = treeNode.name;
 			self.refreshAccTitleTable(treeNode.code);
