@@ -1,6 +1,6 @@
 {
     "status": "success",
-    "types": [{
+    "recs": [{
         "id": "1",
         "name": "资产类",
         "type": "accGrp",

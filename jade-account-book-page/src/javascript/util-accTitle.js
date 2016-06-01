@@ -92,5 +92,49 @@
 		});
 	};
 
+	/**
+	 * 生成指定用户的会计科目树
+	 *
+	 */
+	proto.genAccTypeTitleTree = function (auth, username, succCallback, errCallback, compCallback) {
+		var self = this;
+		/* load acc title */
+		self.listUserAccTitle(auth, username, "all", function(data, status, xhr) {
+			if ('success' == data.status) {
+				var typeMap = new net.jadedungeon.dataStructure.Map();
+				for (var i = 0; i < data.recs.length; i++) {
+					var title = data.rec[i];
+					if (typeMap.containsKey(title.type)) {
+						typeMap.get(title.type).push(title);
+					} else {
+						typeMap.put(title.type, [title]);
+					}
+				}
+				/* load acc title type */
+				self.loadAllAccType(auth, function (data, status, xhr) {
+					if ('success' == data.status) {
+						var tree = [];
+						for (var i = 0; i < data.recs.length; i++) {
+							var grp = data.recs[i];
+							var titles = grp.children;
+							grp.children = [];
+							tree.push(grp);
+							for (var j = 0; j < titles.length; j++) {
+								var title = titles[j];
+								if (typeMap.containsKey(title.type)) {
+									title.children = typeMap.get(title.type);
+									grp.children.push(title);
+								}
+							}
+						}
+						succCallback(tree);
+					} else { console.error("加载测试数据失败"); }
+				}, errCallback, compCallback);
+			} else {
+				console.error("加载测试数据失败");
+			}
+		}, proto.defaultAjaxErr, proto.defaultAjaxComp);
+	};
+
 })(jQuery);
 

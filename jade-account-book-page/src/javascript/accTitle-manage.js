@@ -284,7 +284,7 @@
 			if ('success' == data.status) {
 				console.debug(data);
 				self.ui.accTypeTreeObj = $.fn.zTree.init(
-					self.ui.accTypeTree, self.cfg.accTypeTreeSetting, data.types);
+					self.ui.accTypeTree, self.cfg.accTypeTreeSetting, data.recs);
 			} else { console.error("加载测试数据失败"); }
 		}, proto.defaultAjaxErr, proto.defaultAjaxComp);
 	};
