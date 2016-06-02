@@ -122,6 +122,7 @@ gulp.task('min-scripts', function() {
 			cfg.path.src.scripts + 'util-accTitle.js',
 			cfg.path.src.scripts + 'util-accRec.js',
 			cfg.path.src.scripts + 'accTitle-manage.js',
+			cfg.path.src.scripts + 'accRec-append.js',
 			cfg.path.src.scripts + 'test-report.js',
 			cfg.path.src.scripts + 'test-account.js'])
 		.pipe(concat('app.js'))

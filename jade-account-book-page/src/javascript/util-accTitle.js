@@ -103,7 +103,8 @@
 			if ('success' == data.status) {
 				var typeMap = new net.jadedungeon.dataStructure.Map();
 				for (var i = 0; i < data.recs.length; i++) {
-					var title = data.rec[i];
+					var title = data.recs[i];
+					title.showName = title.code + "-" + title.name;
 					if (typeMap.containsKey(title.type)) {
 						typeMap.get(title.type).push(title);
 					} else {
@@ -116,14 +117,16 @@
 						var tree = [];
 						for (var i = 0; i < data.recs.length; i++) {
 							var grp = data.recs[i];
-							var titles = grp.children;
+							grp.showName = grp.name;
+							var types = grp.children;
 							grp.children = [];
 							tree.push(grp);
-							for (var j = 0; j < titles.length; j++) {
-								var title = titles[j];
-								if (typeMap.containsKey(title.type)) {
-									title.children = typeMap.get(title.type);
-									grp.children.push(title);
+							for (var j = 0; j < types.length; j++) {
+								var type = types[j];
+								if (typeMap.containsKey(type.code)) {
+									type.showName = type.code + "-" + type.name;
+									type.children = typeMap.get(type.code);
+									grp.children.push(type);
 								}
 							}
 						}

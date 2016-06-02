@@ -7,7 +7,7 @@ var topnavCfg = {
 		{title: "账目管理", subs: [
 			{title: "会计科目管理", link: appCfg.webRoot + "/pages/accTitle-manage.html"},
 			{title: "", link: ""},
-			{title: "录入分录", link: "#"}]},
+			{title: "录入分录", link: appCfg.webRoot + "/pages/accRec-append.html"}]},
 		{title: "固定资产管理", subs: [
 			{title: "添加固定资产", link: "#"}]},
 		{title: "票据管理", subs: [

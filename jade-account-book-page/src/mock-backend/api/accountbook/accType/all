@@ -6,39 +6,39 @@
         "type": "accGrp",
         "open": true,
         "children": [{
-            "id": "1", "code": "1001", "type": "accType", "name": "1001-库存现金" }, {
-            "id": "2", "code": "1002", "type": "accType", "name": "1002-银行存款" }, {
-            "id": "8", "code": "1051", "type": "accType", "name": "1051-拆出资金" }]
+            "id": "1", "code": "1001", "type": "accType", "name": "库存现金" }, {
+            "id": "2", "code": "1002", "type": "accType", "name": "银行存款" }, {
+            "id": "8", "code": "1051", "type": "accType", "name": "拆出资金" }]
     }, {
         "id": "2",
         "name": "负债类",
         "type": "accGrp",
         "open": true,
         "children": [{
-            "id": "74", "code": "2001", "type": "accType", "name": "2001-短期借款" }, {
-            "id": "75", "code": "2002", "type": "accType", "name": "2002-存入保证金" }, {
-            "id": "76", "code": "2003", "type": "accType", "name": "2003-拆入资金" }, {
-            "id": "77", "code": "2004", "type": "accType", "name": "2004-向中央银行借款" }]
+            "id": "74", "code": "2001", "type": "accType", "name": "短期借款" }, {
+            "id": "75", "code": "2002", "type": "accType", "name": "存入保证金" }, {
+            "id": "76", "code": "2003", "type": "accType", "name": "拆入资金" }, {
+            "id": "77", "code": "2004", "type": "accType", "name": "向中央银行借款" }]
     }, {
         "id": "3",
         "name": "共同类",
         "type": "accGrp",
         "open": true,
         "children": [{
-            "id": "110", "code": "3001", "type": "accType", "name": "3001-清算资金往来" }, {
-            "id": "111", "code": "3002", "type": "accType", "name": "3002-外汇买卖" }, {
-            "id": "112", "code": "3101", "type": "accType", "name": "3101-衍生工具" }, {
-            "id": "113", "code": "3201", "type": "accType", "name": "3201-套期工具" }, {
-            "id": "114", "code": "3202", "type": "accType", "name": "3202-被套期项目" }]
+            "id": "110", "code": "3001", "type": "accType", "name": "清算资金往来" }, {
+            "id": "111", "code": "3002", "type": "accType", "name": "外汇买卖" }, {
+            "id": "112", "code": "3101", "type": "accType", "name": "衍生工具" }, {
+            "id": "113", "code": "3201", "type": "accType", "name": "套期工具" }, {
+            "id": "114", "code": "3202", "type": "accType", "name": "被套期项目" }]
     }, {
         "id": "4",
         "name": "所有者权益",
         "type": "accGrp",
         "open": true,
         "children": [{
-            "id": "115", "code": "4001", "type": "accType", "name": "4001-实收资本" }, {
-            "id": "116", "code": "4002", "type": "accType", "name": "4002-资本公积" }, {
-            "id": "117", "code": "4101", "type": "accType", "name": "4101-盈余公积" }, {
-            "id": "118", "code": "4102", "type": "accType", "name": "4102-一般风险准备" }]
+            "id": "115", "code": "4001", "type": "accType", "name": "实收资本" }, {
+            "id": "116", "code": "4002", "type": "accType", "name": "资本公积" }, {
+            "id": "117", "code": "4101", "type": "accType", "name": "盈余公积" }, {
+            "id": "118", "code": "4102", "type": "accType", "name": "一般风险准备" }]
     }]
 }

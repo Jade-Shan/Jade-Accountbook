@@ -1,6 +1,6 @@
 (function ($) {
-	accApp.accTitleManage = function (cfg) { this.init(cfg); return this; };
-	var proto = accApp.accTitleManage.prototype;
+	accApp.accRecAppend = function (cfg) { this.init(cfg); return this; };
+	var proto = accApp.accRecAppend.prototype;
 	proto.super = accApp.prototype;
 
 	proto.init = function (cfg) {
@@ -110,7 +110,7 @@
 	proto.render = function () {
 		var self = this;
 		this.super.render();
-		self.refreshAccTypeTree();
+		self.refreshAccTitleTree();
 		self.onResize(self);
 		document.body.onresize = function () {
 			self.onResize(self);
@@ -278,25 +278,15 @@
 	/**
 	 * 刷新页面上的会计科目分类树
 	 */
-	proto.refreshAccTypeTree = function () {
+	proto.refreshAccTitleTree = function () {
 		var self = this;
 		var username = self.data.getUsername();
 		var password = self.data.getPassword();
 		var auth = jadeUtils.web.webAuthBasic(username, password);
-		self.accTitleUtil.loadAllAccType(auth, function(data, status, xhr) {
-			if ('success' == data.status) {
-				console.debug(data);
-				for (var i = 0; i < data.recs.length; i++) {
-					var grp = data.recs[i];
-					grp.showName = grp.name;
-					for (var j = 0; j < grp.children.length; j++) {
-						var type = grp.children[j];
-						type.showName = type.code + "-" + type.name;
-					}
-				}
-				self.ui.accTypeTreeObj = $.fn.zTree.init(
-					self.ui.accTypeTree, self.cfg.accTypeTreeSetting, data.recs);
-			} else { console.error("加载测试数据失败"); }
+		self.accTitleUtil.genAccTypeTitleTree(auth, username, function(tree) {
+			console.debug(tree);
+			self.ui.accTypeTreeObj = $.fn.zTree.init(
+				self.ui.accTypeTree, self.cfg.accTypeTreeSetting, tree);
 		}, proto.defaultAjaxErr, proto.defaultAjaxComp);
 	};
 
