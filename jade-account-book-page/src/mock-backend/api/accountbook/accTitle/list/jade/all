@@ -1,13 +1,13 @@
 {
     "status": "success",
     "recs": [
- {"id":"1", "type":"1001", "code":"1001001", "name": "存放现金",       "desc": "SPD bank Account 01", "assetId": "0000001"},
- {"id":"2", "type":"1001", "code":"1001002", "name": "随身现金",       "desc": "SPD bank Account 02", "assetId": "0000002"},
- {"id":"3", "type":"1001", "code":"1001003", "name": "支付宝余额",     "desc": "SPD bank Account 03", "assetId": "0000003"},
- {"id":"4", "type":"1002", "code":"1002001", "name": "浦发银行",       "desc": "SPD bank Account 04", "assetId": "0000004"},
- {"id":"5", "type":"1002", "code":"1002002", "name": "招商银行",       "desc": "SPD bank Account 05", "assetId": "0000005"},
- {"id":"6", "type":"1002", "code":"1002003", "name": "工商银行",       "desc": "SPD bank Account 06", "assetId": "0000006"},
- {"id":"7", "type":"2001", "code":"2001001", "name": "服务器租金备用", "desc": "SPD bank Account 07", "assetId": "0000007"},
- {"id":"8", "type":"4001", "code":"4001001", "name": "Jade",           "desc": "SPD bank Account 08", "assetId": "0000008"}
+ {"id":"1", "type": "accTitle", "accType":"1001", "code":"1001001", "name": "存放现金",       "desc": "SPD bank Account 01", "assetId": "0000001"},
+ {"id":"2", "type": "accTitle", "accType":"1001", "code":"1001002", "name": "随身现金",       "desc": "SPD bank Account 02", "assetId": "0000002"},
+ {"id":"3", "type": "accTitle", "accType":"1001", "code":"1001003", "name": "支付宝余额",     "desc": "SPD bank Account 03", "assetId": "0000003"},
+ {"id":"4", "type": "accTitle", "accType":"1002", "code":"1002001", "name": "浦发银行",       "desc": "SPD bank Account 04", "assetId": "0000004"},
+ {"id":"5", "type": "accTitle", "accType":"1002", "code":"1002002", "name": "招商银行",       "desc": "SPD bank Account 05", "assetId": "0000005"},
+ {"id":"6", "type": "accTitle", "accType":"1002", "code":"1002003", "name": "工商银行",       "desc": "SPD bank Account 06", "assetId": "0000006"},
+ {"id":"7", "type": "accTitle", "accType":"2001", "code":"2001001", "name": "服务器租金备用", "desc": "SPD bank Account 07", "assetId": "0000007"},
+ {"id":"8", "type": "accTitle", "accType":"4001", "code":"4001001", "name": "Jade",           "desc": "SPD bank Account 08", "assetId": "0000008"}
 ]
 }

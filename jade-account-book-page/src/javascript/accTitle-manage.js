@@ -203,6 +203,7 @@
 				"vTypeName": self.data.currAccTypeName,
 				"vId": recdata.id, "vCode": recdata.code, "vName": recdata.name,
 				"vAssetId": recdata.assetId, "vDesc": recdata.desc,
+				"lbTypeName":i18n.get("acctype.manage.lbTypeName"),
 				"lbAccCode":i18n.get("acctype.manage.lbAccCode"),
 				"lbAccName":i18n.get("acctype.manage.lbAccName"),
 				"lbAccAss" :i18n.get("acctype.manage.lbAccAss" ),

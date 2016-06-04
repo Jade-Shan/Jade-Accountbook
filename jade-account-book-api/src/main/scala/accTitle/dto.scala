@@ -62,13 +62,16 @@ case class AccountTitle(accId: String, userIdStr: String, typeCodeStr: String,
 
 @MongoDocument(databaseName = "accountbook", collectionName = "accrec")
 case class AccountRec(recId: String, userIdStr: String, accCodeStr: String, 
-	entryIdStr: String, sideNum: Int, amtNum: Double, timeDate: Date)
+	entryIdStr: String, sideNum: Int, oriCcyStr: String, oriAmtNum: Double, 
+	amtNum: Double, timeDate: Date)
 {
 	@MongoField var id = recId
 	@MongoField var userId = userIdStr
 	@MongoField var accCode = accCodeStr
 	@MongoField var entryId = entryIdStr
 	@MongoField var side = sideNum
+	@MongoField var oriCcy = oriCcyStr
+	@MongoField var oriAmt = oriAmtNum
 	@MongoField var amt = amtNum
 	@MongoField var time = timeDate
 

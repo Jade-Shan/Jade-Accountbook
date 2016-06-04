@@ -105,10 +105,10 @@
 				for (var i = 0; i < data.recs.length; i++) {
 					var title = data.recs[i];
 					title.showName = title.code + "-" + title.name;
-					if (typeMap.containsKey(title.type)) {
-						typeMap.get(title.type).push(title);
+					if (typeMap.containsKey(title.accType)) {
+						typeMap.get(title.accType).push(title);
 					} else {
-						typeMap.put(title.type, [title]);
+						typeMap.put(title.accType, [title]);
 					}
 				}
 				/* load acc title type */

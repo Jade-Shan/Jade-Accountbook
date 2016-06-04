@@ -6,6 +6,7 @@ var i18n =  new net.jadedungeon.utils.i18n({
 		"comm.opt.edit":"编辑",
 		"comm.opt.delete":"删除",
 		"comm.opt.confirm":"确认",
+		"comm.opt.commit":"提交",
 		"comm.opt.cancel":"取消",
 		/* =============================================
 		 * nav bar
