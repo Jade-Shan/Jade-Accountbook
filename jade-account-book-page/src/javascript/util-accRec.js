@@ -179,6 +179,25 @@ function AccRec(idStr, sideNum, accCodeStr, accNameStr, entryIdStr, oriCcyStr, o
 		}
 	};
 
+	self.desc = function () {
+		var desc = '';
+		var recs = self.entryId.split(";");
+		if (recs.length) {
+			for (var i = 0; i < recs.length; i++) {
+				var rec = recs[i];
+				if (rec.indexOf(":") > -1) {
+					var cols = rec.split(":");
+					if (cols.length && cols.length > 1) {
+						var type = cols[0];
+						var value = cols[1];
+						desc = desc + '<a href="#">' + type + ':' + value + '</a>&nbsp;';
+					}
+				}
+			}
+		}
+		return desc;
+	};
+
 };
 
 function formatNum(num) {

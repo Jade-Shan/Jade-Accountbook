@@ -79,17 +79,8 @@
 		/*
 		 * 会计科目表格
 		 */
-			/*
-			id
-			accCode 
-			entryId 
-			side
-			oriCcy
-			oriAmt
-			amt
-			*/
 		self.ui.accEntryTable = $('#accEntryTable').DataTable({ 
-			columns: [{data: "accCodeName"}, {data: "entryId"}, {data: "oriCcy"}, {data: "originAmount"}, {data: "debitAmt"}, {data: "creditAmt"}],
+			columns: [{data: "accCodeName"}, {data: "desc"}, {data: "oriCcy"}, {data: "originAmount"}, {data: "debitAmt"}, {data: "creditAmt"}],
 			data: [
 			new AccRec("0001", -1, "6603001", "财务费用：利息支出"    , "itm:6638592;rsp:6638592;", "CNY", 237529.00, 237529.00),
 			new AccRec("0002", -1, "2231001", "应付利息：人民币借款利", "itm:6638592;rsp:6638592;", "CNY",   8144.00,   8144.00),
