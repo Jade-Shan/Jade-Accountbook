@@ -89,11 +89,11 @@
 			amt
 			*/
 		self.ui.accEntryTable = $('#accEntryTable').DataTable({ 
-			columns: [{data: "accCodeName"}, {data: "entryId"}, {data: "oriCcy"}, {data: "oriAmt"}, {data: "debAmt"}, {data: "cdtAmt"}],
+			columns: [{data: "accCodeName"}, {data: "entryId"}, {data: "oriCcy"}, {data: "originAmount"}, {data: "debitAmt"}, {data: "creditAmt"}],
 			data: [
-			{"accCodeName":"6603001 - 财务费用：利息支出"    , "debAmt": "237,529.00", "cdtAmt":           "", "id":"0001", "side": -1, "accCode":"6603001", "entryId": "itm:6638592;rsp:6638592;", "oriCcy": "CNY", "oriAmt":  237529.00, "amt": 237529.00},
-			{"accCodeName":"2231001 - 应付利息：人民币借款利", "debAmt":   "8,144.00", "cdtAmt":           "", "id":"0002", "side": -1, "accCode":"2231001", "entryId": "itm:6638592;rsp:6638592;", "oriCcy": "CNY", "oriAmt":    8144.00, "amt":   8144.00},
-			{"accCodeName":"2231002 - 应付利息：美元借款利息", "debAmt":           "", "cdtAmt": "229,385.00", "id":"0003", "side":  1, "accCode":"2231002", "entryId": "itm:6638592;rsp:6638592;", "oriCcy": "USD", "oriAmt":   35290.00, "amt": 229385.00}
+			new AccRec("0001", -1, "6603001", "财务费用：利息支出"    , "itm:6638592;rsp:6638592;", "CNY", 237529.00, 237529.00),
+			new AccRec("0002", -1, "2231001", "应付利息：人民币借款利", "itm:6638592;rsp:6638592;", "CNY",   8144.00,   8144.00),
+			new AccRec("0003",  1, "2231002", "应付利息：美元借款利息", "itm:6638592;rsp:6638592;", "USD",  35290.00, 229385.00)
 			],
 			"paging": false, "ordering": false,"searching": false 
 		});

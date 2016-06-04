@@ -139,5 +139,60 @@
 //		}, proto.defaultAjaxErr, proto.defaultAjaxComp);
 //	};
 
+	proto.formatAccRecForShow = function (rec) {
+	};
 })(jQuery);
 
+function AccRec(idStr, sideNum, accCodeStr, accNameStr, entryIdStr, oriCcyStr, oriAmtNum, amtNum) {
+	var self = this;
+
+	self.id      = idStr;
+	self.side    = sideNum;
+	self.accCode = accCodeStr;
+	self.accName = accNameStr;
+	self.entryId = entryIdStr;
+	self.oriCcy  = oriCcyStr;
+	self.oriAmt  = oriAmtNum;
+	self.amt     = amtNum;
+
+	self.accCodeName = function () {
+		return self.accCodeName = self.accCode + " - " + self.accName;
+	};
+
+	self.originAmount = function () {
+			return formatNum(self.oriAmt);
+	};
+
+	self.debitAmt = function () {
+		if (self.side < 0) {
+			return "";
+		} else {
+			return formatNum(self.amt);
+		}
+	};
+
+	self.creditAmt = function () {
+		if (self.side < 0) {
+			return formatNum(self.amt);
+		} else {
+			return "";
+		}
+	};
+
+};
+
+function formatNum(num) {
+	num = num.toString().replace(/\$|\,/g,'');
+	if(isNaN(num))
+		num = "0";
+	sign = (num == (num = Math.abs(num)));
+	num = Math.floor(num*100+0.50000000001);
+	cents = num%100;
+	num = Math.floor(num/100).toString();
+	if(cents<10)
+		cents = "0" + cents;
+	for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+		num = num.substring(0,num.length-(4*i+3))+','+
+			num.substring(num.length-(4*i+3));
+	return (((sign)?'':'-') + num + '.' + cents);
+};
