@@ -8,6 +8,7 @@
 
 		this.accTitleUtil = new accApp.accTitleUtil(cfg);
 		this.accRecUtil = new accApp.accRecUtil(cfg);
+		this.userUtil = new accApp.userUtil(cfg);
 
 		this.cfg = this.super.cfg || {};
 		this.ui = this.super.ui || {};
@@ -21,6 +22,7 @@
 
 	proto.initCfg = function () {
 		var self = this;
+		self.initUserCfg();
 		this.cfg.accTypeTreeSetting = {
 			callback: {
 				onClick: function (event, treeId, treeNode) { 
@@ -62,7 +64,7 @@
 		self.ui.btnCommit = $("#btn-commit");
 		// 要套一层函数，不然`this`指向是触发的按钮而不是这个对象
 		self.ui.btnCommit.unbind("click").bind("click", function () {
-			// self.clkCmtAccRecBtn();
+			self.clkCmtAccRecBtn();
 		});
 	};
 
@@ -76,16 +78,28 @@
 		self.ui.accTypeTreeLeft = $("#accTypeTreeLeft");
 		self.ui.accTypeTreeObj = {};
 
-		/*
-		 * 会计科目表格
-		 */
+		this.initAccEntryTable();
+
+		// init option menu
+		this.initOptMenu();
+
+		// 模态框与模板
+		self.ui.recFrame = $("#rec-frame");
+		self.ui.editRecTpl = $.templates("#editRecTpl");
+	};
+
+	/*
+	 * 会计科目表格
+	 */
+	proto.initAccEntryTable = function () {
+		var self = this;
+		this.data.debitCount = 0.00;
+		this.data.creditCount = 0.00;
+		self.ui.debitCount  = $("#lb-debitCount");
+		self.ui.creditCount = $("#lb-creditCount");
 		self.ui.accEntryTable = $('#accEntryTable').DataTable({ 
 			columns: [{data: "accCodeName"}, {data: "desc"}, {data: "oriCcy"}, {data: "originAmount"}, {data: "debitAmt"}, {data: "creditAmt"}],
-			data: [
-			new AccRec("0001", -1, "6603001", "财务费用：利息支出"    , "itm:6638592;rsp:6638592;", "CNY", 237529.00, 237529.00),
-			new AccRec("0002", -1, "2231001", "应付利息：人民币借款利", "itm:6638592;rsp:6638592;", "CNY",   8144.00,   8144.00),
-			new AccRec("0003",  1, "2231002", "应付利息：美元借款利息", "itm:6638592;rsp:6638592;", "USD",  35290.00, 229385.00)
-			],
+			data: [],
 			"paging": false, "ordering": false,"searching": false 
 		});
 		self.ui.accEntryTableBody = $('#accEntryTable tbody');
@@ -99,13 +113,6 @@
 				$(this).addClass('selected');
 			}
 		});
-
-		// init option menu
-		this.initOptMenu();
-
-		// 模态框与模板
-		self.ui.recFrame = $("#rec-frame");
-		self.ui.editRecTpl = $.templates("#editRecTpl");
 	};
 
 	proto.initData = function () {
@@ -129,22 +136,27 @@
 	};
 
 	/**
-	 * 更新会计科目表格
+	 * 更新总计金额
 	 */
-	proto.refreshAccEntryTable = function (accType) {
+	proto.reflushAmtCount = function () {
 		var self = this;
-		var username = self.data.getUsername();
-		var password = self.data.getPassword();
-		var auth = jadeUtils.web.webAuthBasic(username, password);
-//		self.accTitleUtil.listUserAccTitle(auth, self.data.getUsername(), accType, 
-//				function(data, status, xhr) {
-//					if ('success' == data.status) {
-//						console.debug(data);
-//						self.ui.accEntryTable.clear().rows.add(data.recs).draw();
-//					} else {
-//						console.error("加载测试数据失败");
-//					}
-//				}, proto.defaultAjaxErr, proto.defaultAjaxComp);
+		var d = 0;
+		var c = 0;
+		var accEntry = self.ui.accEntryTable.data();
+		for (var i = 0; i < accEntry.length; i++) {
+			var rec = accEntry[i];
+			if (isNaN(rec.side) || isNaN(rec.amt)) {
+				//
+			} else {
+				var side = Number(rec.side);
+				var amt  = Number(rec.amt);
+				if (side > 0) { d = d + amt; } else { c = c + amt; }
+			}
+		}
+		self.data.debitCount  = d;
+		self.data.creditCount = c;
+		self.ui.debitCount.html(formatNum(d));
+		self.ui.creditCount.html(formatNum(c));
 	};
 
 	/**
@@ -156,107 +168,108 @@
 			alert("No Type selected...");
 		} else {
 			self.ui.recFrame.html(self.ui.editRecTpl.render({
+				"ccyList": ccyList,
 				"vAccCode": self.data.currAccTitleCode,
 				"vAccName": self.data.currAccTitleName,
-				"vId": "00001",
-				"vSide": "-1",
-				"vOriCcy": "CNY",
-				"vOriAmt": "1.00",
-				"vAmt": "6.50",
-				"vEntryId": "itm:6638592;rsp:6638592;",
+				"vId": "",
+				"vOriAmt": "0.00",
+				"vAmt": "0.00",
+				"vEntryId": "",
 				"lbAccTitle":i18n.get("acctype.manage.lbAccTitle"),
 				"htInput":i18n.get("acctype.manage.htInput"),
 				"title": i18n.get("acctype.manage.editAccTitle"),
 				"confirm":i18n.get("comm.opt.confirm"),
 				"cancel":i18n.get("comm.opt.cancel")
 			}));
+			var iptId      = $("#ipt-id");
+			var iptAccCode = $("#ipt-accCode");
+			var iptAccName = $("#ipt-accName");
+			var iptEntryId = $("#ipt-entryId");
+			var iptOriCcy  = $("#ipt-oriCcy");
+			var iptOriAmt  = $("#ipt-oriAmt");
+			var iptAmt     = $("#ipt-amt");
+			$("input[name=side][value=" + "1" + "]").attr("checked",true);
+			iptOriCcy.val(self.data.user.currency);
+			iptOriAmt.unbind("blur").bind("blur", function () {
+				var oriAmt = iptOriAmt.val();
+				var amt = iptAmt.val();
+				if (isNaN(oriAmt)) { iptOriAmt.focus(); alert("原币金额错误！"); } 
+				else if (isNaN(amt) || amt < 0.0001) { iptAmt.val(oriAmt);	}
+			});
 			$("#btn-recConfirm").unbind("click").bind("click", function () {
-				var type = $("#ipt-typeCode").val();
-				var code = $("#ipt-code").val();
-				var name = $("#ipt-name").val();
-				var desc = $("#ipt-desc").val();
-				var assetId = $("#ipt-assetId").val();
-				var username = self.data.getUsername();
-				var password = self.data.getPassword();
-				var auth = jadeUtils.web.webAuthBasic(username, password);
-				self.accTitleUtil.createUserAccTitle(auth, username, type, code, 
-					name, desc, assetId, function(data, status, xhr) {
-						if ('success' == data.status) {
-							console.debug(data);
-							var recdata = [{"id": data.id, "code": code, "name": name, 
-								"desc": desc, "assetId": assetId}];
-							self.ui.accEntryTable.rows.add(recdata).draw();
-							self.ui.recFrame.modal('hide');
-						} else {
-							console.error("加载测试数据失败");
-						}
-					}, proto.defaultAjaxErr, proto.defaultAjaxComp);
+				var recdata = new AccRec(iptId.val(), $("input[name='side']:checked").val(),
+					iptAccCode.val(), iptAccName.val(), iptEntryId.val(), iptOriCcy.val(),
+					iptOriAmt.val(), iptAmt.val());
+				self.ui.accEntryTable.rows.add([recdata]).draw();
+				self.ui.recFrame.modal('hide');
+				self.reflushAmtCount();
 			});
 			self.ui.recFrame.modal('show');
 		}
 	};
 
-//	/**
-//	 * 点击编辑会计科目
-//	 */
-//	proto.clkEditBtn = function () {
-//		var self = this;
-//		var rec = self.ui.accEntryTable.row('.selected');
-//		if (!self.data.currAccTitleCode && self.data.currAccTitleCode.length < 1) {
-//			alert("No Type selected...");
-//		} else if (rec.length == 1) {
-//			var recdata = rec.data();
-//			console.log(recdata);
-//			// render pop window
-//			self.ui.recFrame.html(self.ui.editRecTpl.render({
-//				"vAccCode": self.data.currAccTitleCode, 
-//				"vAccName": self.data.currAccTitleName,
-//				"vId": recdata.id, "vCode": recdata.code, "vName": recdata.name,
-//				"vAssetId": recdata.assetId, "vDesc": recdata.desc,
-//				"lbAccCode":i18n.get("acctype.manage.lbAccCode"),
-//				"lbAccName":i18n.get("acctype.manage.lbAccName"),
-//				"lbAccAss" :i18n.get("acctype.manage.lbAccAss" ),
-//				"lbAccDesc":i18n.get("acctype.manage.lbAccDesc"),
-//				"htAccCode":i18n.get("acctype.manage.htAccCode"),
-//				"htAccName":i18n.get("acctype.manage.htAccName"),
-//				"htAccAss" :i18n.get("acctype.manage.htAccAss" ),
-//				"htAccDesc":i18n.get("acctype.manage.htAccDesc"),
-//				"title": i18n.get("acctype.manage.editAccTitle"),
-//				"confirm":i18n.get("comm.opt.confirm"),
-//				"cancel":i18n.get("comm.opt.cancel")
-//			}));
-//			$("#btn-recConfirm").unbind("click").bind("click", function () {
-//				var type = $("#ipt-typeCode").val();
-//				var id = $("#ipt-id").val();
-//				var code = $("#ipt-code").val();
-//				var name = $("#ipt-name").val();
-//				var desc = $("#ipt-desc").val();
-//				var assetId = $("#ipt-assetId").val();
-//				var username = self.data.getUsername();
-//				var password = self.data.getPassword();
-//				var auth = jadeUtils.web.webAuthBasic(username, password);
-//				self.accTitleUtil.updateUserAccTitle(auth, username, type, id, code, 
-//					name, desc, assetId, function(data, status, xhr) {
-//						if ('success' == data.status) {
-//							console.debug(data);
-//							recdata.type = type;
-//							recdata.id = id;
-//							recdata.code = code;
-//							recdata.name = name;
-//							recdata.desc = desc;
-//							recdata.assetId = assetId;
-//							rec.invalidate().draw();
-//							self.ui.recFrame.modal('hide');
-//						} else {
-//							console.error("加载测试数据失败");
-//						}
-//					}, proto.defaultAjaxErr, proto.defaultAjaxComp);
-//			});
-//			self.ui.recFrame.modal('show');
-//		} else {
-//			alert("No Record selected...");
-//		}
-//	};
+	/**
+	 * 点击编辑会计科目
+	 */
+	proto.clkEditBtn = function () {
+		var self = this;
+		var rec = self.ui.accEntryTable.row('.selected');
+		if (!self.data.currAccTitleCode && self.data.currAccTitleCode.length < 1) {
+			alert("No rec selected...");
+		} else if (rec.length == 1) {
+			var recdata = rec.data();
+			console.log(recdata);
+			// render pop window
+			self.ui.recFrame.html(self.ui.editRecTpl.render({
+				"ccyList": ccyList,
+				"vAccCode": self.data.currAccTitleCode,
+				"vAccName": self.data.currAccTitleName,
+				"vId"     : recdata.id,
+				//"vSide"   : recdata.side,
+				//"vOriCcy" : recdata.oriCcy,
+				"vOriAmt" : recdata.oriAmt,
+				"vAmt"    : recdata.amt,
+				"vEntryId": recdata.entryId,
+				"lbAccTitle":i18n.get("acctype.manage.lbAccTitle"),
+				"htInput":i18n.get("acctype.manage.htInput"),
+				"title": i18n.get("acctype.manage.editAccTitle"),
+				"confirm":i18n.get("comm.opt.confirm"),
+				"cancel":i18n.get("comm.opt.cancel")
+			}));
+			var iptId      = $("#ipt-id");
+			var iptAccCode = $("#ipt-accCode");
+			var iptAccName = $("#ipt-accName");
+			var iptEntryId = $("#ipt-entryId");
+			var iptOriCcy  = $("#ipt-oriCcy");
+			var iptOriAmt  = $("#ipt-oriAmt");
+			var iptAmt     = $("#ipt-amt");
+			$("input[name=side][value=" + recdata.side + "]").attr("checked",true);
+			iptOriCcy.val(recdata.oriCcy);
+			iptOriAmt.unbind("blur").bind("blur", function () {
+				var oriAmt = iptOriAmt.val();
+				var amt = iptAmt.val();
+				if (isNaN(oriAmt)) { iptOriAmt.focus(); alert("原币金额错误！"); } 
+				else if (isNaN(amt)) { iptAmt.val(oriAmt);	}
+			});
+			$("#btn-recConfirm").unbind("click").bind("click", function () {
+				recdata.id      = iptId.val();
+				recdata.side    = $("input[name='side']:checked").val();
+				recdata.accCode = iptAccCode.val();
+				recdata.accName = iptAccName.val();
+				recdata.entryId = iptEntryId.val();
+				recdata.oriCcy  = iptOriCcy.val();
+				recdata.oriAmt  = iptOriAmt.val();
+				recdata.amt     = iptAmt.val();
+				console.log(recdata);
+				rec.invalidate().draw();
+				self.ui.recFrame.modal('hide');
+				self.reflushAmtCount();
+			});
+			self.ui.recFrame.modal('show');
+		} else {
+			alert("No Record selected...");
+		}
+	};
 
 	/**
 	 * 点击删除会计科目
@@ -267,22 +280,49 @@
 		if (rec.length == 1) {
 			var recdata = rec.data();
 			console.log(recdata);
+			rec.remove().draw(false);
+			self.reflushAmtCount();
+		} else {
+			alert("No Record selected...");
+		}
+	};
+
+	/**
+	 * 提交会计分录
+	 */
+	proto.clkCmtAccRecBtn = function () {
+		var self = this;
+		self.reflushAmtCount();
+		var d = Number(self.data.debitCount);
+		var c = Number(self.data.creditCount);
+		if (d > 0 && d == c) {
 			var username = self.data.getUsername();
 			var password = self.data.getPassword();
 			var auth = jadeUtils.web.webAuthBasic(username, password);
-			// self.accTitleUtil.deleteUserAccTitle(auth, username, 
-			// 		self.data.currAccTitleCode, recdata.id, recdata.code,
-			// 		function(data, status, xhr) {
-			// 			if ('success' == data.status) {
-			// 				console.debug(data);
-			// 				rec.remove().draw(false);
-			// 			} else {
-			// 				console.error("加载测试数据失败");
-			// 			}
-			// 		}, proto.defaultAjaxErr, proto.defaultAjaxComp);
-			rec.remove().draw(false);
+			var entryJson = {"recs": []};
+			var accEntry = self.ui.accEntryTable.data();
+			// create rec
+			for (var i = 0; i < accEntry.length; i++) {
+				var rec = accEntry[i];
+				if (isNaN(rec.side) || isNaN(rec.amt)) {
+					//
+				} else {
+					entryJson.recs.push({ "id": rec.id, "side": rec.side, "accCode": rec.accCode,
+						"accName": rec.accName, "entryId": rec.entryId, "oriCcy": rec.oriCcy,
+						"oriAmt": rec.oriAmt, "amt": rec.amt});
+				}
+			}
+			self.accRecUtil.createUserAccEntry(auth, username, JSON.stringify(entryJson),
+					function(data, status, xhr) {
+						if ('success' == data.status) {
+							console.debug(data);
+							self.ui.accEntryTable.clear().draw();
+						} else {
+							console.error("加载测试数据失败");
+						}
+					}, proto.defaultAjaxErr, proto.defaultAjaxComp);
 		} else {
-			alert("No Record selected...");
+			alert("会计分录不平衡！");
 		}
 	};
 
@@ -298,6 +338,24 @@
 			console.debug(tree);
 			self.ui.accTypeTreeObj = $.fn.zTree.init(
 				self.ui.accTypeTree, self.cfg.accTypeTreeSetting, tree);
+		}, proto.defaultAjaxErr, proto.defaultAjaxComp);
+	};
+
+	/**
+	 * 初始化用户配置信息
+	 */
+	proto.initUserCfg = function () {
+		var self = this;
+		var username = self.data.getUsername();
+		var password = self.data.getPassword();
+		var auth = jadeUtils.web.webAuthBasic(username, password);
+		self.userUtil.getUserCfg(auth, username, function(data, status, xhr) {
+			if ('success' == data.status) {
+				console.debug(data);
+				self.data.user = data.user;
+			} else {
+				console.error("加载测试数据失败");
+			}
 		}, proto.defaultAjaxErr, proto.defaultAjaxComp);
 	};
 

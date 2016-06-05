@@ -119,6 +119,7 @@ gulp.task('min-scripts', function() {
 	return gulp.src([cfg.path.src.scripts + 'i18n.js', 
 			cfg.path.src.scripts + 'cfg.js',
 			cfg.path.src.scripts + 'base.js',
+			cfg.path.src.scripts + 'util-user.js',
 			cfg.path.src.scripts + 'util-accTitle.js',
 			cfg.path.src.scripts + 'util-accRec.js',
 			cfg.path.src.scripts + 'accTitle-manage.js',
