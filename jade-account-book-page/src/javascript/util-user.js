@@ -192,7 +192,7 @@ function AccRec(idStr, sideNum, accCodeStr, accNameStr, entryIdStr, oriCcyStr, o
 		return desc;
 	};
 
-};
+}
 
 function formatNum(num) {
 	num = num.toString().replace(/\$|\,/g,'');
@@ -208,4 +208,4 @@ function formatNum(num) {
 		num = num.substring(0,num.length-(4*i+3))+','+
 			num.substring(num.length-(4*i+3));
 	return (((sign)?'':'-') + num + '.' + cents);
-};
+}
