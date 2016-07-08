@@ -1,0 +1,55 @@
+.PS
+copy "sequence.pic";
+
+boxht=0.3	    # Object box height
+boxwid=1 	# Object box width
+awid=0.1	    # Active lifeline width
+spacing=0.25	# Spacing between messages
+movewid=0.5	# Spacing between objects
+dashwid=0.05	# Interval for dashed lines
+maxpswid=11 	# Maximum width of picture
+maxpsht=11	  # Maximum height of picture
+underline=1	  # Underline the name of objects
+
+# Object definition
+object(P, "MsgProcesser");
+object(H, "MsgHandler");
+object(A, "SaslAuthen");
+object(M, "SaslMechanism");
+object(S, "Server");
+step();
+
+# Message exchange
+active(P)
+message(P,H,"handle(elem: Elem)");
+active(H);
+message(H,H,"canProcess(elem: Elem)");
+active(H);
+step()
+inactive(H);
+message(H,H,"process(elem: Elem)");
+	active(H);
+	message(H,A,"        challengeReceived(text)");
+		active(A);
+		message(A,M,"       challengeReceived(text)");
+			active(M);
+			return_message(M,A,"get encoded resp")
+			inactive(M);
+		message(A,S,"send(resp)");
+			active(S);
+			return_message(S,P,"get <success>                                                                   ")
+			step();
+			inactive(S);
+		inactive(A);
+	inactive(H);
+step()
+inactive(H);
+
+# Object lifeline completion
+complete(P);
+complete(H);
+complete(A);
+complete(M);
+complete(S);
+
+.PE
