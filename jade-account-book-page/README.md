@@ -1,6 +1,8 @@
-# 构建说明
+构建说明
+===============
 
-## 环境配置
+环境配置
+---------------
 
 不同的环境的配置由在`gulpfile.js`中的变量`env`来控制：
 
@@ -26,7 +28,29 @@
 		env : env.dev_fe            // use config env.dev_fe
 	};
 
-## 构建项目
+
+项目依赖
+---------------
+
+### 第三方前端库
+
+* 在有网络的情况下（dev, fat, prd），指向`//cdn.bootcss.com`
+* 没有网络时，用`Jade-Misc/jade-cdn`凑数，[项目链接](https://github.com/Jade-Shan/Jade-Misc/tree/master/jade-cdn)。
+
+### 本人的前端库
+
+* 在有网络的情况下（dev, fat, prd），指向七牛提供的CDN平台：`//7xldv2.com1.z0.glb.clouddn.com/jadeutils.v2`
+* 没有网络时，用`Jade-Misc/jade-cdn`凑数，[项目链接](https://github.com/Jade-Shan/Jade-Misc/tree/master/jade-cdn)。
+
+### 本程序后台API
+
+后台程序为[jade-account-book-api](jade-account-book-api)。
+
+开发过程中，`src/mock-backend/api/accountbook/`下的静态文件可以用来模拟API
+调用的响应。
+
+构建项目
+---------------
 
 前端页面全部是静态的内容，使用glup构建。执行多个任务时是并行执行的，
 经常会有前一个任务还没有执行完，后一个任务已经启动的情况。
@@ -43,7 +67,8 @@
 `web-root`是整个项目的根目录，直接在`web-root`目录下启动HTTP服务。
 
 
-## 本地开发测试
+本地开发测试
+---------------
 
 本地开发测试过程中，并不把`web-root`作为HTTP服务的根目录，而是采用上一级目录
 作为HTTP服务的根目录。

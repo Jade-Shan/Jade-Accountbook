@@ -16,44 +16,51 @@ var gulp = require('gulp'),
 		processhtml = require('gulp-processhtml'),  // html引用替换
 		clean = require('gulp-clean');              //清空文件夹
 
-var env = {
-	buildversion: {
-		dev: "0.0.1-dev",
-		fat: "0.0.1-fat",
-		prd: "0.0.1"
+/* params for different envs */
+var envs = {
+	dev_be: {
+		buildversion: "0.0.1-dev",
+		webRoot: "http://localhost:8181/web-root",
+		apiRoot: "http://localhost:8181/src/mock-backend",
+		cdn3rd: "http://localhost:8000/3rd.v2",
+		cdnJadeUtils: "http://localhost:8000/jadeutils.v2/web-root"
 	},
-	webRoot: {
-		dev: "http://localhost:8181/web-root",
-		fat: "http://localhost:8181/web-root",
-		prd: "http://acc.jade-dungeon.net/"
+	dev: {
+		buildversion: "0.0.1-dev",
+		webRoot: "http://localhost:8181/web-root",
+		apiRoot: "http://localhost:8181/src/mock-backend",
+		cdn3rd: "//cdn.bootcss.com",
+		cdnJadeUtils: "http://localhost:8000/jadeutils.v2/web-root"
 	},
-	apiRoot: {
-		dev: "http://localhost:8181/src/mock-backend",
-		fat: "http://localhost:8080/accountbook",
-		prd: "http://api.jade-dungeon.net/accountbook"
+	fat: {
+		buildversion: "0.0.1-fat",
+		webRoot: "http://localhost:8181/web-root",
+		apiRoot: "http://localhost:8080/accountbook",
+		cdn3rd: "//cdn.bootcss.com",
+		cdnJadeUtils: "//7xldv2.com1.z0.glb.clouddn.com/jadeutils.v2"
 	},
-	cdn3rd: {
-		dev: "http://localhost:8000/3rd.v2",
-		fat: "//cdn.bootcss.com",
-		prd: "//cdn.bootcss.com"
+	prd: {
+		buildversion: "0.0.1",
+		webRoot: "http://acc.jade-dungeon.net/",
+		apiRoot: "http://api.jade-dungeon.net/accountbook",
+		cdn3rd: "//cdn.bootcss.com",
+		cdnJadeUtils: "//7xldv2.com1.z0.glb.clouddn.com/jadeutils.v2"
 	},
-	cdnJadeUtils: {
-		dev: "http://localhost:8000/jadeutils.v2/web-root",
-		fat: "//7xldv2.com1.z0.glb.clouddn.com/jadeutils.v2",
-		prd: "//7xldv2.com1.z0.glb.clouddn.com/jadeutils.v2"
-	}
 };
 
+/* which env is using now */
+var currEnv = envs.dev;
 
-var currEnv = {
-	buildversion: env.buildversion.dev,
-	webRoot: env.webRoot.dev,
-	apiRoot: env.apiRoot.dev,
-	cdn3rd: env.cdn3rd.dev,
-	cdnJadeUtils: env.cdnJadeUtils.dev
+/* apply the params in current env */
+var currEnvParam = {
+	buildversion: currEnv.buildversion,
+	webRoot: currEnv.webRoot,
+	apiRoot: currEnv.apiRoot,
+	cdn3rd: currEnv.cdn3rd,
+	cdnJadeUtils: currEnv.cdnJadeUtils
 }
 
-
+/* configuration for this hole application */
 var cfg = {
 	path: {
 		src: {
