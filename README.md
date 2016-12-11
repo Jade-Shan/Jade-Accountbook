@@ -7,8 +7,8 @@ Persional Account Book
 
 ## 静态页面
 
-[前端静态页面](jade-account-book-api/README.md)
+[后台接口](jade-account-book-page/README.md)
 
 ## 后台API接口
 
-[后台接口](jade-account-book-page/README.md)
+[前端静态页面](jade-account-book-api/README.md)
