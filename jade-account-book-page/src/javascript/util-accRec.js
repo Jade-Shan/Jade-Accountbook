@@ -138,75 +138,62 @@
 	};
 })(jQuery);
 
-function AccRec(idStr, sideNum, accCodeStr, accNameStr, entryIdStr, oriCcyStr, oriAmtNum, amtNum) {
-	var self = this;
+(function ($) {
+	accApp.accRecUtil.AccRec = function (idStr, sideNum, accCodeStr, accNameStr, 
+		entryIdStr, oriCcyStr, oriAmtNum, amtNum) 
+	{
+		var self = this;
 
-	self.id      = idStr;
-	self.side    = sideNum;
-	self.accCode = accCodeStr;
-	self.accName = accNameStr;
-	self.entryId = entryIdStr;
-	self.oriCcy  = oriCcyStr;
-	self.oriAmt  = oriAmtNum;
-	self.amt     = amtNum;
+		self.id      = idStr;
+		self.side    = sideNum;
+		self.accCode = accCodeStr;
+		self.accName = accNameStr;
+		self.entryId = entryIdStr;
+		self.oriCcy  = oriCcyStr;
+		self.oriAmt  = oriAmtNum - 0;
+		self.amt     = amtNum - 0;
 
-	self.accCodeName = function () {
-		return self.accCode + " - " + self.accName;
-	};
+		self.accCodeName = function () { return self.accCode + " - " + self.accName; };
 
-	self.originAmount = function () {
-			return formatNum(self.oriAmt);
-	};
+		self.originAmount = function () { return jadeUtils.string.formatNumber(self.oriAmt); };
 
-	self.debitAmt = function () {
-		if (self.side < 0) {
-			return "";
-		} else {
-			return formatNum(self.amt);
-		}
-	};
+		self.debitAmt = function () {
+			if (self.side < 0) {
+				return "";
+			} else {
+				return jadeUtils.string.formatNumber(self.amt);
+			}
+		};
 
-	self.creditAmt = function () {
-		if (self.side < 0) {
-			return formatNum(self.amt);
-		} else {
-			return "";
-		}
-	};
+		self.creditAmt = function () {
+			if (self.side < 0) {
+				return jadeUtils.string.formatNumber(self.amt);
+			} else {
+				return "";
+			}
+		};
 
-	self.desc = function () {
-		var desc = '';
-		var recs = self.entryId.split(";");
-		if (recs.length) {
-			for (var i = 0; i < recs.length; i++) {
-				var rec = recs[i];
-				if (rec.indexOf(":") > -1) {
-					var cols = rec.split(":");
-					if (cols.length && cols.length > 1) {
-						var type = cols[0];
-						var value = cols[1];
-						desc = desc + '<a href="#">' + type + ':' + value + '</a>&nbsp;';
+		self.desc = function () {
+			var desc = '';
+			var recs = self.entryId.split(";");
+			if (recs.length) {
+				for (var i = 0; i < recs.length; i++) {
+					var rec = recs[i];
+					if (rec.indexOf(":") > -1) {
+						var cols = rec.split(":");
+						if (cols.length && cols.length > 1) {
+							var type = cols[0];
+							var value = cols[1];
+							desc = desc + '<a href="#">' + type + ':' + value + '</a>&nbsp;';
+						}
 					}
 				}
 			}
-		}
-		return desc;
+			return desc;
+		};
 	};
 
-}
+	var proto = accApp.accRecUtil.AccRec.prototype;
 
-function formatNum(num) {
-	num = num.toString().replace(/\$|\,/g,'');
-	if(isNaN(num))
-		num = "0";
-	sign = (num == (num = Math.abs(num)));
-	num = Math.floor(num*100+0.50000000001);
-	cents = num%100;
-	num = Math.floor(num/100).toString();
-	if(cents<10)
-		cents = "0" + cents;
-	for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
-		num = num.substring(0,num.length-(4*i+3))+','+
-			num.substring(num.length-(4*i+3));
-	return (((sign)?'':'-') + num + '.' + cents);
-}
+})(jQuery);
+

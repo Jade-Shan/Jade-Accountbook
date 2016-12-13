@@ -197,7 +197,8 @@
 				else if (isNaN(amt) || amt < 0.0001) { iptAmt.val(oriAmt);	}
 			});
 			$("#btn-recConfirm").unbind("click").bind("click", function () {
-				var recdata = new AccRec(iptId.val(), $("input[name='side']:checked").val(),
+				var recdata = new accApp.accRecUtil.AccRec(
+					iptId.val(), $("input[name='side']:checked").val(),
 					iptAccCode.val(), iptAccName.val(), iptEntryId.val(), iptOriCcy.val(),
 					iptOriAmt.val(), iptAmt.val());
 				self.ui.accEntryTable.rows.add([recdata]).draw();
