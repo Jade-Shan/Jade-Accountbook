@@ -41,7 +41,7 @@ var accApp = accApp || {};
 		var self = this;
 		var width = document.documentElement.clientWidth;
 		var height = document.documentElement.clientHeight;
-		console.debug("window size change {0} * {1}".format(width, height));
+		// console.debug("window size change {0} * {1}".format(width, height));
 
 		return height - self.ui.topNav.height() - self.ui.footer.height() - 15;
 	};
@@ -57,7 +57,7 @@ var accApp = accApp || {};
 	/* Ajax响应成功时的默认方法 */
 	proto.defaultAjaxSucc = function(data, status, xhr) {
 		if ('success' == data.status) {
-			console.debug(data);
+			// console.debug(data);
 		} else {
 			console.error("加载测试数据失败");
 		}
@@ -66,8 +66,8 @@ var accApp = accApp || {};
 	/* Ajax响应出错时的默认方法 */
 	proto.defaultAjaxErr = function(xhr, errorType, error) {
 		console.error("加载测试数据失败");
-		console.debug(xhr);
-		console.debug(errorType);
+		// console.debug(xhr);
+		// console.debug(errorType);
 		console.debug(error);
 	};
 
@@ -84,7 +84,7 @@ var accApp = accApp || {};
 				url: encodeURI(self.cfg.testAuthUrl), headers: {Authorization: auth},
 				data: { },
 				success: function(data, status, xhr) {
-					console.debug(status);
+					// console.debug(status);
 					if ('success' == data.status && 'success' == data.auth) {
 						successCallback(data);
 					} else {
@@ -95,7 +95,7 @@ var accApp = accApp || {};
 				complete: function(xhr, status) {}
 			});
 		} else {
-			console.debug("no username or password");
+			// console.debug("no username or password");
 		}
 	};
 
@@ -111,7 +111,7 @@ var accApp = accApp || {};
 					self.ui.userinfo.show();
 					self.ui.accOverview.show();
 				}, function (data) { /* 登录失败时的操作 */
-					console.debug(data.reason);
+					// console.debug(data.reason);
 					self.ui.divUserLogin.addClass("has-error");
 				}, function (data) { /* 网络错误时的操作 */
 					alert("Ajax Error");

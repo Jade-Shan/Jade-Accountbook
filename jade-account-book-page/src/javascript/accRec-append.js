@@ -17,7 +17,7 @@
 		this.initUI();
 		this.initData();
 
-		console.log(i18n.get("test"));
+		// console.log(i18n.get("test"));
 	};
 
 	proto.initCfg = function () {
@@ -218,7 +218,7 @@
 			alert("No rec selected...");
 		} else if (rec.length == 1) {
 			var recdata = rec.data();
-			console.log(recdata);
+			// console.log(recdata);
 			// render pop window
 			self.ui.recFrame.html(self.ui.editRecTpl.render({
 				"ccyList": ccyList,
@@ -260,7 +260,7 @@
 				recdata.oriCcy  = iptOriCcy.val();
 				recdata.oriAmt  = iptOriAmt.val();
 				recdata.amt     = iptAmt.val();
-				console.log(recdata);
+				// console.log(recdata);
 				rec.invalidate().draw();
 				self.ui.recFrame.modal('hide');
 				self.reflushAmtCount();
@@ -279,7 +279,7 @@
 		var rec = self.ui.accEntryTable.row('.selected');
 		if (rec.length == 1) {
 			var recdata = rec.data();
-			console.log(recdata);
+			// console.log(recdata);
 			rec.remove().draw(false);
 			self.reflushAmtCount();
 		} else {
@@ -315,7 +315,7 @@
 			self.accRecUtil.createUserAccEntry(auth, username, JSON.stringify(entryJson),
 					function(data, status, xhr) {
 						if ('success' == data.status) {
-							console.debug(data);
+							// console.debug(data);
 							self.ui.accEntryTable.clear().draw();
 						} else {
 							console.error("加载测试数据失败");
@@ -335,7 +335,7 @@
 		var password = self.data.getPassword();
 		var auth = jadeUtils.web.webAuthBasic(username, password);
 		self.accTitleUtil.genAccTypeTitleTree(auth, username, function(tree) {
-			console.debug(tree);
+			// console.debug(tree);
 			self.ui.accTypeTreeObj = $.fn.zTree.init(
 				self.ui.accTypeTree, self.cfg.accTypeTreeSetting, tree);
 		}, proto.defaultAjaxErr, proto.defaultAjaxComp);
@@ -351,7 +351,7 @@
 		var auth = jadeUtils.web.webAuthBasic(username, password);
 		self.userUtil.getUserCfg(auth, username, function(data, status, xhr) {
 			if ('success' == data.status) {
-				console.debug(data);
+				// console.debug(data);
 				self.data.user = data.user;
 			} else {
 				console.error("加载测试数据失败");
@@ -365,7 +365,7 @@
 	proto.clickAccTitle = function (event, treeId, treeNode) {
 		var self = this;
 		if ("accTitle" == treeNode.type) {
-			console.log(treeNode.id + ", " + treeNode.code + ", " + treeNode.name);
+			// console.log(treeNode.id + ", " + treeNode.code + ", " + treeNode.name);
 			self.data.currAccTitleId = treeNode.id;
 			self.data.currAccTitleCode = treeNode.code;
 			self.data.currAccTitleName = treeNode.name;

@@ -30,7 +30,7 @@ var envs = {
 		webRoot: "http://localhost:8181/web-root",
 		apiRoot: "http://localhost:8181/src/mock-backend",
 		cdn3rd: "//cdn.bootcss.com",
-		cdnJadeUtils: "http://localhost:8000/jadeutils.v2/web-root"
+		cdnJadeUtils: "//7xldv2.com1.z0.glb.clouddn.com/jadeutils.v2"
 	},
 	fat: {
 		buildversion: "0.0.1-fat",

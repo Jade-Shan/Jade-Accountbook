@@ -15,7 +15,7 @@
 		this.initUI();
 		this.initData();
 
-		console.log(i18n.get("test"));
+		// console.log(i18n.get("test"));
 	};
 
 	proto.initCfg = function () {
@@ -128,7 +128,7 @@
 		self.accTitleUtil.listUserAccTitle(auth, self.data.getUsername(), accType, 
 				function(data, status, xhr) {
 					if ('success' == data.status) {
-						console.debug(data);
+						// console.debug(data);
 						self.ui.accTitleTable.clear().rows.add(data.recs).draw();
 					} else {
 						console.error("加载测试数据失败");
@@ -172,7 +172,7 @@
 				self.accTitleUtil.createUserAccTitle(auth, username, type, code, 
 					name, desc, assetId, function(data, status, xhr) {
 						if ('success' == data.status) {
-							console.debug(data);
+							// console.debug(data);
 							var recdata = [{"id": data.id, "code": code, "name": name, 
 								"desc": desc, "assetId": assetId}];
 							self.ui.accTitleTable.rows.add(recdata).draw();
@@ -196,7 +196,7 @@
 			alert("No Type selected...");
 		} else if (rec.length == 1) {
 			var recdata = rec.data();
-			console.log(recdata);
+			// console.log(recdata);
 			// render pop window
 			self.ui.recFrame.html(self.ui.editRecTpl.render({
 				"vTypeCode": self.data.currAccTypeCode, 
@@ -229,7 +229,7 @@
 				self.accTitleUtil.updateUserAccTitle(auth, username, type, id, code, 
 					name, desc, assetId, function(data, status, xhr) {
 						if ('success' == data.status) {
-							console.debug(data);
+							// console.debug(data);
 							recdata.type = type;
 							recdata.id = id;
 							recdata.code = code;
@@ -257,7 +257,7 @@
 		var rec = self.ui.accTitleTable.row('.selected');
 		if (rec.length == 1) {
 			var recdata = rec.data();
-			console.log(recdata);
+			// console.log(recdata);
 			var username = self.data.getUsername();
 			var password = self.data.getPassword();
 			var auth = jadeUtils.web.webAuthBasic(username, password);
@@ -265,7 +265,7 @@
 					self.data.currAccTypeCode, recdata.id, recdata.code,
 					function(data, status, xhr) {
 						if ('success' == data.status) {
-							console.debug(data);
+							// console.debug(data);
 							rec.remove().draw(false);
 						} else {
 							console.error("加载测试数据失败");
@@ -286,7 +286,7 @@
 		var auth = jadeUtils.web.webAuthBasic(username, password);
 		self.accTitleUtil.loadAllAccType(auth, function(data, status, xhr) {
 			if ('success' == data.status) {
-				console.debug(data);
+				// console.debug(data);
 				for (var i = 0; i < data.recs.length; i++) {
 					var grp = data.recs[i];
 					grp.showName = grp.name;
@@ -307,7 +307,7 @@
 	proto.clickAccType = function (event, treeId, treeNode) {
 		var self = this;
 		if ("accType" == treeNode.type) {
-			console.log(treeNode.id + ", " + treeNode.code + ", " + treeNode.name);
+			// console.log(treeNode.id + ", " + treeNode.code + ", " + treeNode.name);
 			self.data.currAccTypeCode = treeNode.code;
 			self.data.currAccTypeName = treeNode.name;
 			self.refreshAccTitleTable(treeNode.code);
