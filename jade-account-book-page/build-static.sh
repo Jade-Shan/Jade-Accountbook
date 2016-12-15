@@ -3,9 +3,10 @@
 echo "Tips:"
 echo "-p html inclue"
 echo "-s less build"
-echo "-a all"
+echo "-d build all but not concat (for develop) "
+echo "-a build all for prod"
 
-while getopts "b:aps" arg #选项后面的冒号表示该选项需要参数
+while getopts "b:adps" arg #选项后面的冒号表示该选项需要参数
 do
 	case $arg in
 		p)
@@ -17,6 +18,24 @@ do
 			gulp clean-css;
 			sleep 3;
 			gulp build-less-base;
+			;;
+		d)
+			gulp clean-css;
+			sleep 3;
+			gulp build-less-base;
+			sleep 3;
+			gulp min-styles-base;
+
+			gulp clean-scripts;
+			gulp check-scripts;
+			sleep 3;
+			gulp min-scripts;
+
+			gulp clean-html;
+			sleep 3;
+			gulp include-html;
+			sleep 3;
+			# qrsync ~/.config/qiniu/workout.json ;
 			;;
 		a)
 			gulp clean-css;

@@ -47,7 +47,8 @@
 后台程序为[jade-account-book-api](jade-account-book-api)。
 
 开发过程中，`src/mock-backend/api/accountbook/`下的静态文件可以用来模拟API
-调用的响应。
+调用的响应。必须用用户名`jade`登录，密码任意。
+
 
 构建项目
 ---------------
