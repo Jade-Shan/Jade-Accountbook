@@ -155,8 +155,8 @@
 		}
 		self.data.debitCount  = d;
 		self.data.creditCount = c;
-		self.ui.debitCount.html(formatNum(d));
-		self.ui.creditCount.html(formatNum(c));
+		self.ui.debitCount.html(Number(d).format());
+		self.ui.creditCount.html(Number(c).format());
 	};
 
 	/**

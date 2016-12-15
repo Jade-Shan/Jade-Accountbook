@@ -29,8 +29,6 @@
 		});
 	};
 
-	proto.formatAccRecForShow = function (rec) {
-	};
 })(jQuery);
 
 (function ($) {
@@ -45,50 +43,70 @@
 		self.accName = accNameStr;
 		self.entryId = entryIdStr;
 		self.oriCcy  = oriCcyStr;
-		self.oriAmt  = oriAmtNum - 0;
-		self.amt     = amtNum - 0;
+		self.oriAmt  = oriAmtNum;
+		self.amt     = amtNum;
 
-		self.accCodeName = function () { return self.accCode + " - " + self.accName; };
-
-		self.originAmount = function () { return jadeUtils.string.formatNumber(self.oriAmt); };
-
-		self.debitAmt = function () {
-			if (self.side < 0) {
-				return "";
-			} else {
-				return jadeUtils.string.formatNumber(self.amt);
-			}
-		};
-
-		self.creditAmt = function () {
-			if (self.side < 0) {
-				return jadeUtils.string.formatNumber(self.amt);
-			} else {
-				return "";
-			}
-		};
-
-		self.desc = function () {
-			var desc = '';
-			var recs = self.entryId.split(";");
-			if (recs.length) {
-				for (var i = 0; i < recs.length; i++) {
-					var rec = recs[i];
-					if (rec.indexOf(":") > -1) {
-						var cols = rec.split(":");
-						if (cols.length && cols.length > 1) {
-							var type = cols[0];
-							var value = cols[1];
-							desc = desc + '<a href="#">' + type + ':' + value + '</a>&nbsp;';
-						}
-					}
-				}
-			}
-			return desc;
-		};
 	};
 
 	var proto = accApp.accRecUtil.AccRec.prototype;
 
+	proto.accCodeName = function () { 
+		var self = this;
+		return self.accCode + " - " + self.accName; 
+	};
+
+	proto.originAmount = function () { 
+		var self = this;
+		return Number(self.oriAmt).format(); 
+	};
+
+	proto.debitAmt = function () {
+		var self = this;
+		if (self.side < 0) { return ""; } else { return Number(self.amt).format(); }
+	};
+
+	proto.creditAmt = function () {
+		var self = this;
+		if (self.side < 0) { return Number(self.amt).format(); } else { return ""; }
+	};
+
+	proto.desc = function () {
+		var self = this;
+		var desc = '';
+		var recs = self.entryId.split(";");
+		if (recs.length) {
+			for (var i = 0; i < recs.length; i++) {
+				var rec = recs[i];
+				if (rec.indexOf(":") > -1) {
+					var cols = rec.split(":");
+					if (cols.length && cols.length > 1) {
+						var type = cols[0];
+						var value = cols[1];
+						desc = desc + '<a href="#">' + type + ':' + value + '</a>&nbsp;';
+					}
+				}
+			}
+		}
+		return desc;
+	};
+
 })(jQuery);
 
+
+
+Number.prototype.format = function(formatExp) {
+	var num = this.toString().replace(/\$|\,/g, '');
+	if(isNaN(num))
+		num = "0";
+	sign = (num == (num = Math.abs(num)));
+	num = Math.floor(num * 100 + 0.50000000001);
+	cents = num % 100;
+	num = Math.floor(num / 100).toString();
+	if(cents < 10)
+		cents = "0" + cents;
+	for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+		num = num.substring(0, num.length - (4 * i + 3)) + 
+			',' +
+			num.substring(num.length - (4 * i + 3));
+	return (((sign) ? '' : '-') + num + '.' + cents);
+};
