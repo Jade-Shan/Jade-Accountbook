@@ -49,7 +49,7 @@ var envs = {
 };
 
 /* which env is using now */
-var currEnv = envs.dev;
+var currEnv = envs.dev_be;
 
 /* apply the params in current env */
 var currEnvParam = {

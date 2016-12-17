@@ -1,4 +1,3 @@
-var accApp = accApp || {};
 
 (function ($) {
 	accApp = function (cfg) { this.init(cfg); return this; };
@@ -158,3 +157,12 @@ var accApp = accApp || {};
 
 })(jQuery);
 
+
+(function ($) {
+	accApp.report = function (cfg) { this.init(cfg); return this; };
+	var proto = accApp.report.prototype;
+
+	proto.init = function (cfg) {
+		this.cfg = cfg || {};
+	};
+})(jQuery);

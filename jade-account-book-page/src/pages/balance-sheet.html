@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+@@include('./src/tpls/include-styles.html', {
+	"page-title": "Account Balance sheet", 
+	"page-keywords": "jade-dungeon, accountbook"})
+</head>
+<body>
+
+@@include('./src/tpls/include-navbar.html', {})
+
+<div class="container ctx-main"> 
+
+	<div class="row ctx-body">
+
+		<div id="ctx-body-left" class="col-md-6">
+			<div id="propRptDiv" class="panel panel-info">
+					<div class="panel-heading">
+							<h3 class="panel-title">资产：￥ 8,000,000.00</h3>
+					</div>
+					<div class="panel-body">
+							这是一个基本的面板
+					</div>
+			</div>
+		</div>
+
+		<div id="ctx-body-right" class="col-md-6">
+			<div id="dbtRptDiv" class="panel panel-info">
+					<div class="panel-heading">
+							<h3 class="panel-title">负债：￥ 30,000.00</h3>
+					</div>
+					<div class="panel-body">
+							这是一个基本的面板
+					</div>
+			</div>
+			<div id="onrRptDiv" class="panel panel-info">
+					<div class="panel-heading">
+							<h3 class="panel-title">所有者权益：￥ 7,970,000.00</h3>
+					</div>
+					<div class="panel-body">
+							<div>这是一个基本的面板</div>
+							<div class="col-md-6">
+								<div class="panel panel-info">
+										<div class="panel-heading">
+												<h3 class="panel-title">收入：￥ 6,000.000.00</h3>
+										</div>
+										<div class="panel-body">
+												这是一个基本的面板
+										</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="panel panel-info">
+										<div class="panel-heading">
+												<h3 class="panel-title">费用：1,970.000.00</h3>
+										</div>
+										<div class="panel-body">
+												这是一个基本的面板
+										</div>
+								</div>
+							</div>
+					</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="footer" class="footer">
+		<div class="left">
+			&copy; 2015 <a href="index.html">jade-dungeon.net</a>. 
+			Valid <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> 
+			&amp; <a href="http://validator.w3.org/check?uri=referer">HTML</a>
+		</div>
+		<div class="right"><a href="http://templates.arcsin.se/">Website template</a> by <a href="http://arcsin.se/">Arcsin</a></div>
+		<div class="clearer">&nbsp;</div>
+	</div>
+
+</div>
+
+</body>
+@@include('./src/tpls/include-scripts.html', {})
+<script>
+$(document).ready(function () {
+});
+var page = new accApp.report.BalanceSheet(appCfg);
+page.render();
+</script>
+</html>
